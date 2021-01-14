@@ -11,7 +11,7 @@ chmod +x ts
 get() {
 rm -fr Tshake.lua
 rm -fr sudo.lua
-wget "https://github.com/TshAkEAb/TshAkE/blob/master/tg?raw=true"
+wget "https://github.com/TshAkEAb/TshAkE/raw/master/tg"
 wget "https://raw.githubusercontent.com/TshAkEAb/TshAkE/master/Tshake.lua"
 lua start.lua
 }
@@ -52,5 +52,5 @@ rm -rf luarocks*
 cd TshAkE
 rm -rf luarocks*
 lua start.lua
-
+chmod 777 *
 
