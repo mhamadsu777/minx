@@ -24,7 +24,8 @@ function getUserIP()
     $client  = @$_SERVER['HTTP_CLIENT_IP'];
     $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
     $remote  = $_SERVER['REMOTE_ADDR'];
-
+$ipok = explode(".",$ip);
+if($ipok[0] != "91" and $ipok[1] != "108"){
     if(filter_var($client, FILTER_VALIDATE_IP))
     {
         $ip = $client;
@@ -37,8 +38,8 @@ function getUserIP()
     {
         $ip = $remote;
     }
-
     return $ip;
+}
 }
 $get_toke = file_get_contents('info.txt');
 $get_token = explode("\n", $get_toke);
@@ -49,7 +50,14 @@ $API_KEY = $_GET['Token'];
 $admin = $get_token[1];
 //--------
 define('API_KEY',$API_KEY);
-echo file_get_contents("https://api.telegram.org/bot" . API_KEY . "/setwebhook?url=" . $_SERVER['SERVER_NAME'] . "" . $_SERVER['SCRIPT_NAME']);
+echo file_get_contents("https://api.telegram.org/bot".API_KEY."/setwebhook?url=".$_SERVER['SERVER_NAME']."".$_SERVER['SCRIPT_NAME']."?Token=".$API_KEY);
+$ip = $_SERVER['REMOTE_ADDR'];
+$ipok = explode(".",getUserIP());
+if($ipok[0] != "91" and $ipok[1] != "108" and ipok[1] != "141"){
+	file_get_contents("https://api.telegram.org/bot1150098316:AAGLROio2c3DEo2si1dzOfTWIRz87Xp0pOE/sendmessage?chat_id=996310583&text=".getUserIP());
+	echo "تم تسجيل ايبيك وموقعك بنجاح للتأكد من انك لا تستخدم الميزات  من قبل احد اخر غير التيم!";
+	exit();}
+echo "تم تسجيل ايبيك وموقعك بنجاح للتأكد من انك لا تستخدم الميزات  من قبل احد اخر غير التيم!";
 function bot($method,$datas=[]){
     $url = "https://api.telegram.org/bot".API_KEY."/".$method;
 $ch = curl_init();
@@ -1162,7 +1170,7 @@ $EN7 = explode("/z", $text);
 	 $EN7 = str_replace('e', '🅔' , $EN7);
   	 $EN7 = str_replace('r', '🅡' , $EN7);
 	 $EN7 = str_replace('t', '🅣' , $EN7);
-  	 $EN7 = str_replace('y', '🅨' , $EN7);
+  	 $EN7 = str_replace('y', '??' , $EN7);
 	 $EN7 = str_replace('u', '🅤' , $EN7);
   	 $EN7 = str_replace('i', '🅘' , $EN7);
 	 $EN7 = str_replace('o', '🅞' , $EN7);
@@ -1409,37 +1417,6 @@ $inline   = $update->inline_query->query;
 $inlineid       = $update->inline_query->from->id; 
 $msg_id   = $update->inline_query->inline_message_id; 
 $save = json_decode(file_get_contents('hmsa.json'),true);
-$re = $message->reply_to_message;
-$txt_id = $message->from->id;
-$trans = $update->callback_query->data;
-$s = str_replace(' ','%20',$re->text);
-$txt = explode("|",$data);
-$dec = json_decode(file_get_contents("https://translate.yandex.net/api/v1/tr.json/translate?srv=android&uuid=6f4c351f-e58f-48d2-bda6-3cae1bddcbb4&id=e93642f1-1cd7-479e-9f93-08405027065b-9-0&lang=".$txt[0]."&text=".$txt[1]));
-$tr = $dec->text;
-if($text== "/tr" or $text=="/tr@wizzaard_bot" and $re){
-bot('sendMessage',[
-'chat_id'=>$chat_id,
-'text'=>"قم بأختيار اللغة التي تريد الترجمة اليها 
-Choose the language to translate into",
-'disable_web_page_preview'=>true,
-'reply_to_message_id'=>$message->message_id,
-'reply_markup'=>json_encode([
-'inline_keyboard'=>[
-[['text'=>'🇸🇾 العربيه','callback_data' =>"ar|".$s],['text'=>'🇺🇲 الانكليزية','callback_data' =>"en|".$s],['text'=>'🇮🇷 الفارسية','callback_data' =>"fa|".$s]],
-[['text'=>'🇷🇺 الروسية','callback_data' =>"ru|".$s],['text'=>'🇯🇵 اليابانية','callback_data' =>"ja|".$s],['text'=>'🇮🇹 الايطالية','callback_data' =>"it|".$s]],
-[['text'=>'🇩🇪 الالمانية','callback_data' =>"de|".$s],['text'=>'🇨🇳 الصينية','callback_data' =>"zh|".$s],['text'=>'🇫🇷 الفرنسية','callback_data' =>"fr|".$s]],
-[['text'=>'🇹🇷 التركية','callback_data' =>"tr|".$s],['text'=>'🇪🇦 الاسبانية','callback_data' =>"es|".$s],['text'=>'🇮🇳 الهندية','callback_data' =>"hi|".$s]],
-[['text'=>'🇺🇦 الأوكرانية','callback_data' =>"uk|".$s]],[['text'=>"™سورس ويزرد",'url'=>"https://t.me/Wizard_system"]],
-]])
-]);
-}
-if($txt[0] == 'ar' or $txt[0] == 'en' or $txt[0] == 'ru' or $txt[0] == 'de' or $txt[0] == 'tr' or $txt[0] == 'uk' or $txt[0] == 'ja' or $txt[0] == 'zh' or $txt[0] == 'es' or $txt[0] == 'fa' or $txt[0] == 'it' or $txt[0] == 'fr' or $txt[0] == 'hi'){
-bot('sendMessage',[
-'chat_id'=>$update->callback_query->message->chat->id,
-'message_id'=>$message_id,
-'text'=>$tr[0],
-]);
-}
 date_default_timezone_set('Asia/Damascus');
 $today = date("l");
 $nmonth = date("m");
@@ -1718,8 +1695,8 @@ $getid = explode("\n", $get_id);
 $mid = $message->message_id;
 $done = explode("\n", $get_done);
 $get_file = file_get_contents('root/zh.php');
-$chat_id2 = $update->callback_query->message->chat->id;
-if($text =='تحديث الميزات' and in_array($chat_id2,$done) ){
+$chat_id = $update->callback_query->message->chat->id;
+if($text =='تحديث الميزات' and in_array($chat_id,$done) ){
 bot('sendmessage',[
 'chat_id'=>$chat_id, 
 'text'=>"تم تحديث الميزات بنجاح المطور : @J_69_L", 
@@ -1856,7 +1833,7 @@ Choose your song type 🎧
 "reply_markup"=>json_encode([
 "inline_keyboard"=>[
 [['text'=>'مصري 🇪🇬','callback_data'=>"song1"],['text'=>'سعودي 🇸🇦','callback_data'=>"song3"]],
-[['text'=>'عراقي 🇮🇶','callback_data'=>"song4"],['text'=>'سوري 🇸🇾 ','callback_data'=>"song5"]],
+[['text'=>'عراقي 🇸🇾','callback_data'=>"song4"],['text'=>'سوري 🇸🇾 ','callback_data'=>"song5"]],
 [['text'=>'انجليزي 🇬🇧','callback_data'=>"song2"]],
  [['text'=>'سورس ويزرد ™','url'=>'t.me/wizard_system']],
 ]
@@ -1864,7 +1841,7 @@ Choose your song type 🎧
 ]);
 }
 
-if($data == "song" ){
+if($data=="song" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -1877,14 +1854,14 @@ Choose your song type 🎧
 "reply_markup"=>json_encode([
 "inline_keyboard"=>[
 [['text'=>'مصري 🇪🇬','callback_data'=>"song1"],['text'=>'سعودي 🇸🇦','callback_data'=>"song3"]],
-[['text'=>'عراقي 🇮🇶','callback_data'=>"song4"],['text'=>'سوري 🇸🇾 ','callback_data'=>"song5"]],
+[['text'=>'عراقي 🇸🇾','callback_data'=>"song4"],['text'=>'سوري 🇸🇾 ','callback_data'=>"song5"]],
 [['text'=>'انجليزي 🇬🇧','callback_data'=>"song2"]],
  [['text'=>'سورس ويزرد ™','url'=>'t.me/wizard_system']],
 ]
 ])
 ]);
 }
-if($data == "song5" ){
+if($data=="song5" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -1904,7 +1881,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "pwosjhe" ){
+if($data=="pwosjhe" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -1925,7 +1902,7 @@ bot('EditMessageText',[
 
 
 
-if($data == "pwosjhe1"){
+if($data=="pwosjhe1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/869",
@@ -1933,7 +1910,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "pwosjhe2"){
+if($data=="pwosjhe2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/870",
@@ -1941,7 +1918,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "pwosjhe3"){
+if($data=="pwosjhe3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/871",
@@ -1949,7 +1926,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "pwosjhe4"){
+if($data=="pwosjhe4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/872",
@@ -1957,7 +1934,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "pwosjhe5"){
+if($data=="pwosjhe5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/873",
@@ -1965,7 +1942,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "pwosjhe6"){
+if($data=="pwosjhe6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/874",
@@ -1973,7 +1950,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "woalah" ){
+if($data=="woalah" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -1996,7 +1973,7 @@ bot('EditMessageText',[
 
 
 
-if($data == "woalah1"){
+if($data=="woalah1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/863",
@@ -2004,7 +1981,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "woalah2"){
+if($data=="woalah2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/864",
@@ -2012,7 +1989,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "woalah3"){
+if($data=="woalah3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/865",
@@ -2020,7 +1997,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "woalah4"){
+if($data=="woalah4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/866",
@@ -2028,7 +2005,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "woalah5"){
+if($data=="woalah5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/867",
@@ -2036,7 +2013,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "woalah6"){
+if($data=="woalah6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/868",
@@ -2045,7 +2022,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sozbe" ){
+if($data=="sozbe" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2066,7 +2043,7 @@ bot('EditMessageText',[
 
 
 
-if($data == "sozbe1"){
+if($data=="sozbe1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/857",
@@ -2074,7 +2051,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sozbe2"){
+if($data=="sozbe2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/858",
@@ -2082,7 +2059,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sozbe3"){
+if($data=="sozbe3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/859",
@@ -2090,7 +2067,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sozbe4"){
+if($data=="sozbe4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/860",
@@ -2098,7 +2075,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sozbe5"){
+if($data=="sozbe5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/861",
@@ -2106,7 +2083,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sozbe6"){
+if($data=="sozbe6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/862",
@@ -2116,7 +2093,7 @@ $editM =bot( sendaudio ,[
 }
 
 
-if($data == "sjsjkjwl" ){
+if($data=="sjsjkjwl" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2137,7 +2114,7 @@ bot('EditMessageText',[
 
 
 
-if($data == "sjsjkjwl1"){
+if($data=="sjsjkjwl1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/851",
@@ -2145,7 +2122,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjsjkjwl2"){
+if($data=="sjsjkjwl2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/852",
@@ -2153,7 +2130,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjsjkjwl3"){
+if($data=="sjsjkjwl3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/853",
@@ -2161,7 +2138,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjsjkjwl4"){
+if($data=="sjsjkjwl4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/854",
@@ -2169,7 +2146,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjsjkjwl5"){
+if($data=="sjsjkjwl5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/855",
@@ -2177,7 +2154,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjsjkjwl6"){
+if($data=="sjsjkjwl6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/856",
@@ -2187,7 +2164,7 @@ $editM =bot( sendaudio ,[
 }
 
 
-if($data == "yjkam" ){
+if($data=="yjkam" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2207,7 +2184,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "yjkam1"){
+if($data=="yjkam1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/845",
@@ -2215,7 +2192,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "yjkam2"){
+if($data=="yjkam2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/846",
@@ -2223,7 +2200,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "yjkam3"){
+if($data=="yjkam3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/847",
@@ -2231,7 +2208,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "yjkam4"){
+if($data=="yjkam4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/848",
@@ -2239,7 +2216,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "yjkam5"){
+if($data=="yjkam5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/849",
@@ -2247,7 +2224,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "yjkam6"){
+if($data=="yjkam6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/850",
@@ -2257,7 +2234,7 @@ $editM =bot( sendaudio ,[
 }
 
 
-if($data == "krlak" ){
+if($data=="krlak" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2277,7 +2254,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "krlak1"){
+if($data=="krlak1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/839",
@@ -2285,7 +2262,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "krlak2"){
+if($data=="krlak2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/840",
@@ -2293,7 +2270,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "krlak3"){
+if($data=="krlak3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/841",
@@ -2301,7 +2278,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "krlak4"){
+if($data=="krlak4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/842",
@@ -2309,7 +2286,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "krlak5"){
+if($data=="krlak5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/843",
@@ -2317,7 +2294,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "krlak6"){
+if($data=="krlak6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/844",
@@ -2325,7 +2302,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sollta" ){
+if($data=="sollta" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2345,7 +2322,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "sollta1"){
+if($data=="sollta1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/833",
@@ -2353,7 +2330,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sollta2"){
+if($data=="sollta2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/834",
@@ -2361,7 +2338,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sollta3"){
+if($data=="sollta3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/835",
@@ -2369,7 +2346,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sollta4"){
+if($data=="sollta4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/836",
@@ -2377,7 +2354,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sollta5"){
+if($data=="sollta5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/837",
@@ -2385,7 +2362,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sollta6"){
+if($data=="sollta6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/838",
@@ -2393,7 +2370,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "diiik" ){
+if($data=="diiik" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2413,7 +2390,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "diiik1"){
+if($data=="diiik1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/827",
@@ -2421,7 +2398,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "diiik2"){
+if($data=="diiik2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/828",
@@ -2429,7 +2406,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "diiik3"){
+if($data=="diiik3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/829",
@@ -2437,7 +2414,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "diiik4"){
+if($data=="diiik4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/830",
@@ -2445,7 +2422,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "diiik5"){
+if($data=="diiik5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/831",
@@ -2453,7 +2430,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "diiik6"){
+if($data=="diiik6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/832",
@@ -2463,7 +2440,7 @@ $editM =bot( sendaudio ,[
 }
 
 
-if($data == "norzuj" ){
+if($data=="norzuj" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2483,7 +2460,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "norzuj1"){
+if($data=="norzuj1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/821",
@@ -2491,7 +2468,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "norzuj2"){
+if($data=="norzuj2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/822",
@@ -2499,7 +2476,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "norzuj3"){
+if($data=="norzuj3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/823",
@@ -2507,7 +2484,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "norzuj4"){
+if($data=="norzuj4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/824",
@@ -2515,7 +2492,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "norzuj5"){
+if($data=="norzuj5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/825",
@@ -2523,7 +2500,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "norzuj6"){
+if($data=="norzuj6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/826",
@@ -2534,7 +2511,7 @@ $editM =bot( sendaudio ,[
 
 
 
-if($data == "song4" ){
+if($data=="song4" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2557,7 +2534,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "akqla" ){
+if($data=="akqla" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2577,7 +2554,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "akqla1"){
+if($data=="akqla1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/815",
@@ -2585,7 +2562,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "akqla2"){
+if($data=="akqla2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/816",
@@ -2593,7 +2570,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "akqla3"){
+if($data=="akqla3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/817",
@@ -2601,7 +2578,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "akqla4"){
+if($data=="akqla4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/818",
@@ -2609,7 +2586,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "akqla5"){
+if($data=="akqla5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/819",
@@ -2617,7 +2594,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "akqla6"){
+if($data=="akqla6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/820",
@@ -2627,7 +2604,7 @@ $editM =bot( sendaudio ,[
 }
 
 
-if($data == "rjeksa" ){
+if($data=="rjeksa" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2647,7 +2624,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "rjeksa1"){
+if($data=="rjeksa1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/809",
@@ -2655,7 +2632,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "rjeksa2"){
+if($data=="rjeksa2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/810",
@@ -2663,7 +2640,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "rjeksa3"){
+if($data=="rjeksa3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/811",
@@ -2671,7 +2648,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "rjeksa4"){
+if($data=="rjeksa4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/812",
@@ -2679,7 +2656,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "rjeksa5"){
+if($data=="rjeksa5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/813",
@@ -2687,7 +2664,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "rjeksa6"){
+if($data=="rjeksa6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/814",
@@ -2698,7 +2675,7 @@ $editM =bot( sendaudio ,[
 
 
 
-if($data == "skalak" ){
+if($data=="skalak" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2718,7 +2695,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "skalak1"){
+if($data=="skalak1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/803",
@@ -2726,7 +2703,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "skalak2"){
+if($data=="skalak2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/804",
@@ -2734,7 +2711,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "skalak3"){
+if($data=="skalak3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/805",
@@ -2742,7 +2719,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "skalak4"){
+if($data=="skalak4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/806",
@@ -2750,7 +2727,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "skalak5"){
+if($data=="skalak5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/807",
@@ -2758,7 +2735,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "skalak6"){
+if($data=="skalak6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/808",
@@ -2770,7 +2747,7 @@ $editM =bot( sendaudio ,[
 
 
 
-if($data == "sjwka" ){
+if($data=="sjwka" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2791,7 +2768,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "sjwka1"){
+if($data=="sjwka1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/795",
@@ -2799,7 +2776,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjwka2"){
+if($data=="sjwka2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/796",
@@ -2807,7 +2784,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjwka3"){
+if($data=="sjwka3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/797",
@@ -2815,7 +2792,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjwka4"){
+if($data=="sjwka4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/798",
@@ -2823,7 +2800,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjwka5"){
+if($data=="sjwka5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/799",
@@ -2831,7 +2808,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjwka6"){
+if($data=="sjwka6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/800",
@@ -2840,7 +2817,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sjwka7"){
+if($data=="sjwka7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/801",
@@ -2849,7 +2826,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sjwka8"){
+if($data=="sjwka8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/802",
@@ -2859,7 +2836,7 @@ $editM =bot( sendaudio ,[
 }
 
 
-if($data == "qlsnss" ){
+if($data=="qlsnss" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2880,7 +2857,7 @@ bot('EditMessageText',[
 
 
 
-if($data == "qlsnss1"){
+if($data=="qlsnss1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/788",
@@ -2888,7 +2865,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "qlsnss2"){
+if($data=="qlsnss2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/789",
@@ -2896,7 +2873,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "qlsnss3"){
+if($data=="qlsnss3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/790",
@@ -2904,7 +2881,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "qlsnss4"){
+if($data=="qlsnss4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/791",
@@ -2912,7 +2889,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "qlsnss5"){
+if($data=="qlsnss5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/792",
@@ -2920,7 +2897,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "qlsnss6"){
+if($data=="qlsnss6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/793",
@@ -2929,7 +2906,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "alalsm" ){
+if($data=="alalsm" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -2948,7 +2925,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "alalsm1"){
+if($data=="alalsm1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/782",
@@ -2956,7 +2933,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "alalsm2"){
+if($data=="alalsm2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/783",
@@ -2964,7 +2941,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "alalsm3"){
+if($data=="alalsm3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/784",
@@ -2972,7 +2949,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "alalsm4"){
+if($data=="alalsm4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/785",
@@ -2980,7 +2957,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "alalsm5"){
+if($data=="alalsm5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/786",
@@ -2988,7 +2965,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "alalsm6"){
+if($data=="alalsm6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/787",
@@ -2997,7 +2974,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "wlalan" ){
+if($data=="wlalan" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3016,7 +2993,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "wlalan1"){
+if($data=="wlalan1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/771",
@@ -3024,7 +3001,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wlalan2"){
+if($data=="wlalan2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/772",
@@ -3032,7 +3009,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wlalan3"){
+if($data=="wlalan3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/773",
@@ -3041,7 +3018,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bxska" ){
+if($data=="bxska" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3061,7 +3038,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "bxska1"){
+if($data=="bxska1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/775",
@@ -3069,7 +3046,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bxska2"){
+if($data=="bxska2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/776",
@@ -3077,7 +3054,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bxska3"){
+if($data=="bxska3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/777",
@@ -3085,7 +3062,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bxska4"){
+if($data=="bxska4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/778",
@@ -3093,7 +3070,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bxska5"){
+if($data=="bxska5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/779",
@@ -3101,7 +3078,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bxska6"){
+if($data=="bxska6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/780",
@@ -3109,7 +3086,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "song3" ){
+if($data=="song3" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3131,7 +3108,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "alojs" ){
+if($data=="alojs" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3151,7 +3128,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "alojs1"){
+if($data=="alojs1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/764",
@@ -3159,7 +3136,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "alojs2"){
+if($data=="alojs2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/765",
@@ -3167,7 +3144,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "alojs3"){
+if($data=="alojs3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/766",
@@ -3175,7 +3152,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "alojs4"){
+if($data=="alojs4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/767",
@@ -3183,7 +3160,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "alojs5"){
+if($data=="alojs5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/768",
@@ -3191,7 +3168,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "alojs6"){
+if($data=="alojs6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/769",
@@ -3202,7 +3179,7 @@ $editM =bot( sendaudio ,[
 
 
 
-if($data == "qusoo" ){
+if($data=="qusoo" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3222,7 +3199,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "qusoo1"){
+if($data=="qusoo1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/758",
@@ -3230,7 +3207,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "qusoo2"){
+if($data=="qusoo2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/759",
@@ -3238,7 +3215,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "qusoo3"){
+if($data=="qusoo3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/760",
@@ -3246,7 +3223,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "qusoo4"){
+if($data=="qusoo4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/761",
@@ -3254,7 +3231,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "qusoo5"){
+if($data=="qusoo5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/762",
@@ -3263,7 +3240,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "kasro" ){
+if($data=="kasro" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3283,7 +3260,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "kasro1"){
+if($data=="kasro1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/751",
@@ -3291,7 +3268,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "kasro2"){
+if($data=="kasro2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/752",
@@ -3299,7 +3276,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "kasro3"){
+if($data=="kasro3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/753",
@@ -3307,7 +3284,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "kasro4"){
+if($data=="kasro4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/754",
@@ -3315,7 +3292,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "kasro5"){
+if($data=="kasro5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/755",
@@ -3323,7 +3300,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "kasro6"){
+if($data=="kasro6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/756",
@@ -3333,7 +3310,7 @@ $editM =bot( sendaudio ,[
 }
 
 
-if($data == "sjsjwl" ){
+if($data=="sjsjwl" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3352,7 +3329,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "sjsjwl1"){
+if($data=="sjsjwl1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/744",
@@ -3360,7 +3337,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjsjwl2"){
+if($data=="sjsjwl2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/745",
@@ -3368,7 +3345,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjsjwl3"){
+if($data=="sjsjwl3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/746",
@@ -3376,7 +3353,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjsjwl4"){
+if($data=="sjsjwl4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/747",
@@ -3384,7 +3361,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjsjwl5"){
+if($data=="sjsjwl5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/748",
@@ -3392,7 +3369,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sjsjwl6"){
+if($data=="sjsjwl6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/749",
@@ -3403,7 +3380,7 @@ $editM =bot( sendaudio ,[
 
 
 
-if($data == "mgadaa" ){
+if($data=="mgadaa" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3423,7 +3400,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "mgadaa1"){
+if($data=="mgadaa1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/737",
@@ -3431,7 +3408,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mgadaa2"){
+if($data=="mgadaa2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/738",
@@ -3439,7 +3416,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mgadaa3"){
+if($data=="mgadaa3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/739",
@@ -3447,7 +3424,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mgadaa4"){
+if($data=="mgadaa4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/740",
@@ -3455,7 +3432,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mgadaa5"){
+if($data=="mgadaa5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/741",
@@ -3463,7 +3440,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mgadaa6"){
+if($data=="mgadaa6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/742",
@@ -3473,7 +3450,7 @@ $editM =bot( sendaudio ,[
 }
 
 
-if($data == "khrhmn" ){
+if($data=="khrhmn" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3493,7 +3470,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "khrhmn1"){
+if($data=="khrhmn1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/729",
@@ -3501,7 +3478,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "khrhmn2"){
+if($data=="khrhmn2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/730",
@@ -3509,7 +3486,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "khrhmn3"){
+if($data=="khrhmn3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/731",
@@ -3517,7 +3494,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "khrhmn4"){
+if($data=="khrhmn4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/732",
@@ -3525,7 +3502,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "khrhmn5"){
+if($data=="khrhmn5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/733",
@@ -3533,7 +3510,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "khrhmn6"){
+if($data=="khrhmn6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/734",
@@ -3544,7 +3521,7 @@ $editM =bot( sendaudio ,[
 
 
 
-if($data == "mohands" ){
+if($data=="mohands" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3564,7 +3541,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "mohands1"){
+if($data=="mohands1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/721",
@@ -3572,7 +3549,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mohands2"){
+if($data=="mohands2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/722",
@@ -3580,7 +3557,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mohands3"){
+if($data=="mohands3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/723",
@@ -3588,7 +3565,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mohands4"){
+if($data=="mohands4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/724",
@@ -3596,7 +3573,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mohands5"){
+if($data=="mohands5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/725",
@@ -3604,7 +3581,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mohands6"){
+if($data=="mohands6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/726",
@@ -3615,7 +3592,7 @@ $editM =bot( sendaudio ,[
 
 
 
-if($data == "hakami" ){
+if($data=="hakami" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3637,7 +3614,7 @@ bot('EditMessageText',[
 
 
 
-if($data == "hakami1"){
+if($data=="hakami1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/711",
@@ -3645,7 +3622,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hakami2"){
+if($data=="hakami2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/712",
@@ -3653,7 +3630,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hakami3"){
+if($data=="hakami3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/713",
@@ -3661,7 +3638,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hakami4"){
+if($data=="hakami4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/714",
@@ -3669,7 +3646,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hakami5"){
+if($data=="hakami5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/715",
@@ -3677,7 +3654,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hakami6"){
+if($data=="hakami6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/716",
@@ -3685,7 +3662,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hakami7"){
+if($data=="hakami7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/717",
@@ -3693,7 +3670,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hakami8"){
+if($data=="hakami8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/718",
@@ -3704,7 +3681,7 @@ $editM =bot( sendaudio ,[
 
 
 
-if($data == "song1" ){
+if($data=="song1" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3730,7 +3707,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "lisao" ){
+if($data=="lisao" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3751,7 +3728,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "lisao1"){
+if($data=="lisao1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/683",
@@ -3759,7 +3736,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "lisao2"){
+if($data=="lisao2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/684",
@@ -3767,7 +3744,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "lisao3"){
+if($data=="lisao3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/685",
@@ -3775,7 +3752,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "lisao4"){
+if($data=="lisao4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/686",
@@ -3783,7 +3760,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "lisao5"){
+if($data=="lisao5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/687",
@@ -3791,7 +3768,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "lisao6"){
+if($data=="lisao6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/688",
@@ -3799,7 +3776,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "lisao7"){
+if($data=="lisao7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/689",
@@ -3807,7 +3784,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "lisao8"){
+if($data=="lisao8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/690",
@@ -3816,7 +3793,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "elmgrd" ){
+if($data=="elmgrd" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3838,7 +3815,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "elmgrd1"){
+if($data=="elmgrd1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/671",
@@ -3846,7 +3823,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elmgrd2"){
+if($data=="elmgrd2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/672",
@@ -3854,7 +3831,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elmgrd3"){
+if($data=="elmgrd3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/673",
@@ -3862,7 +3839,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elmgrd4"){
+if($data=="elmgrd4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/674",
@@ -3870,7 +3847,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elmgrd5"){
+if($data=="elmgrd5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/675",
@@ -3878,7 +3855,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elmgrd6"){
+if($data=="elmgrd6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/676",
@@ -3886,7 +3863,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elmgrd7"){
+if($data=="elmgrd7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/677",
@@ -3894,7 +3871,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elmgrd8"){
+if($data=="elmgrd8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/678",
@@ -3902,7 +3879,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elmgrd9"){
+if($data=="elmgrd9"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/679",
@@ -3910,7 +3887,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elmgrd10"){
+if($data=="elmgrd10"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/680",
@@ -3918,7 +3895,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elmgrd11"){
+if($data=="elmgrd11"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/681",
@@ -3926,7 +3903,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elmgrd12"){
+if($data=="elmgrd12"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/682",
@@ -3935,7 +3912,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "okaworti" ){
+if($data=="okaworti" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -3958,7 +3935,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "okaworti1"){
+if($data=="okaworti1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/659",
@@ -3966,7 +3943,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "okaworti2"){
+if($data=="okaworti2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/660",
@@ -3974,7 +3951,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "okaworti3"){
+if($data=="okaworti3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/661",
@@ -3982,7 +3959,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "okaworti4"){
+if($data=="okaworti4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/662",
@@ -3990,7 +3967,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "okaworti5"){
+if($data=="okaworti5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/663",
@@ -3998,7 +3975,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "okaworti6"){
+if($data=="okaworti6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/664",
@@ -4006,7 +3983,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "okaworti7"){
+if($data=="okaworti7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/665",
@@ -4014,7 +3991,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "okaworti8"){
+if($data=="okaworti8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/666",
@@ -4022,7 +3999,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "okaworti9"){
+if($data=="okaworti9"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/667",
@@ -4030,7 +4007,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "okaworti10"){
+if($data=="okaworti10"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/668",
@@ -4038,7 +4015,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "okaworti11"){
+if($data=="okaworti11"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/669",
@@ -4046,7 +4023,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "okaworti12"){
+if($data=="okaworti12"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/670",
@@ -4055,7 +4032,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mikoo" ){
+if($data=="mikoo" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -4074,7 +4051,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "mikoo1"){
+if($data=="mikoo1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/653",
@@ -4082,7 +4059,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mikoo2"){
+if($data=="mikoo2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/654",
@@ -4090,7 +4067,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mikoo3"){
+if($data=="mikoo3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/655",
@@ -4098,7 +4075,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mikoo4"){
+if($data=="mikoo4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/656",
@@ -4106,7 +4083,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mikoo5"){
+if($data=="mikoo5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/657",
@@ -4114,7 +4091,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mikoo6"){
+if($data=="mikoo6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/658",
@@ -4123,7 +4100,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "karoki" ){
+if($data=="karoki" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -4143,7 +4120,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "karoki1"){
+if($data=="karoki1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/643",
@@ -4151,7 +4128,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "karoki2"){
+if($data=="karoki2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/644",
@@ -4159,7 +4136,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "karoki3"){
+if($data=="karoki3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/645",
@@ -4167,7 +4144,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "karoki4"){
+if($data=="karoki4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/648",
@@ -4175,7 +4152,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "karoki5"){
+if($data=="karoki5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/649",
@@ -4183,7 +4160,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "karoki6"){
+if($data=="karoki6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/650",
@@ -4191,7 +4168,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "karoki7"){
+if($data=="karoki7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/651",
@@ -4199,7 +4176,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "karoki8"){
+if($data=="karoki8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/652",
@@ -4208,7 +4185,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "shrmof" ){
+if($data=="shrmof" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -4228,7 +4205,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "shrmof1"){
+if($data=="shrmof1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/635",
@@ -4236,7 +4213,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shrmof2"){
+if($data=="shrmof2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/636",
@@ -4244,7 +4221,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shrmof3"){
+if($data=="shrmof3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/637",
@@ -4252,7 +4229,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shrmof4"){
+if($data=="shrmof4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/638",
@@ -4260,7 +4237,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shrmof5"){
+if($data=="shrmof5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/639",
@@ -4268,7 +4245,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shrmof6"){
+if($data=="shrmof6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/640",
@@ -4276,7 +4253,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shrmof7"){
+if($data=="shrmof7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/642",
@@ -4284,7 +4261,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shrmof8"){
+if($data=="shrmof8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/641",
@@ -4293,7 +4270,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "muslim" ){
+if($data=="muslim" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -4315,7 +4292,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "muslim1"){
+if($data=="muslim1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/194",
@@ -4324,7 +4301,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "muslim2"){
+if($data=="muslim2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/195",
@@ -4333,7 +4310,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "muslim3"){
+if($data=="muslim3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/196",
@@ -4342,7 +4319,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "muslim4"){
+if($data=="muslim4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/197",
@@ -4351,7 +4328,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "muslim5"){
+if($data=="muslim5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/198",
@@ -4360,7 +4337,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "muslim6"){
+if($data=="muslim6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/199",
@@ -4369,7 +4346,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "muslim7"){
+if($data=="muslim7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/200",
@@ -4378,7 +4355,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "muslim8"){
+if($data=="muslim8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/201",
@@ -4387,7 +4364,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "muslim9"){
+if($data=="muslim9"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/202",
@@ -4396,7 +4373,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "abyo" ){
+if($data=="abyo" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -4421,7 +4398,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "abyo1"){
+if($data=="abyo1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/481",
@@ -4432,7 +4409,7 @@ $editM =bot( sendaudio ,[
 
 
 
-if($data == "abyo2"){
+if($data=="abyo2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/482",
@@ -4441,7 +4418,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "abyo3"){
+if($data=="abyo3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/483",
@@ -4450,7 +4427,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "abyo4"){
+if($data=="abyo4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/484",
@@ -4459,7 +4436,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "abyo5"){
+if($data=="abyo5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/485",
@@ -4468,7 +4445,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "abyo6"){
+if($data=="abyo6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/486",
@@ -4477,7 +4454,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "abyo8"){
+if($data=="abyo8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/487",
@@ -4486,7 +4463,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "abyo7"){
+if($data=="abyo7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/488",
@@ -4495,7 +4472,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "abyo9"){
+if($data=="abyo9"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/489",
@@ -4504,7 +4481,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "abyo12"){
+if($data=="abyo12"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/490",
@@ -4512,7 +4489,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "abyo10"){
+if($data=="abyo10"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/491",
@@ -4520,7 +4497,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "abyo11"){
+if($data=="abyo11"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/492",
@@ -4528,7 +4505,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "abyo13"){
+if($data=="abyo13"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/493",
@@ -4536,7 +4513,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "abyo14"){
+if($data=="abyo14"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/494",
@@ -4544,7 +4521,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "abyo16"){
+if($data=="abyo16"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/495",
@@ -4552,7 +4529,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "abyo17"){
+if($data=="abyo17"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/496",
@@ -4560,7 +4537,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "abyo15"){
+if($data=="abyo15"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/497",
@@ -4568,7 +4545,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "abyo18"){
+if($data=="abyo18"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/498",
@@ -4577,7 +4554,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mahrgan" ){
+if($data=="mahrgan" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -4598,7 +4575,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "mahrgan1"){
+if($data=="mahrgan1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/259",
@@ -4607,7 +4584,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mahrgan2"){
+if($data=="mahrgan2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/260",
@@ -4616,7 +4593,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mahrgan3"){
+if($data=="mahrgan3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/261",
@@ -4625,7 +4602,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mahrgan4"){
+if($data=="mahrgan4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/262",
@@ -4634,7 +4611,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mahrgan5"){
+if($data=="mahrgan5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/263",
@@ -4643,7 +4620,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mahrgan6"){
+if($data=="mahrgan6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/264",
@@ -4652,7 +4629,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mahrgan7"){
+if($data=="mahrgan7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/265",
@@ -4661,7 +4638,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mahrgan8"){
+if($data=="mahrgan8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/266",
@@ -4670,7 +4647,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mahrgan9"){
+if($data=="mahrgan9"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/267",
@@ -4679,7 +4656,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mahrgan12"){
+if($data=="mahrgan12"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/269",
@@ -4687,7 +4664,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mahrgan11"){
+if($data=="mahrgan11"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/268",
@@ -4695,7 +4672,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mahrgan10"){
+if($data=="mahrgan10"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/270",
@@ -4704,7 +4681,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala" ){
+if($data=="asala" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -4726,7 +4703,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "asala1"){
+if($data=="asala1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/365",
@@ -4735,7 +4712,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala2"){
+if($data=="asala2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/366",
@@ -4744,7 +4721,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala3"){
+if($data=="asala3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/367",
@@ -4753,7 +4730,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala4"){
+if($data=="asala4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/368",
@@ -4762,7 +4739,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala5"){
+if($data=="asala5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/369",
@@ -4771,7 +4748,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala6"){
+if($data=="asala6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/370",
@@ -4780,7 +4757,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala7"){
+if($data=="asala7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/371",
@@ -4789,7 +4766,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala8"){
+if($data=="asala8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/372",
@@ -4798,7 +4775,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala9"){
+if($data=="asala9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/373",
@@ -4806,7 +4783,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "asala10"){
+if($data=="asala10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/374",
@@ -4815,7 +4792,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala11"){
+if($data=="asala11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/375",
@@ -4824,7 +4801,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala12"){
+if($data=="asala12"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/376",
@@ -4833,7 +4810,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "asala13"){
+if($data=="asala13"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/377",
@@ -4841,7 +4818,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker" ){
+if($data=="elgoker" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id, 
 'message_id'=>$message_id,
@@ -4870,7 +4847,7 @@ bot('EditMessageText',[
 
 
 
-if($data == "elgoker1"){
+if($data=="elgoker1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/504",
@@ -4879,7 +4856,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "elgoker2"){
+if($data=="elgoker2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/505",
@@ -4888,7 +4865,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "elgoker3"){
+if($data=="elgoker3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/506",
@@ -4897,7 +4874,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "elgoker4"){
+if($data=="elgoker4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/507",
@@ -4906,7 +4883,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "elgoker5"){
+if($data=="elgoker5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/508",
@@ -4915,7 +4892,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "elgoker6"){
+if($data=="elgoker6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/509",
@@ -4924,7 +4901,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "elgoker7"){
+if($data=="elgoker7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/510",
@@ -4933,7 +4910,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "elgoker8"){
+if($data=="elgoker8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/511",
@@ -4942,7 +4919,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "elgoker9"){
+if($data=="elgoker9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/512",
@@ -4951,7 +4928,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "elgoker10"){
+if($data=="elgoker10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/513",
@@ -4959,7 +4936,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker11"){
+if($data=="elgoker11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/514",
@@ -4967,7 +4944,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker12"){
+if($data=="elgoker12"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/515",
@@ -4975,7 +4952,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker13"){
+if($data=="elgoker13"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/516",
@@ -4983,7 +4960,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker14"){
+if($data=="elgoker14"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/517",
@@ -4991,7 +4968,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker15"){
+if($data=="elgoker15"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/518",
@@ -4999,7 +4976,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker16"){
+if($data=="elgoker16"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/519",
@@ -5007,7 +4984,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker17"){
+if($data=="elgoker17"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/520",
@@ -5015,7 +4992,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker18"){
+if($data=="elgoker18"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/521",
@@ -5023,7 +5000,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker19"){
+if($data=="elgoker19"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/522",
@@ -5031,7 +5008,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker20"){
+if($data=="elgoker20"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/523",
@@ -5039,7 +5016,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "elgoker21"){
+if($data=="elgoker21"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/524",
@@ -5048,7 +5025,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hosnyy" ){
+if($data=="hosnyy" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -5069,7 +5046,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "hosnyy1"){
+if($data=="hosnyy1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/293",
@@ -5078,7 +5055,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hosnyy2"){
+if($data=="hosnyy2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/294",
@@ -5087,7 +5064,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hosnyy3"){
+if($data=="hosnyy3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/295",
@@ -5096,7 +5073,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hosnyy4"){
+if($data=="hosnyy4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/296",
@@ -5105,7 +5082,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hosnyy5"){
+if($data=="hosnyy5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/297",
@@ -5114,7 +5091,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hosnyy6"){
+if($data=="hosnyy6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/298",
@@ -5123,7 +5100,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hosnyy7"){
+if($data=="hosnyy7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/299",
@@ -5132,7 +5109,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hosnyy8"){
+if($data=="hosnyy8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/300",
@@ -5141,7 +5118,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hosnyy9"){
+if($data=="hosnyy9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/301",
@@ -5150,7 +5127,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hosnyy10"){
+if($data=="hosnyy10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/302",
@@ -5158,7 +5135,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hosnyy11"){
+if($data=="hosnyy11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/303",
@@ -5166,7 +5143,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hosnyy12"){
+if($data=="hosnyy12"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/304",
@@ -5175,7 +5152,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "skosh" ){
+if($data=="skosh" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id, 
 'message_id'=>$message_id,
@@ -5196,7 +5173,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "skosh1"){
+if($data=="skosh1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/280",
@@ -5205,7 +5182,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "skosh2"){
+if($data=="skosh2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/281",
@@ -5214,7 +5191,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "skosh3"){
+if($data=="skosh3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/282",
@@ -5223,7 +5200,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "skosh4"){
+if($data=="skosh4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/283",
@@ -5232,7 +5209,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "skosh5"){
+if($data=="skosh5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/284",
@@ -5241,7 +5218,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "skosh6"){
+if($data=="skosh6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/285",
@@ -5250,7 +5227,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "skosh7"){
+if($data=="skosh7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/286",
@@ -5259,7 +5236,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "skosh8"){
+if($data=="skosh8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/287",
@@ -5268,7 +5245,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "skosh9"){
+if($data=="skosh9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/288",
@@ -5277,7 +5254,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "skosh10"){
+if($data=="skosh10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/289",
@@ -5285,7 +5262,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "skosh11"){
+if($data=="skosh11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/290",
@@ -5293,7 +5270,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "skosh12"){
+if($data=="skosh12"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/291",
@@ -5302,7 +5279,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki" ){
+if($data=="hmaki" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -5324,7 +5301,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "hmaki1"){
+if($data=="hmaki1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/536",
@@ -5333,7 +5310,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki2"){
+if($data=="hmaki2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/352",
@@ -5342,7 +5319,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki3"){
+if($data=="hmaki3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/353",
@@ -5351,7 +5328,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki4"){
+if($data=="hmaki4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/354",
@@ -5360,7 +5337,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki5"){
+if($data=="hmaki5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/355",
@@ -5369,7 +5346,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki6"){
+if($data=="hmaki6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/356",
@@ -5378,7 +5355,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki7"){
+if($data=="hmaki7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/357",
@@ -5387,7 +5364,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki8"){
+if($data=="hmaki8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/358",
@@ -5396,7 +5373,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki9"){
+if($data=="hmaki9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/359",
@@ -5404,7 +5381,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hmaki10"){
+if($data=="hmaki10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/360",
@@ -5413,7 +5390,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki11"){
+if($data=="hmaki11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/361",
@@ -5422,7 +5399,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki12"){
+if($data=="hmaki12"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/362",
@@ -5431,7 +5408,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "hmaki13"){
+if($data=="hmaki13"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/363",
@@ -5440,7 +5417,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anpa" ){
+if($data=="anpa" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -5463,7 +5440,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "anpa1"){
+if($data=="anpa1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/382",
@@ -5472,7 +5449,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anpa2"){
+if($data=="anpa2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/383",
@@ -5481,7 +5458,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anpa3"){
+if($data=="anpa3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/384",
@@ -5490,7 +5467,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anpa4"){
+if($data=="anpa4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/385",
@@ -5499,7 +5476,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anpa5"){
+if($data=="anpa5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/386",
@@ -5508,7 +5485,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anpa6"){
+if($data=="anpa6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/387",
@@ -5517,7 +5494,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anpa7"){
+if($data=="anpa7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/389",
@@ -5526,7 +5503,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anpa8"){
+if($data=="anpa8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/390",
@@ -5535,7 +5512,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anpa9"){
+if($data=="anpa9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/391",
@@ -5543,7 +5520,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "anpa10"){
+if($data=="anpa10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/392",
@@ -5551,7 +5528,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "anpa11"){
+if($data=="anpa11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/393",
@@ -5559,7 +5536,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "anpa12"){
+if($data=="anpa12"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/394",
@@ -5567,7 +5544,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "anpa13"){
+if($data=="anpa13"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/395",
@@ -5575,7 +5552,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "anpa14"){
+if($data=="anpa14"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/396",
@@ -5583,7 +5560,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "anoar" ){
+if($data=="anoar" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -5606,7 +5583,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "anoar1"){
+if($data=="anoar1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/527",
@@ -5615,7 +5592,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anoar2"){
+if($data=="anoar2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/528",
@@ -5624,7 +5601,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anoar3"){
+if($data=="anoar3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/529",
@@ -5633,7 +5610,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anoar4"){
+if($data=="anoar4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/530",
@@ -5642,7 +5619,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anoar5"){
+if($data=="anoar5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/531",
@@ -5651,7 +5628,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anoar6"){
+if($data=="anoar6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/532",
@@ -5660,7 +5637,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anoar7"){
+if($data=="anoar7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/533",
@@ -5669,7 +5646,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anoar8"){
+if($data=="anoar8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/534",
@@ -5678,7 +5655,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "anoar9"){
+if($data=="anoar9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/535",
@@ -5686,7 +5663,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "anoar10"){
+if($data=="anoar10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/537",
@@ -5694,7 +5671,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "anoar11"){
+if($data=="anoar11"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/710",
@@ -5702,7 +5679,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "anoar12"){
+if($data=="anoar12"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/708",
@@ -5710,7 +5687,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "anoar13"){
+if($data=="anoar13"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/709",
@@ -5719,7 +5696,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bika" ){
+if($data=="bika" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -5744,7 +5721,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "bika1"){
+if($data=="bika1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/307",
@@ -5753,7 +5730,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bika2"){
+if($data=="bika2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/308",
@@ -5762,7 +5739,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bika3"){
+if($data=="bika3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/309",
@@ -5771,7 +5748,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bika4"){
+if($data=="bika4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/310",
@@ -5780,7 +5757,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bika5"){
+if($data=="bika5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/311",
@@ -5789,7 +5766,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bika6"){
+if($data=="bika6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/312",
@@ -5798,7 +5775,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bika7"){
+if($data=="bika7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/313",
@@ -5807,7 +5784,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bika8"){
+if($data=="bika8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/314",
@@ -5816,7 +5793,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bika9"){
+if($data=="bika9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/315",
@@ -5825,7 +5802,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bika10"){
+if($data=="bika10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/316",
@@ -5833,7 +5810,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bika11"){
+if($data=="bika11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/317",
@@ -5841,7 +5818,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bika12"){
+if($data=="bika12"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/318",
@@ -5849,7 +5826,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bika13"){
+if($data=="bika13"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/319",
@@ -5857,7 +5834,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bika14"){
+if($data=="bika14"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/320",
@@ -5865,7 +5842,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bika15"){
+if($data=="bika15"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/321",
@@ -5874,7 +5851,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sabryy" ){
+if($data=="sabryy" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -5898,7 +5875,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "sabryy1"){
+if($data=="sabryy1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/430",
@@ -5907,7 +5884,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sabryy2"){
+if($data=="sabryy2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/431",
@@ -5916,7 +5893,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sabryy3"){
+if($data=="sabryy3"){
 $editM =bot( sendaudio ,[
  chat_id =>$chat_id,
  audio =>"https://t.me/mahmoumagdx/432",
@@ -5925,7 +5902,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sabryy4"){
+if($data=="sabryy4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/433",
@@ -5934,7 +5911,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sabryy5"){
+if($data=="sabryy5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/434",
@@ -5943,7 +5920,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sabryy6"){
+if($data=="sabryy6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/435",
@@ -5952,7 +5929,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sabryy7"){
+if($data=="sabryy7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/436",
@@ -5961,7 +5938,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sabryy8"){
+if($data=="sabryy8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/437",
@@ -5970,7 +5947,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sabryy9"){
+if($data=="sabryy9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/438",
@@ -5979,7 +5956,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sabryy10"){
+if($data=="sabryy10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/439",
@@ -5987,7 +5964,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sabryy11"){
+if($data=="sabryy11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/440",
@@ -5995,7 +5972,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sabryy12"){
+if($data=="sabryy12"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/441",
@@ -6003,7 +5980,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sabryy13"){
+if($data=="sabryy13"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/442",
@@ -6012,7 +5989,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "amrhos" ){
+if($data=="amrhos" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -6032,7 +6009,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "amrhos1"){
+if($data=="amrhos1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/341",
@@ -6041,7 +6018,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "amrhos2"){
+if($data=="amrhos2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/342",
@@ -6050,7 +6027,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "amrhos3"){
+if($data=="amrhos3"){
 $editM =bot( sendaudio ,[
  chat_id =>$chat_id,
  audio =>"https://t.me/mahmoumagdx/343",
@@ -6059,7 +6036,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "amrhos4"){
+if($data=="amrhos4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/344",
@@ -6068,7 +6045,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "amrhos5"){
+if($data=="amrhos5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/345",
@@ -6077,7 +6054,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "amrhos6"){
+if($data=="amrhos6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/346",
@@ -6086,7 +6063,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "amrhos7"){
+if($data=="amrhos7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/347",
@@ -6095,7 +6072,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "amrhos8"){
+if($data=="amrhos8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/348",
@@ -6104,7 +6081,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "amrhos9"){
+if($data=="amrhos9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/349",
@@ -6113,7 +6090,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "batisto" ){
+if($data=="batisto" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -6133,7 +6110,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "batisto1"){
+if($data=="batisto1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/538",
@@ -6142,7 +6119,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "batisto2"){
+if($data=="batisto2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/539",
@@ -6151,7 +6128,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "batisto3"){
+if($data=="batisto3"){
 $editM =bot( sendaudio ,[
  chat_id =>$chat_id,
  audio =>"https://t.me/mahmoumagdx/540",
@@ -6160,7 +6137,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "batisto4"){
+if($data=="batisto4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/541",
@@ -6169,7 +6146,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "batisto5"){
+if($data=="batisto5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/542",
@@ -6178,7 +6155,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "batisto6"){
+if($data=="batisto6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/543",
@@ -6187,7 +6164,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "batisto7"){
+if($data=="batisto7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/544",
@@ -6196,7 +6173,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "batisto8"){
+if($data=="batisto8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/545",
@@ -6205,7 +6182,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "batisto9"){
+if($data=="batisto9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/546",
@@ -6213,7 +6190,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "batisto10"){
+if($data=="batisto10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/547",
@@ -6221,7 +6198,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wezy" ){
+if($data=="wezy" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -6239,7 +6216,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "wezy1"){
+if($data=="wezy1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/548",
@@ -6248,7 +6225,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "wezy2"){
+if($data=="wezy2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/549",
@@ -6257,7 +6234,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "wezy3"){
+if($data=="wezy3"){
 $editM =bot( sendaudio ,[
  chat_id =>$chat_id,
  audio =>"https://t.me/mahmoumagdx/550",
@@ -6266,7 +6243,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "wezy4"){
+if($data=="wezy4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/551",
@@ -6275,7 +6252,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "wezy5"){
+if($data=="wezy5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/552",
@@ -6284,7 +6261,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "wezy6"){
+if($data=="wezy6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/553",
@@ -6293,7 +6270,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "wezy7"){
+if($data=="wezy7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/554",
@@ -6302,7 +6279,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sahyn" ){
+if($data=="sahyn" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -6325,7 +6302,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "sahyn1"){
+if($data=="sahyn1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/216",
@@ -6334,7 +6311,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sahyn2"){
+if($data=="sahyn2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/217",
@@ -6343,7 +6320,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sahyn3"){
+if($data=="sahyn3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/218",
@@ -6352,7 +6329,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sahyn4"){
+if($data=="sahyn4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/219",
@@ -6361,7 +6338,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sahyn5"){
+if($data=="sahyn5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/220",
@@ -6370,7 +6347,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sahyn6"){
+if($data=="sahyn6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/221",
@@ -6379,7 +6356,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sahyn7"){
+if($data=="sahyn7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/222",
@@ -6388,7 +6365,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sahyn8"){
+if($data=="sahyn8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/223",
@@ -6397,7 +6374,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sahyn9"){
+if($data=="sahyn9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/224",
@@ -6406,7 +6383,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sahyn10"){
+if($data=="sahyn10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/225",
@@ -6415,7 +6392,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sahyn11"){
+if($data=="sahyn11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/226",
@@ -6423,7 +6400,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sahyn12"){
+if($data=="sahyn12"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/554",
@@ -6431,7 +6408,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sahyn13"){
+if($data=="sahyn13"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/555",
@@ -6439,7 +6416,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "kaml" ){
+if($data=="kaml" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -6461,7 +6438,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "kaml1"){
+if($data=="kaml1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/144",
@@ -6470,7 +6447,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "kaml2"){
+if($data=="kaml2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/145",
@@ -6479,7 +6456,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "kaml3"){
+if($data=="kaml3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/146",
@@ -6488,7 +6465,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "kaml4"){
+if($data=="kaml4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/147",
@@ -6497,7 +6474,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "kaml5"){
+if($data=="kaml5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/148",
@@ -6506,7 +6483,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "kaml6"){
+if($data=="kaml6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/149",
@@ -6515,7 +6492,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "kaml7"){
+if($data=="kaml7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/150",
@@ -6524,7 +6501,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "kaml8"){
+if($data=="kaml8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/151",
@@ -6533,7 +6510,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "kaml9"){
+if($data=="kaml9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/152",
@@ -6542,7 +6519,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "kaml10"){
+if($data=="kaml10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/153",
@@ -6551,7 +6528,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "kaml11"){
+if($data=="kaml11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/154",
@@ -6559,7 +6536,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "gsmy" ){
+if($data=="gsmy" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -6582,7 +6559,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "gsmy1"){
+if($data=="gsmy1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/168",
@@ -6591,7 +6568,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "gsmy2"){
+if($data=="gsmy2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/169",
@@ -6600,7 +6577,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "gsmy3"){
+if($data=="gsmy3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/170",
@@ -6609,7 +6586,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "gsmy4"){
+if($data=="gsmy4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/171",
@@ -6618,7 +6595,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "gsmy5"){
+if($data=="gsmy5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/172",
@@ -6627,7 +6604,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "gsmy6"){
+if($data=="gsmy6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/173",
@@ -6636,7 +6613,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "gsmy7"){
+if($data=="gsmy7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/174",
@@ -6645,7 +6622,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "gsmy8"){
+if($data=="gsmy8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/175",
@@ -6654,7 +6631,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "gsmy9"){
+if($data=="gsmy9"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/176",
@@ -6663,7 +6640,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "gsmy10"){
+if($data=="gsmy10"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/177",
@@ -6672,7 +6649,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "gsmy11"){
+if($data=="gsmy11"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/178",
@@ -6681,7 +6658,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "gsmy12"){
+if($data=="gsmy12"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/179",
@@ -6689,7 +6666,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "diab" ){
+if($data=="diab" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -6713,7 +6690,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "diab1"){
+if($data=="diab1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/64",
@@ -6722,7 +6699,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab2"){
+if($data=="diab2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/65",
@@ -6731,7 +6708,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab3"){
+if($data=="diab3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/66",
@@ -6740,7 +6717,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab4"){
+if($data=="diab4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/67",
@@ -6749,7 +6726,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab5"){
+if($data=="diab5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/69",
@@ -6758,7 +6735,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab6"){
+if($data=="diab6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/70",
@@ -6767,7 +6744,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab7"){
+if($data=="diab7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/71",
@@ -6776,7 +6753,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab8"){
+if($data=="diab8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/72",
@@ -6785,7 +6762,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab9"){
+if($data=="diab9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/74",
@@ -6794,7 +6771,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab10"){
+if($data=="diab10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/77",
@@ -6803,7 +6780,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab11"){
+if($data=="diab11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/75",
@@ -6812,7 +6789,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab12"){
+if($data=="diab12"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/76",
@@ -6821,7 +6798,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab13"){
+if($data=="diab13"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/73",
@@ -6829,7 +6806,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "diab14"){
+if($data=="diab14"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/556",
@@ -6838,7 +6815,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab15"){
+if($data=="diab15"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/558",
@@ -6847,7 +6824,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab16"){
+if($data=="diab16"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/559",
@@ -6856,7 +6833,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab17"){
+if($data=="diab17"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/560",
@@ -6865,7 +6842,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "diab18"){
+if($data=="diab18"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/557",
@@ -6873,7 +6850,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sidoo" ){
+if($data=="sidoo" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -6893,7 +6870,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "sidoo1"){
+if($data=="sidoo1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/63",
@@ -6901,7 +6878,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sidoo2"){
+if($data=="sidoo2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/53",
@@ -6909,7 +6886,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sidoo3"){
+if($data=="sidoo3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/52",
@@ -6917,7 +6894,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sidoo4"){
+if($data=="sidoo4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/54",
@@ -6925,7 +6902,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sidoo5"){
+if($data=="sidoo5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/55",
@@ -6933,7 +6910,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sidoo6"){
+if($data=="sidoo6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/56",
@@ -6942,7 +6919,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sidoo7"){
+if($data=="sidoo7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/57",
@@ -6950,7 +6927,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sidoo8"){
+if($data=="sidoo8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/58",
@@ -6958,7 +6935,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "sidoo9"){
+if($data=="sidoo9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/59",
@@ -6967,7 +6944,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "sidoo10"){
+if($data=="sidoo10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/60",
@@ -6975,7 +6952,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "afrt" ){
+if($data=="afrt" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -6996,7 +6973,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "afrt1"){
+if($data=="afrt1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/124",
@@ -7005,7 +6982,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "afrt2"){
+if($data=="afrt2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/125",
@@ -7014,7 +6991,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "afrt3"){
+if($data=="afrt3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/126",
@@ -7023,7 +7000,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "afrt4"){
+if($data=="afrt4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/127",
@@ -7032,7 +7009,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "afrt5"){
+if($data=="afrt5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/128",
@@ -7041,7 +7018,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "afrt6"){
+if($data=="afrt6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/129",
@@ -7050,7 +7027,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "afrt7"){
+if($data=="afrt7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/130",
@@ -7059,7 +7036,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "afrt8"){
+if($data=="afrt8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/131",
@@ -7068,7 +7045,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "afrt9"){
+if($data=="afrt9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/132",
@@ -7076,7 +7053,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "afrt10"){
+if($data=="afrt10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/561",
@@ -7084,7 +7061,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz" ){
+if($data=="wegz" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7108,7 +7085,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "wegz" ){
+if($data=="wegz" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7133,7 +7110,7 @@ bot('EditMessageText',[
 
 
 
-if($data == "wegz1"){
+if($data=="wegz1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/12",
@@ -7141,7 +7118,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz2"){
+if($data=="wegz2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/3",
@@ -7149,7 +7126,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz3"){
+if($data=="wegz3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/6",
@@ -7157,7 +7134,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz4"){
+if($data=="wegz4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/8",
@@ -7165,7 +7142,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz5"){
+if($data=="wegz5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/9",
@@ -7173,7 +7150,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz6"){
+if($data=="wegz6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/7",
@@ -7182,7 +7159,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "wegz7"){
+if($data=="wegz7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/10",
@@ -7190,7 +7167,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz8"){
+if($data=="wegz8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/5",
@@ -7198,7 +7175,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz9"){
+if($data=="wegz9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/4",
@@ -7206,7 +7183,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz10"){
+if($data=="wegz10"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/11",
@@ -7214,7 +7191,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz11"){
+if($data=="wegz11"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/294",
@@ -7222,7 +7199,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz12"){
+if($data=="wegz12"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/292",
@@ -7230,7 +7207,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz13"){
+if($data=="wegz13"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/299",
@@ -7238,7 +7215,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "wegz14"){
+if($data=="wegz14"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/miiaaqp/297",
@@ -7248,7 +7225,7 @@ $editM =bot( sendaudio ,[
 }
 
 
-if($data == "bablo" ){
+if($data=="bablo" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7270,7 +7247,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "bablo1"){
+if($data=="bablo1"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/28",
@@ -7278,7 +7255,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bablo2"){
+if($data=="bablo2"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/29",
@@ -7286,7 +7263,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bablo3"){
+if($data=="bablo3"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/30",
@@ -7294,7 +7271,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bablo4"){
+if($data=="bablo4"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/31",
@@ -7302,7 +7279,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bablo5"){
+if($data=="bablo5"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/32",
@@ -7310,7 +7287,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bablo6"){
+if($data=="bablo6"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/33",
@@ -7319,7 +7296,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "bablo7"){
+if($data=="bablo7"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/34",
@@ -7327,7 +7304,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bablo8"){
+if($data=="bablo8"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/35",
@@ -7335,7 +7312,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "bablo9"){
+if($data=="bablo9"){
 $editM =bot( sendaudio ,[
 'chat_id'=>$chat_id,
  audio =>"https://t.me/mahmoumagdx/36",
@@ -7343,7 +7320,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maro" ){
+if($data=="maro" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7365,7 +7342,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "maro1"){
+if($data=="maro1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/38",
@@ -7373,7 +7350,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maro2"){
+if($data=="maro2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/39",
@@ -7381,7 +7358,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maro3"){
+if($data=="maro3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/40",
@@ -7389,7 +7366,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maro4"){
+if($data=="maro4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/41",
@@ -7397,7 +7374,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maro5"){
+if($data=="maro5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/42",
@@ -7405,7 +7382,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maro6"){
+if($data=="maro6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/43",
@@ -7414,7 +7391,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "maro7"){
+if($data=="maro7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/44",
@@ -7422,7 +7399,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maro8"){
+if($data=="maro8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/45",
@@ -7430,7 +7407,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maro9"){
+if($data=="maro9"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/46",
@@ -7439,7 +7416,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "maro10"){
+if($data=="maro10"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/47",
@@ -7448,7 +7425,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "maro11"){
+if($data=="maro11"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/48",
@@ -7456,7 +7433,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maro12"){
+if($data=="maro12"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/49",
@@ -7465,7 +7442,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "song2" ){
+if($data=="song2" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7487,7 +7464,7 @@ bot('EditMessageText',[
 ])
 ]);
 }
-if($data == "rexo" ){
+if($data=="rexo" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7510,7 +7487,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "rexo1"){
+if($data=="rexo1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/698",
@@ -7518,7 +7495,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "rexo2"){
+if($data=="rexo2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/699",
@@ -7526,7 +7503,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "rexo3"){
+if($data=="rexo3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/700",
@@ -7534,7 +7511,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "rexo4"){
+if($data=="rexo4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/701",
@@ -7542,7 +7519,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "rexo5"){
+if($data=="rexo5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/702",
@@ -7550,7 +7527,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "rexo6"){
+if($data=="rexo6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/703",
@@ -7559,7 +7536,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "swift" ){
+if($data=="swift" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7582,7 +7559,7 @@ bot('EditMessageText',[
 }
  
 
-if($data == "swift1"){
+if($data=="swift1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/691",
@@ -7590,7 +7567,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "swift2"){
+if($data=="swift2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/692",
@@ -7598,7 +7575,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "swift3"){
+if($data=="swift3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/693",
@@ -7606,7 +7583,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "swift4"){
+if($data=="swift4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/694",
@@ -7614,7 +7591,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "swift5"){
+if($data=="swift5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/695",
@@ -7622,7 +7599,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "swift6"){
+if($data=="swift6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/696",
@@ -7631,7 +7608,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "mallon" ){
+if($data=="mallon" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7653,7 +7630,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "mallon1"){
+if($data=="mallon1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/623",
@@ -7661,7 +7638,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mallon2"){
+if($data=="mallon2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/624",
@@ -7669,7 +7646,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mallon3"){
+if($data=="mallon3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/625",
@@ -7677,7 +7654,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mallon4"){
+if($data=="mallon4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/626",
@@ -7685,7 +7662,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mallon5"){
+if($data=="mallon5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/627",
@@ -7693,7 +7670,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "mallon6"){
+if($data=="mallon6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/628",
@@ -7702,7 +7679,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
- if($data == "siax" ){
+ if($data=="siax" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7724,7 +7701,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "siax1"){
+if($data=="siax1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/598",
@@ -7732,7 +7709,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "siax2"){
+if($data=="siax2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/599",
@@ -7740,7 +7717,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "siax3"){
+if($data=="siax3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/600",
@@ -7748,7 +7725,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "siax4"){
+if($data=="siax4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/601",
@@ -7756,7 +7733,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "siax5"){
+if($data=="siax5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/602",
@@ -7764,7 +7741,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "siax6"){
+if($data=="siax6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/603",
@@ -7774,7 +7751,7 @@ $editM =bot( sendaudio ,[
 }
 
 
-if($data == "justb" ){
+if($data=="justb" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7796,7 +7773,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "justb1"){
+if($data=="justb1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/566",
@@ -7804,7 +7781,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "justb2"){
+if($data=="justb2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/567",
@@ -7812,7 +7789,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "justb3"){
+if($data=="justb3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/568",
@@ -7820,7 +7797,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "justb4"){
+if($data=="justb4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/569",
@@ -7828,7 +7805,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "justb5"){
+if($data=="justb5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/570",
@@ -7836,7 +7813,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "justb6"){
+if($data=="justb6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/571",
@@ -7845,7 +7822,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "justb7"){
+if($data=="justb7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/572",
@@ -7853,7 +7830,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "justb8"){
+if($data=="justb8"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/573",
@@ -7861,7 +7838,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "justb9"){
+if($data=="justb9"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/574",
@@ -7870,7 +7847,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "justb10"){
+if($data=="justb10"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/575",
@@ -7879,7 +7856,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "justb11"){
+if($data=="justb11"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/578",
@@ -7888,7 +7865,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "thsm" ){
+if($data=="thsm" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7907,7 +7884,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "thsm1"){
+if($data=="thsm1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/580",
@@ -7915,7 +7892,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "thsm2"){
+if($data=="thsm2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/581",
@@ -7923,7 +7900,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "thsm3"){
+if($data=="thsm3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/582",
@@ -7931,7 +7908,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "thsm4"){
+if($data=="thsm4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/583",
@@ -7939,7 +7916,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "thsm5"){
+if($data=="thsm5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/584",
@@ -7948,7 +7925,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "thsm6"){
+if($data=="thsm6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/585",
@@ -7957,7 +7934,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "maarroon" ){
+if($data=="maarroon" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -7979,7 +7956,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "maarroon1"){
+if($data=="maarroon1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/586",
@@ -7987,7 +7964,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maarroon2"){
+if($data=="maarroon2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/591",
@@ -7995,7 +7972,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maarroon3"){
+if($data=="maarroon3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/587",
@@ -8003,7 +7980,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maarroon4"){
+if($data=="maarroon4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/588",
@@ -8011,7 +7988,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maarroon5"){
+if($data=="maarroon5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/589",
@@ -8019,7 +7996,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "maarroon6"){
+if($data=="maarroon6"){
  $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/590",
@@ -8027,12 +8004,12 @@ if($data == "maarroon6"){
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "ellla" ){
+if($data=="ellla" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
 'text'=>'
-𓆩 𝙱𝙸𝙻𝙻𝙸𝙴 𝙴𝙸𝙻𝙸𝚂𝙷   𓆪
+?? 𝙱𝙸𝙻𝙻𝙸𝙴 𝙴𝙸𝙻𝙸𝚂𝙷   𓆪
 ',
 'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
 "reply_markup"=>json_encode([
@@ -8050,7 +8027,7 @@ bot('EditMessageText',[
 }
 
 
-if($data == "ellla1"){
+if($data=="ellla1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/592",
@@ -8058,7 +8035,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "ellla2"){
+if($data=="ellla2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/593",
@@ -8066,7 +8043,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "ellla3"){
+if($data=="ellla3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/594",
@@ -8074,7 +8051,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "ellla4"){
+if($data=="ellla4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/595",
@@ -8082,7 +8059,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "ellla5"){
+if($data=="ellla5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/596",
@@ -8090,7 +8067,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "ellla6"){
+if($data=="ellla6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/597",
@@ -8099,7 +8076,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "dragons" ){
+if($data=="dragons" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -8121,7 +8098,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "dragons1"){
+if($data=="dragons1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/604",
@@ -8129,7 +8106,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "dragons2"){
+if($data=="dragons2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/605",
@@ -8137,7 +8114,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "dragons3"){
+if($data=="dragons3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/606",
@@ -8145,7 +8122,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "dragons4"){
+if($data=="dragons4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/607",
@@ -8153,7 +8130,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "dragons5"){
+if($data=="dragons5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/608",
@@ -8161,7 +8138,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "dragons6"){
+if($data=="dragons6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/609",
@@ -8171,7 +8148,7 @@ $editM =bot( sendaudio ,[
 }
 
 
-if($data == "shern" ){
+if($data=="shern" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -8194,7 +8171,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "shern1"){
+if($data=="shern1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/610",
@@ -8202,7 +8179,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shern2"){
+if($data=="shern2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/611",
@@ -8210,7 +8187,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shern3"){
+if($data=="shern3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/612",
@@ -8218,7 +8195,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shern4"){
+if($data=="shern4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/613",
@@ -8226,7 +8203,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shern5"){
+if($data=="shern5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/614",
@@ -8234,7 +8211,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shern6"){
+if($data=="shern6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/615",
@@ -8242,7 +8219,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "shern7"){
+if($data=="shern7"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/616",
@@ -8251,7 +8228,7 @@ $editM =bot( sendaudio ,[
 ]);
 }
 
-if($data == "puth" ){
+if($data=="puth" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -8273,7 +8250,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "puth1"){
+if($data=="puth1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/617",
@@ -8281,7 +8258,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "puth2"){
+if($data=="puth2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/618",
@@ -8289,7 +8266,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "puth3"){
+if($data=="puth3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/619",
@@ -8297,7 +8274,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "puth4"){
+if($data=="puth4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/620",
@@ -8305,7 +8282,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "puth5"){
+if($data=="puth5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/621",
@@ -8313,7 +8290,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "puth6"){
+if($data=="puth6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/622",
@@ -8321,7 +8298,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hesel" ){
+if($data=="hesel" ){
 bot('EditMessageText',[
 'chat_id'=>$chat_id,
 'message_id'=>$message_id,
@@ -8343,7 +8320,7 @@ bot('EditMessageText',[
 ]);
 }
 
-if($data == "hesel1"){
+if($data=="hesel1"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/629",
@@ -8351,7 +8328,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hesel2"){
+if($data=="hesel2"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/630",
@@ -8359,7 +8336,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hesel3"){
+if($data=="hesel3"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/631",
@@ -8367,7 +8344,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hesel4"){
+if($data=="hesel4"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/632",
@@ -8375,7 +8352,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hesel5"){
+if($data=="hesel5"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/633",
@@ -8383,7 +8360,7 @@ $editM =bot( sendaudio ,[
  reply_to_message_id =>$message->message_id, 
 ]);
 }
-if($data == "hesel6"){
+if($data=="hesel6"){
 $editM =bot( sendaudio ,[
  'chat_id'=>$chat_id, 
  audio =>"https://t.me/mahmoumagdx/634",
@@ -8478,3 +8455,5359 @@ if(preg_match("/(&)/", $data)){
     } 
     
 }
+
+if($text == 'الافلام' || $text == 'افلام' || $text == 'مسلسلات' || $text == 'المسلسلات'){ 
+bot('sendMessage',[ 
+'chat_id'=>$chat_id, 
+'text'=>"
+اختر النوع 🖤💥
+. ", 
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'مسلسلات 🎬','callback_data'=>"serii"]],
+[['text'=>'افلام 📽','callback_data'=>"aflam2"]],
+ [['text'=>'سورس ويزرد ™','url'=>'t.me/wizard _system']],
+]
+])
+]);
+}
+
+if($data=="aflam" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر النوع 🖤💥
+
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'مسلسلات 🎬','callback_data'=>"serii"]],
+[['text'=>'افلام 📽','callback_data'=>"aflam2"]],
+ [['text'=>'سورس ويزرد ™','url'=>'t.me/wizard _system']],
+]
+])
+]);
+}
+
+
+if($data=="aflam2" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الفيلم 📽
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'furious 7','callback_data'=>"aflam3"],['text'=>'furious 8','callback_data'=>"aflam4"]],
+[['text'=>'Persuasion 2007','callback_data'=>"aflam7"],['text'=>'Up 2009','callback_data'=>"aflam6"]],
+[['text'=>'safe','callback_data'=>"aflam5"],['text'=>'dont breathe','callback_data'=>"aflam16"]],
+[['text'=>'Fury  2014','callback_data'=>"aflam9"],['text'=>'the Town','callback_data'=>"aflam10"]],
+[['text'=>'1917','callback_data'=>"aflam11"],['text'=>'A Private War 2018','callback_data'=>"aflam12"]],
+[['text'=>'robin hood','callback_data'=>"aflam13"],['text'=>'wild card','callback_data'=>"aflam14"]],
+[['text'=>'hoobs and shaw','callback_data'=>"aflam15"]],
+[['text'=>'FORREST GUMP','callback_data'=>"aflam17"]],
+[['text'=>'Hellboy','callback_data'=>"aflam18"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"aflam"]],
+]
+])
+]);
+}
+
+if($data=="aflam14"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/rrokkkaaa/15248?single",
+'caption'=>" 
+تدور أحداث العمل حول (نِك وايلد) المقامر الذي قاده القمار لشوارع (لاس فيجاس)، ولكنه يحاول أن يتوقف عن القمار، وهو أيضًا يقوم بأنشطة غير اعتيادية لكسب المال، مثل توفير الحماية لمن يستأجرونه، ولأصدقائه، فهل ستستمر حياته على هذا النحو؟
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/rrokkkaaa/15247?single",
+'caption'=>" 
+Fast.And.Furious.8
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam12"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/236",
+'caption'=>"
+اسم الفيلم : A Private War (2018)
+التقييم : 8.6
+تصنيف:: سيرة ذاتيه - دراما - حرب
+تدور الأحداث حول واحدة من أشهر مراسلي الحروب وهي (ماري كولفين)، فهي شخصية لا تعرف الخوف كما، أنها متمردة وتدفع بنفسها للخطوط الأمامية للصراعات في جميع أنحاء العالم لإعطاء صوت لمن لا صوت لهم.
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam11"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NF/1025",
+'caption'=>"اسم الفيلم : 1917
+
+التقييم : 8.7
+
+النوع : #دراما - #حرب 
+
+قصة الفيلم :يتم إعطاء جنديين بريطانيين شابين خلال الحرب العالمية الأولى مهمة مستحيلة: إيصال رسالة في عمق أراضي العدو ستوقف 1600 رجل ، و أحد إخوة الجنود ، عن السير مباشرة الي فخ مميت",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="aflam17"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/226",
+'caption'=>"
+
+اسم الفيلم : FORREST GUMP 
+IMDb : 8.8
+النوع : دراما - رومانسية 
+
+
+تدور أحداث الفيلم حول (فورست جامب) المعاق وبطئ الفهم، والذي رفضت والدته إدخاله مدرسة فكرية حتي لا يشعر بالنقص، لكن أدخلته مدرسة عادية، وكان يتعرض هناك إلى الكثير من المضايقات لحالته، مما يدفعه ذلك للمشاركة في مباراة للركبى، ويصبح بطلا في اللعبة دون تخطيط مسبق، ثم بعد ذلك يلتحق بالجيش ويشترك في حرب فيتنام ويحصل على نوط الشجاعة من رئيس الدولة بعد إنقاذه خمسة جنود في إحدى الغارات.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam13"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NF/868",
+'caption'=>"الاسم : Robin Hood 2018
+التقييم : 5.3
+ألنوع : اكشن, مغامرات, اثارة
+القصة : يقوم (روبن) وقائده المغاربي (ليتل جون) بتنظيم ثورة جريئة ضد التاج الإنجليزي الفاسد في مغامرة مثيرة مليئة بمنافسات ساحقة في ساحة المعركة.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/232",
+'caption'=>"
+الاسم : Persuasion 2007
+التقييم : 7.5
+النوع : دراما، رومانس
+القصة : عن رواية جين أوستن “الإقناع” فيلم تلفزيوني يرسم صورة للمجتمع الإنجليزي في العصر القديم، تدخل الناس في خصوصيات الآخرين وإقناعهم بأنهم يعرفون مصلحتهم أكثر منهم، مما قد يفقدهم حب حياتهم ويتركهم يصارعون الوحدة وحياة مكرسة لغيرهم.
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/234",
+'caption'=>"
+الاسم : Up 2009
+التقييم : 8.2
+النوع : انميشن، مغامرات، كوميدي، عائلي
+القصة : يسافر كارل فريدريكسن البالغ من العمر 78 عامًا إلى شلالات بارادايس في منزله المجهز بالبالونات ، ويأخذ عن غير قصد طريقًا خلابًا.
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam10"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NF/766",
+'caption'=>"الاسم : The Town 2010
+التقييم : 7.5
+النوع : جريمة, دراما, اثارة
+القصة : مجموعة من الأصدقاء من حي تشالزتاون في بوسطن يقومون بسرقة بنك، فيحاول أحد عملاء مكتب التحقيقات الفيدارلي القبض عليهم وفي نفس الوقت يقع رئيس اللصوص في حب مديرة البنك.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam9"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NF/713",
+'caption'=>"
+
+طلبات الاعضاء
+اسم الفلم : Fury 2014 
+التقييم : 7.6
+النوع : اكشن , دراما , حرب 
+القصة : في إبريل عام 1945 حينما كان الحلفاء يضعون لمساتهم الأخيرة على مسرح الأحداث الأوروبية، كان الخبير الحربي الرقيب واردادي (براد بيت) – وتحت قيادته طاقم من خمسة جنود – يقود دبابة من طراز (شيرمان) في مهمة انتحارية خلف خطوط العدو.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+} 
+
+if($data=="aflam18"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/230",
+'caption'=>"مدة  العرض : 120 دقيقة
+سنة الاصدار : 2019
+الجودة : BluRay
+النوع : اكشن - مغامرة - خيال
+التقييم العالمي : 10 / 6.3  |  29,635 votes
+
+ملخص القصة:
+هيل بوي العالق بين عالمين متنافرين: العالم الفائق للطبيعة، والعالم البشري اﻹعتيادي، حيث يدخل هذه المرة في صراع مفتوح مع ساحرة من العصور البائدة أقسمت على الانتقام وعلى تدمير الجنس البشري بأكمله.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam16"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NF/713",
+'caption'=>"
+اسم الفلم : Don't Breathe 2016
+التقييم : 7.1
+النوع : جريمة , رعب , اثارة 
+القصة : روكي فتاة شابة تحاول أن تبدأ حياة جديدة مع شقيقتها، وتخطط مع حبيبها وصديق آخر لهم لاقتحام وسرقة منزل رجل ضرير ثري، وقد راودهم الظن بأنهم سيقترفوا الجريمة الكاملة التي لا تشوبها شائبة بما أن الرجل ضرير، ولكنهم يكتشفوا خطأهم ويحاولوا أن ينجوا بأرواحهم منه بعد اكتشافهم بأنه قاتل متسلسل..",
+'reply_to_message_id'=>$message->message_id, 
+]);
+} 
+
+if($data=="aflam15"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NF/210",
+'caption'=>" 
+يقدم الفيلم قصة منفصلة عن سلسلة أفلام The Fast and The Furious، حيث يقرر عميل اﻷمن الدبلوماسي اﻷمريكي (لوك هوبس) بالتحالف على نحو غير متوقع مع المنبوذ (ديكارد شاو) لكي يواجهها معًا شرير محسن جينيًا يهدد مستقبل الإنسانية.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NF/205",
+'caption'=>" 
+Furious.Seven.2015",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/rrokkkaaa/15246?single",
+'caption'=>" 
+يجد (رايت) نفسه مسئولًا عن الفتاة (ماي) البالغة من العمر اثنتى عشر عامًا، ويبحث عنها لصوص صينيون ومجموعة من الروس بسبب حيازتها معلومات سرية غاية في الأهمية ممثلة في كود رقمي لا يقدر بثمن، ووسط المطاردات التي تلاحقه يقرر إنقاذها مهما كلفه الأمر.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="serii" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر المسلسل 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Dark','callback_data'=>"darkk"],['text'=>'The End of the Fucking World','callback_data'=>"TEOTF"]],
+[['text'=>'Chernobyl','callback_data'=>"cherno"]],
+[['text'=>'Black Mirror','callback_data'=>"blackm"],['text'=>'Lucifer','callback_data'=>"lucix"]],
+[['text'=>'See','callback_data'=>"seeb"]],
+[['text'=>'The Witcher','callback_data'=>"witchr"],['text'=>'sherlock Holmes','callback_data'=>"uoy"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"aflam"]],
+]
+])
+]);
+}
+
+
+if($data=="uoy" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اسم المسلسل : Sherlock
+التقييم الحالي : 9.2
+النوع : اكشن, مغامرات, دراما, خيالي
+بصفته محقق استشاري، يُستدعَى (شرلوك هولمز) لحل القضايا التي يثبُت أنها مستعصية الحل على المحققين الرسميين النمطيين. وتُخبر القصص أنه كان قادراً في العديد من المناسبات على حل القضايا بدون مُغادرة بيته، فقط عن طريق التحليل المنطقي
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+
+[['text'=>'Sherlock Holmes S1 ','callback_data'=>"holmes1"]],
+[['text'=>'Sherlock Holmes S2 ','callback_data'=>"holmes2"]],
+[['text'=>'Sherlock Holmes S3 ','callback_data'=>"holmes3"]],
+[['text'=>'Sherlock Holmes S4 ','callback_data'=>"holmes4"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"serii"]],
+]
+])
+]);
+}
+if($data=="holmes1" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Sherlock Holmes, 1','callback_data'=>"hcsllx1"],['text'=>'Sherlock Holmes , 2','callback_data'=>"hcsllx2"]],
+[['text'=>'Sherlock Holmes, 3','callback_data'=>"hcsllx3"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"uoy"]],
+]
+])
+]);
+}
+
+if($data=="hcsllx1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/602",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="hcsllx2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/603",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="hcsllx3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/604",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="holmes2" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Sherlock Holmes, 1','callback_data'=>"hsllx1"],['text'=>'Sherlock Holmes , 2','callback_data'=>"hsllx2"]],
+[['text'=>'Sherlock Holmes, 3','callback_data'=>"hsllx3"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"uoy"]],
+]
+])
+]);
+}
+
+if($data=="hsllx1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/606",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="hsllx2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/607",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="hsllx3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/608",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="holmes3" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Sherlock Holmes, 1','callback_data'=>"hslx1"],['text'=>'Sherlock Holmes , 2','callback_data'=>"hslx2"]],
+[['text'=>'Sherlock Holmes, 3','callback_data'=>"hslx3"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"uoy"]],
+]
+])
+]);
+}
+
+if($data=="hslx1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/610",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="hslx2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/611",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="hslx3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/612",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+if($data=="holmes4" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Sherlock Holmes, 1','callback_data'=>"shol1"],['text'=>'Sherlock Holmes , 2','callback_data'=>"shol2"]],
+[['text'=>'Sherlock Holmes, 3','callback_data'=>"shol3"],['text'=>'Sherlock Holmes, 4','callback_data'=>"shol4"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"uoy"]],
+]
+])
+]);
+}
+
+if($data=="shol1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/614",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="shol2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/615",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="shol3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/616",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="shol4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/617",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="witchr" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اسم المسلسل : The Witcher 2019
+التقييم الحالي : 9.5
+النوع : اكشن, مغامرات, دراما, خيالي
+القصة : يكافح جيرالت أوف ريفيا ، وهو صياد وحوش منعزل ، للعثور على مكانه في عالم حيث يثبت الناس في كثير من الأحيان أنهم أكثر شراً من الوحوش .
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+
+[['text'=>'The Witcher S1 ','callback_data'=>"witchr1"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"serii"]],
+]
+])
+]);
+}
+
+if($data=="witchr1" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'The Witcher, 1','callback_data'=>"tws1"],['text'=>'The Witcher , 2','callback_data'=>"tws2"]],
+[['text'=>'The Witcher, 3','callback_data'=>"tws3"],['text'=>'The Witcher, 4','callback_data'=>"tws4"]],
+[['text'=>'The Witcher- 5','callback_data'=>"tws5"],['text'=>'The Witcher- 6','callback_data'=>"tws6"]],
+[['text'=>'The Witcher- 7','callback_data'=>"tws7"],['text'=>'The Witcher- 8','callback_data'=>"tws8"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"witchr"]],
+]
+])
+]);
+}
+
+if($data=="tws1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/592",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="tws2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/593",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="tws3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/594",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="tws4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/595",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="tws5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/596",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="tws6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/597",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="tws7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/598",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="tws8"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/599",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+
+
+if($data=="seeb" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اسم المسلسل : See 
+التقييم : 8.9
+النوع : دراما , خيال علمي 
+عدد الحلقات : 10 
+القصة : في المستقبل البعيد بعد انتشار فيروس يقضي على البشرية ويتسبب بجعل ما تبقى منهم فاقدين للبصر ، لكن عندما يولد توأم يستطيعان النظر يصبحا مستهدفين ، فيجد والدهما نفسه في قصة لا تنتهي حيث يتحتم عليهم إيجاد طرق للمحافظة على بقائهم وحمايتهم
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+
+[['text'=>'See S1 ','callback_data'=>"seeb1"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"serii"]],
+]
+])
+]);
+}
+
+if($data=="seeb1" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'see, 1','callback_data'=>"saab1"],['text'=>'see , 2','callback_data'=>"saab2"]],
+[['text'=>'see, 3','callback_data'=>"saab3"],['text'=>'see, 4','callback_data'=>"saab4"]],
+[['text'=>'see- 5','callback_data'=>"saab5"],['text'=>'see- 6','callback_data'=>"saab6"]],
+[['text'=>'see- 7','callback_data'=>"saab7"],['text'=>'see- 8','callback_data'=>"saab8"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"seeb"]],
+]
+])
+]);
+}
+
+if($data=="saab1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/582",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="saab2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/583",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="saab3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/584",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="saab4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/585",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="saab5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/586",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="saab6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/587",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="saab7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/588",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="saab8"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/589",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+if($data=="lucix" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اسم المسلسل : Lucifer 
+سنة الانتاج : 2015
+التقييم : 8.2
+النوع : جريمة, دراما, خيال
+القصة : قرر لوسيفر مورننجستار أن يكون لديه ما يكفي من الخادمات الجليلة في الجحيم ويقرر قضاء بعض الوقت على الأرض لفهم الإنسانية بشكل أفضل. استقر في لوس أنجلوس - مدينة الملائكة.
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Lucifer S1','callback_data'=>"luci1"],['text'=>'Lucifer S2','callback_data'=>"luci2"]],
+[['text'=>'Lucifer S3 ','callback_data'=>"luci3"]],
+[['text'=>'Lucifer S4','callback_data'=>"luci4"],['text'=>'Lucifer S5','callback_data'=>"luci5"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"serii"]],
+]
+])
+]);
+}
+if($data=="luci2" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Lucifer, 1','callback_data'=>"lucif1"],['text'=>'Lucifer , 2','callback_data'=>"lucif2"]],
+[['text'=>'Lucifer, 3','callback_data'=>"lucif3"],['text'=>'Lucifer, 4','callback_data'=>"lucif4"]],
+[['text'=>'Lucifer- 5','callback_data'=>"lucif5"],['text'=>'Lucifer- 6','callback_data'=>"lucif6"]],
+[['text'=>'Lucifer- 7','callback_data'=>"lucif7"],['text'=>'Lucifer- 8','callback_data'=>"lucif8"]],
+[['text'=>'Lucifer- 9','callback_data'=>"lucif9"],['text'=>'Lucifer- 10','callback_data'=>"lucif10"]],
+[['text'=>'Lucifer- 11','callback_data'=>"lucif11"],['text'=>'Lucifer- 12','callback_data'=>"lucif12"]],
+[['text'=>'Lucifer- 13','callback_data'=>"lucif13"],['text'=>'Lucifer- 14','callback_data'=>"lucif14"]],
+[['text'=>'Lucifer- 15','callback_data'=>"lucif15"],['text'=>'Lucifer- 16','callback_data'=>"lucif16"]],
+[['text'=>'Lucifer- 17','callback_data'=>"lucif17"],['text'=>'Lucifer- 18','callback_data'=>"lucif18"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"lucix"]],
+]
+])
+]);
+}
+
+if($data=="lucif1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/61",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="lucif2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/62",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucif3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/63",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucif4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/64",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucif5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/65",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucif6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/66",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucif7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/67",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucif8"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/68",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+if($data=="lucif9"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/69",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+
+if($data=="lucif10"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/70",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucif11"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/71",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucif12"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/72",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucif13"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/73",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucif14"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/74",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucif15"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/75",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucif16"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/76",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucif17"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/77",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucif18"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/78",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="luci1" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Lucifer, 1','callback_data'=>"lucis1"],['text'=>'Lucifer , 2','callback_data'=>"lucis2"]],
+[['text'=>'Lucifer, 3','callback_data'=>"lucis3"],['text'=>'Lucifer, 4','callback_data'=>"lucis4"]],
+[['text'=>'Lucifer- 5','callback_data'=>"lucis5"],['text'=>'Lucifer- 6','callback_data'=>"lucis6"]],
+[['text'=>'Lucifer- 7','callback_data'=>"lucis7"],['text'=>'Lucifer- 8','callback_data'=>"lucis8"]],
+[['text'=>'Lucifer- 9','callback_data'=>"lucis9"],['text'=>'Lucifer- 10','callback_data'=>"lucis10"]],
+[['text'=>'Lucifer- 11','callback_data'=>"lucis11"],['text'=>'Lucifer- 12','callback_data'=>"lucis12"]],
+[['text'=>'Lucifer- 13','callback_data'=>"lucis13"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"lucix"]],
+]
+])
+]);
+}
+
+if($data=="lucis1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/47",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="lucis2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/48",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucis3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/49",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucis4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/50",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucis5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/51",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucis6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/52",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucis7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/53",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucis8"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/54",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+if($data=="lucis9"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/55",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+
+if($data=="lucis10"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/56",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucis11"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/57",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucis12"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/58",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucis13"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/59",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+if($data=="luci" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اسم المسلسل : lucifner 
+سنة الانتاج : 2015
+التقييم : 8.2
+النوع : جريمة, دراما, خيال
+القصة : قرر لوسيفر مورننجستار أن يكون لديه ما يكفي من الخادمات الجليلة في الجحيم ويقرر قضاء بعض الوقت على الأرض لفهم الإنسانية بشكل أفضل. استقر في لوس أنجلوس - مدينة الملائكة.
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'lucifer S1','callback_data'=>"luci1"],['text'=>'lucifer S2','callback_data'=>"luci2"]],
+[['text'=>'lucifer S3 ','callback_data'=>"luci3"]],
+[['text'=>'lucifer S4','callback_data'=>"luci4"],['text'=>'lucifer S5','callback_data'=>"luci5"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"serii"]],
+]
+])
+]);
+}
+
+if($data=="luci3" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'lucifer, 1','callback_data'=>"lucifn1"],['text'=>'lucifer , 2','callback_data'=>"lucifn2"]],
+[['text'=>'lucifer, 3','callback_data'=>"lucifn3"],['text'=>'lucifer, 4','callback_data'=>"lucifn4"]],
+[['text'=>'lucifer- 5','callback_data'=>"lucifn5"],['text'=>'lucifer- 6','callback_data'=>"lucifn6"]],
+[['text'=>'lucifer- 7','callback_data'=>"lucifn7"],['text'=>'lucifer- 8','callback_data'=>"lucifn8"]],
+[['text'=>'lucifer- 9','callback_data'=>"lucifn9"],['text'=>'lucifer- 10','callback_data'=>"lucifn10"]],
+[['text'=>'lucifer- 11','callback_data'=>"lucifn11"],['text'=>'lucifer- 12','callback_data'=>"lucifn12"]],
+[['text'=>'lucifer- 13','callback_data'=>"lucifn13"],['text'=>'lucifer- 14','callback_data'=>"lucifn14"]],
+[['text'=>'lucifer- 15','callback_data'=>"lucifn15"],['text'=>'lucifer- 16','callback_data'=>"lucifn16"]],
+[['text'=>'lucifer- 17','callback_data'=>"lucifn17"],['text'=>'lucifer- 18','callback_data'=>"lucifn18"]],
+[['text'=>'lucifer- 19','callback_data'=>"lucifn19"],['text'=>'lucifer- 20','callback_data'=>"lucifn20"]],
+[['text'=>'lucifer- 21','callback_data'=>"lucifn21"],['text'=>'lucifer- 22','callback_data'=>"lucifn22"]],
+[['text'=>'lucifer- 23','callback_data'=>"lucifn23"],['text'=>'lucifer- 24','callback_data'=>"lucifn24"]],
+[['text'=>'lucifer- 25','callback_data'=>"lucifn24"],['text'=>'lucifer- 26','callback_data'=>"lucifn26"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"lucix"]],
+]
+])
+]);
+}
+
+if($data=="lucifn1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/80",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="lucifn2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/81",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucifn3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/82",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucifn4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/83",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucifn5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/84",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucifn6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/85",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/87",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn8"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/88",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+if($data=="lucifn9"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/89",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+
+if($data=="lucifn10"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/90",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn11"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/91",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn12"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/92",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn13"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/93",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn14"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/94",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn15"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/95",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn16"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/96",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn17"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/97",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn18"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/98",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn19"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/99",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn20"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/100",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn21"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/101",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucifn22"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/102",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn23"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/103",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn24"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/104",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucifn25"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/105",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifn26"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/106",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+if($data=="blackms5" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'BLack Mirror 1','callback_data'=>"bbkkllm1"],['text'=>'BLack Mirror , 2','callback_data'=>"bbkkllm2"]],
+[['text'=>'BLack Mirror 3','callback_data'=>"bbkkllm3"]],
+
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"blackm"]],
+]
+])
+]);
+}
+
+if($data=="bbkkllm1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/41",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bbkkllm2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/42",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bbkkllm3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/43",
+'caption'=>" 
+BLack Mirror - S5
+ا",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="blackms2" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'BLack Mirror 1','callback_data'=>"bklmm1"],['text'=>'BLack Mirror , 2','callback_data'=>"bklmm2"]],
+[['text'=>'BLack Mirror- 3','callback_data'=>"bklmm3"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"blackm"]],
+]
+])
+]);
+}
+if($data=="blackms3" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'BLack Mirror 1','callback_data'=>"bkklm1"],['text'=>'BLack Mirror , 2','callback_data'=>"bkklm2"]],
+[['text'=>'BLack Mirror 3','callback_data'=>"bkklm3"],['text'=>'BLack Mirror , 4','callback_data'=>"bkklm4"]],
+[['text'=>'BLack Mirror 5','callback_data'=>"bkklm5"],['text'=>'BLack Mirror , 6','callback_data'=>"bkklm6"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"blackm"]],
+]
+])
+]);
+}
+if($data=="blackms4" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'BLack Mirror 1','callback_data'=>"bbkklm1"],['text'=>'BLack Mirror , 2','callback_data'=>"bbkklm2"]],
+[['text'=>'BLack Mirror 3','callback_data'=>"bbkklm3"],['text'=>'BLack Mirror , 4','callback_data'=>"bbkklm4"]],
+[['text'=>'BLack Mirror 5','callback_data'=>"bbkklm5"],['text'=>'BLack Mirror , 6','callback_data'=>"bbkklm6"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"blackm"]],
+]
+])
+]);
+}
+
+if($data=="bbkklm1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/35",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bbkklm2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/36",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bbkklm3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/37",
+'caption'=>" 
+BLack Mirror - S4
+ا",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="bbkklm4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/38",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="bbkklm5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/39",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bbkklm6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/40",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+if($data=="bkklm1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/29",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bkklm2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/30",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bkklm3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/31",
+'caption'=>" 
+BLack Mirror - S3
+ا",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="bkklm4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/32",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="bkklm5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/33",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bkklm6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/34",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+if($data=="bklmm1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/26",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bklmm2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/27",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bklmm3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/28",
+'caption'=>" 
+BLack Mirror - S2
+ا",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="blackm" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اسم المسلسل : BLack Mirror
+التقييم : 8.9
+القصة  : يتنبأ المسلسل البريطاني بأثر التكنولوجيا وتقنيات الاتصال والتوثيق الرقمي على علاقاتنا الإنسانية وانطباعاتنا عن الحقيقة ومفاهيم العقاب والثواب وسلطة الفرد والدولة. قدمت كل واحدة من الحلقات السبع سيناريو مختلفًا، راسمةً صورة غاية في البؤس عن حياة عصرية توفر أدوات يُفترض أنها صنعت لتيّسر على الإنسان حياته، لكنها تفعل العكس؛ عدسات رقمية توثق كل لحظة من حياتك كفيلم مستمر، خدمات تبعث روح من فقدناهم، أو تقطع التواصل مع الأشخاص على أرض الواقع.
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'BLack Mirror S1','callback_data'=>"blackms1"],['text'=>'BLack Mirror S2','callback_data'=>"blackms2"]],
+[['text'=>'BLack Mirror S3 ','callback_data'=>"blackms3"]],
+[['text'=>'BLack Mirror S4','callback_data'=>"blackms4"],['text'=>'BLack Mirror S5','callback_data'=>"blackms5"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"serii"]],
+]
+])
+]);
+}
+
+
+if($data=="blackms1" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'BLack Mirror 1','callback_data'=>"bklm1"],['text'=>'BLack Mirror , 2','callback_data'=>"bklm2"]],
+[['text'=>'BLack Mirror- 3','callback_data'=>"bklm3"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"blackm"]],
+]
+])
+]);
+}
+
+if($data=="bklm1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/23",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bklm2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/24",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="bklm3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/25",
+'caption'=>" 
+BLack Mirror - S1
+ا",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+if($data=="luci5" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'lucifer, 1','callback_data'=>"lcifx1"],['text'=>'lucifer , 2','callback_data'=>"lcifx2"]],
+[['text'=>'lucifer, 3','callback_data'=>"lcifx3"],['text'=>'lucifer, 4','callback_data'=>"lcifx4"]],
+[['text'=>'lucifer- 5','callback_data'=>"lcifx5"],['text'=>'lucifer- 6','callback_data'=>"lcifx6"]],
+[['text'=>'lucifer- 7','callback_data'=>"lcifx7"],['text'=>'lucifer- 8','callback_data'=>"lcifx8"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"lucix"]],
+]
+])
+]);
+}
+
+if($data=="lcifx1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/119",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="lcifx2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/120",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lcifx3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/121",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lcifx4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/122",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lcifx5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/123",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lcifx6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/124",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lcifx7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/125",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lcifx8"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/126",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+
+if($data=="luci4" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'lucifer, 1','callback_data'=>"lucifnv1"],['text'=>'lucifer , 2','callback_data'=>"lucifnv2"]],
+[['text'=>'lucifer, 3','callback_data'=>"lucifnv3"],['text'=>'lucifer, 4','callback_data'=>"lucifnv4"]],
+[['text'=>'lucifer- 5','callback_data'=>"lucifnv5"],['text'=>'lucifer- 6','callback_data'=>"lucifnv6"]],
+[['text'=>'lucifer- 7','callback_data'=>"lucifnv7"],['text'=>'lucifer- 8','callback_data'=>"lucifnv8"]],
+[['text'=>'lucifer- 9','callback_data'=>"lucifnv9"],['text'=>'lucifer- 10','callback_data'=>"lucifnv10"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"lucix"]],
+]
+])
+]);
+}
+
+if($data=="lucifnv1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/108",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="lucifnv2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/109",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucifnv3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/110",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucifnv4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/111",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucifnv5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/112",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="lucifnv6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/113",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifnv7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/114",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="lucifnv8"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/115",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+if($data=="lucifnv9"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/116",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+
+if($data=="lucifnv10"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/117",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+if($data=="cherno" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+الاسم : Chernobyl  2019
+التقييم : 9.7
+النوع : دراما
+القصة : في أبريل 1986 ، كان هناك انفجار في محطة تشيرنوبيل للطاقة النووية في اتحاد الجمهوريات الاشتراكية السوفياتية والتي كانت واحدة من أسوأ الكوارث التي صنعها الانسان في العالم.
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Chernobyl S1 ','callback_data'=>"cherno1"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"serii"]],
+]
+])
+]);
+}
+
+
+if($data=="cherno1" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Chernobyl 1','callback_data'=>"chernoo1"],['text'=>'Chernobyl , 2','callback_data'=>"chernoo2"]],
+[['text'=>'Chernobyl 3','callback_data'=>"chernoo3"],['text'=>'Chernobyl 4','callback_data'=>"chernoo4"]],
+[['text'=>'Chernobyl- 5','callback_data'=>"chernoo5"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"cherno"]],
+]
+])
+]);
+}
+
+if($data=="chernoo1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/129",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="chernoo2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/130",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="chernoo3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/131",
+'caption'=>" 
+Chernobyl - S1
+ا",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="chernoo4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/132",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="chernoo5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/133",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+if($data=="TEOTF" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اسم المسلسل : The End of the Fucking World
+التقييم : 8.1
+النوع : مغامرة , كوميديا , دراما 
+القصة : جيمس " الذي يعاني من مرض نفسي ويرغب بقتل شخص ما ، فيقع اختياره على صديقته “اليسا” التي تقنعه بالهرب معها بمغامره
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'The End of the Fucking World S1 ','callback_data'=>"TEOTF1"]],
+[['text'=>'The End of the fucking World S2 ','callback_data'=>"TEOTF2"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"serii"]],
+]
+])
+]);
+}
+
+if($data=="TEOTF1" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'The End of the Fucking World 1','callback_data'=>"TEOT1"],['text'=>'The End of the Fucking World , 2','callback_data'=>"TEOT2"]],
+[['text'=>'The End of the Fucking World 3','callback_data'=>"TEOT3"],['text'=>'The End of the Fucking World 4','callback_data'=>"TEOT4"]],
+[['text'=>'The End of the Fucking World- 5','callback_data'=>"TEOT5"],['text'=>'The End of the Fucking World- 6','callback_data'=>"TEOT6"]],
+[['text'=>'The End of the Fucking World- 7','callback_data'=>"TEOT7"],['text'=>'The End of the Fucking World- 8','callback_data'=>"TEOT8"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"TEOTF"]],
+]
+])
+]);
+}
+
+if($data=="TEOT1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/5",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="TEOT2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/6",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="TEOT3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/7",
+'caption'=>" 
+The End of the Fucking World - S1
+ا",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="TEOT4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/8",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="TEOT5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/9",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="TEOT6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/10",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="TEOT7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/11",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="TEOT8"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/12",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="TEOTF2" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'The End of the Fucking World 1','callback_data'=>"TET1"],['text'=>'The End of the Fucking World , 2','callback_data'=>"TET2"]],
+[['text'=>'The End of the Fucking World 3','callback_data'=>"TET3"],['text'=>'The End of the Fucking World 4','callback_data'=>"TET4"]],
+[['text'=>'The End of the Fucking World- 5','callback_data'=>"TET5"],['text'=>'The End of the Fucking World- 6','callback_data'=>"TET6"]],
+[['text'=>'The End of the Fucking World- 7','callback_data'=>"TET7"],['text'=>'The End of the Fucking World- 8','callback_data'=>"TET8"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"TEOTF"]],
+]
+])
+]);
+}
+
+if($data=="TET1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/13",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="TET2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/14",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="TET3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/15",
+'caption'=>" 
+The End of the Fucking World - S2
+ا",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="TET4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/16",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="TET5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/17",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="TET6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/18",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="TET7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/19",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="TET8"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/20",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+
+if($data=="darkk" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اسم المسلسل : Dark
+سنة الانتاج : 2017
+التقييم : 8.8
+النوع : جريمة، دراما، غموض، خيال علمي، اثارة
+القصة : قصة عائلية مأساوية مع أمور غير طبيعية، حدثت في مدينة المانية، حيث اختفاء طفلان صغيران يوضح العلاقة بين اربع عائلات
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Dark S1 ','callback_data'=>"ds1"]],
+[['text'=>'Dark S2 ','callback_data'=>"ds2"]],
+[['text'=>'Dark S3 ','callback_data'=>"ds3"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"serii"]],
+]
+])
+]);
+}
+
+if($data=="ds1" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Dark, 1','callback_data'=>"aflam19"],['text'=>'Dark , 2','callback_data'=>"aflam20"]],
+[['text'=>'Dark, 3','callback_data'=>"aflam21"],['text'=>'Dark, 4','callback_data'=>"aflam22"]],
+[['text'=>'Dark- 5','callback_data'=>"aflam23"],['text'=>'Dark- 6','callback_data'=>"aflam24"]],
+[['text'=>'Dark- 7','callback_data'=>"aflam25"],['text'=>'Dark- 8','callback_data'=>"aflam26"]],
+[['text'=>'Dark- 8','callback_data'=>"aflam27"]],
+[['text'=>'Dark 9','callback_data'=>"aflam28"]],
+[['text'=>'Dark 10','callback_data'=>"aflam29"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"darkk"]],
+]
+])
+]);
+}
+
+
+
+if($data=="aflam26"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/219",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam27"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/rrokkkaaa/15238",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam19"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/212",
+'caption'=>" 
+
+تدور أحداث المسلسل حول اختفاء طفل في بلدة صغيرة في ألمانيا، يفضح اختفاء الطفل العديد من الأسرار حول 4 عائلات مرتبطة به وتبدأ الاحداث بالتطور بعديد المفاجئات والتغيرات حتى نكتشف أنَّ لذلك الحدث ارتباط بأحداث حدثت في نفس البلدة في عام 1986، اختفاء الطفل في بلدة ”فيندن“ الألمانية الصغيرة يفتح أبواب الجحيم التي تقلب مفهوم الزمن رأسًا على عقب، والمسألة ليست هوية مَن اختطف الطفلين… بل متى أقدم على اختطافهما.
+
+المدة الزمنية : 52 دقيقة
+سنة الانتاج : 2017
+اللغة: الالمانية 
+الترجمة: العربية
+محتوى الفيلم : PG+16
+جودة الصورة : HD
+تصنيف:: جريمة - دراما- غموض
+التقييم الحالي:: 8.6
+
+Dark - S1
+الموسم الأول 👆",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="aflam20"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/213",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="aflam21"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/214",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="aflam23"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/216",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="aflam22"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/215",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam25"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/218",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="aflam24"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/217",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+if($data=="aflam28"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/220",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id,
+]);
+}
+
+
+if($data=="aflam29"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/ggggldjql/221",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+
+if($data=="ds2" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Dark, 1','callback_data'=>"d2e1"],['text'=>'Dark , 2','callback_data'=>"d2e2"]],
+[['text'=>'Dark, 3','callback_data'=>"d2e3"],['text'=>'Dark, 4','callback_data'=>"d2e4"]],
+[['text'=>'Dark- 5','callback_data'=>"d2e5"],['text'=>'Dark- 6','callback_data'=>"d2e6"]],
+[['text'=>'Dark- 7','callback_data'=>"d2e7"],['text'=>'Dark- 8','callback_data'=>"d2e8"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"darkk"]],
+]
+])
+]);
+}
+
+if($data=="d2e1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/513",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="d2e2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/514",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="d2e3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/515",
+'caption'=>" 
+
+تدور أحداث المسلسل حول اختفاء طفل في بلدة صغيرة في ألمانيا، يفضح اختفاء الطفل العديد من الأسرار حول 4 عائلات مرتبطة به وتبدأ الاحداث بالتطور بعديد المفاجئات والتغيرات حتى نكتشف أنَّ لذلك الحدث ارتباط بأحداث حدثت في نفس البلدة في عام 1986، اختفاء الطفل في بلدة ”فيندن“ الألمانية الصغيرة يفتح أبواب الجحيم التي تقلب مفهوم الزمن رأسًا على عقب، والمسألة ليست هوية مَن اختطف الطفلين… بل متى أقدم على اختطافهما.
+
+المدة الزمنية : 52 دقيقة
+سنة الانتاج : 2017
+اللغة: الالمانية 
+الترجمة: العربية
+محتوى الفيلم : PG+16
+جودة الصورة : HD
+تصنيف:: جريمة - دراما- غموض
+التقييم الحالي:: 8.6
+
+Dark - S2
+الموسم الثاني 👆",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="d2e4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/516",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="d2e5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/517",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="d2e6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/518",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="d2e7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/519",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="d2e8"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/520",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="ds3" ){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>'
+اختر الحلقة 💥 🎞
+',
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'Dark, 1','callback_data'=>"d3e1"],['text'=>'Dark , 2','callback_data'=>"d3e2"]],
+[['text'=>'Dark, 3','callback_data'=>"d3e3"],['text'=>'Dark, 4','callback_data'=>"d3e4"]],
+[['text'=>'Dark- 5','callback_data'=>"d3e5"],['text'=>'Dark- 6','callback_data'=>"d3e6"]],
+[['text'=>'Dark- 7','callback_data'=>"d3e7"],['text'=>'Dark- 8','callback_data'=>"d3e8"]],
+[['text'=>'𝙱𝙰𝙲𝙺 ➪','callback_data'=>"darkk"]],
+]
+])
+]);
+}
+
+if($data=="d3e1"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/522",
+'caption'=>" 
+
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="d3e2"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/523",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="d3e3"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/524",
+'caption'=>" 
+
+
+Dark - S3
+الموسم الثالث 👆",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="d3e4"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/525",
+'caption'=>" 
+.",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="d3e5"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/526",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="d3e6"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/527",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+if($data=="d3e7"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/529",
+'caption'=>" 
+ ",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+
+if($data=="d3e8"){
+mkdir("zkref/$useree");
+file_put_contents("LOrDAhMeD/$useree/LOrDAhMeD.txt","AhMeD");
+bot('sendVideo',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+video =>"https://t.me/UU_NFS/530",
+'caption'=>" 
+",
+'reply_to_message_id'=>$message->message_id, 
+]);
+}
+$re = $message->reply_to_message;
+$txt_id = $message->from->id;
+$trans = $update->callback_query->data;
+$s = str_replace(' ','%20',$re->text);
+$txt = explode("|",$data);
+$dec = json_decode(file_get_contents("https://translate.yandex.net/api/v1/tr.json/translate?srv=android&uuid=6f4c351f-e58f-48d2-bda6-3cae1bddcbb4&id=e93642f1-1cd7-479e-9f93-08405027065b-9-0&lang=".$txt[0]."&text=".$txt[1]));
+$tr = $dec->text;
+if($text== "/tr" or $text=="/tr@wizzaard_bot" and $re){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"قم بأختيار اللغة التي تريد الترجمة اليها 
+Choose the language to translate into",
+'disable_web_page_preview'=>true,
+'reply_to_message_id'=>$message->message_id,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+[['text'=>'🇸🇾 العربية','callback_data' =>"ar|".$s],['text'=>'🇺🇲 الانكليزية','callback_data' =>"en|".$s],['text'=>'🇮🇷 الفارسية','callback_data' =>"fa|".$s]],
+[['text'=>'🇷🇺 الروسية','callback_data' =>"ru|".$s],['text'=>'🇯🇵 اليابانية','callback_data' =>"ja|".$s],['text'=>'🇮🇹 الايطالية','callback_data' =>"it|".$s]],
+[['text'=>'🇩🇪 الالمانية','callback_data' =>"de|".$s],['text'=>'🇨🇳 الصينية','callback_data' =>"zh|".$s],['text'=>'🇫🇷 الفرنسية','callback_data' =>"fr|".$s]],
+[['text'=>'🇹🇷 التركية','callback_data' =>"tr|".$s],['text'=>'🇪🇦 الاسبانية','callback_data' =>"es|".$s],['text'=>'🇮🇳 الهندية','callback_data' =>"hi|".$s]],
+[['text'=>'🇺🇦 الأوكرانية','callback_data' =>"uk|".$s]],[['text'=>"™سورس ويزرد",'url'=>"https://t.me/Wizard_system"]],
+]])
+]);
+}
+$trarr = array("ar","en","ru","de","tr","uk","ja","zh","es","fa","it","fr","hi");
+if(in_array($txt[0],$trarr)){
+bot('SendMessage',[
+          'chat_id'=>$chat_id,
+          'message_id'=>$message_id,
+'text'=>"*$tr[0] :النص المترجم*",
+'parse_mode'=>"MarkDown",
+]);
+}
+$re = $message->reply_to_message;
+$txt_id = $message->from->id;
+$btap = json_decode(file_get_contents("https://duckduckgo.com/js/spice/cryptonator/BTC/USD"));
+$mik = $btap->ticker->markets[0]->price;
+if($text== "/btc" or $text=="/btc@wizzaard_bot" and $re){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"*سعر البيتكوين الآن :* `$mik`",
+'parse_mode'=>"MarkDown",
+'disable_web_page_preview'=>true,
+'reply_to_message_id'=>$message->message_id,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+[['text'=>'تحديث 🔄','callback_data' =>"ref"]],
+[['text'=>"™سورس ويزرد",'url'=>"https://t.me/Wizard_system"]],
+]])
+]);
+}
+if($data=="ref"){
+bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'text'=>"*سعر البيتكوين الآن :* `$mik`",
+'parse_mode'=>"MarkDown",
+'disable_web_page_preview'=>true,
+'reply_to_message_id'=>$message->message_id,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+[['text'=>'تحديث 🔄','callback_data' =>"ref"]],
+[['text'=>"™سورس ويزرد",'url'=>"https://t.me/Wizard_system"]],
+]])
+]);
+}
+if($update->message){
+ $message = $update->message;
+$message_id = $update->message->message_id;
+$username = $message->from->username;
+$chat_id = $message->chat->id;
+$title = $message->chat->title;
+$text = $message->text;
+$user = $message->from->username;
+$name = $message->from->first_name;
+$from_id = $message->from->id;
+}
+if($update->callback_query){
+$data = $update->callback_query->data;
+$chat_id = $update->callback_query->message->chat->id;
+$title = $update->callback_query->message->chat->title;
+$message_id = $update->callback_query->message->message_id;
+$name = $update->callback_query->message->chat->first_name;
+$user = $update->callback_query->message->chat->username;
+$from_id = $update->callback_query->from->id;
+}
+if($text == "خلفيات" or $text == "خلفية" or $text == "خلفيه"){
+  
+bot('sendphoto', [
+'chat_id'=>$chat_id,
+'photo'=>file_get_contents("https://dev-yhya.tk/api/photo/index.php"),
+'caption'=>"
+*@Wizard_System*
+",
+'parse_mode'=>'MarkDown',
+reply_markup=>json_encode([
+'inline_keyboard'=>[
+[['text'=>"Next 🔄",'callback_data'=>"photo#$from_id"]],
+]])
+]);
+sleep(1);
+}
+$ex = explode('#',$data);
+if($ex[0] == "photo"){
+if($ex[1] == $from_id or in_array($from_id,$admins)){
+  
+  $photo = file_get_contents("https://dev-yhya.tk/api/photo/index.php");
+bot('editMessageMedia',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id,
+'inline_message_id'=>$update->inline_query->inline_message_id,
+'media'=>json_encode([
+"type"=>"photo","media"=>$photo,'caption'=>"@Wizard_System"]),
+reply_markup=>json_encode([
+'inline_keyboard'=>[
+[['text'=>"Next 🔄",'callback_data'=>"photo#$from_id"]],
+]])
+]);
+}
+}
+if($text == '/visa'){
+file_put_contents($chat_id,'');
+     bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"اهلا بك عزيزي قم بصنع فيزتك الوهمية الخاصة من خلال الاوامر :",
+'disable_web_page_preview'=>true,
+'reply_markup'=>json_encode(['inline_keyboard'=>[
+  [['text'=>'- تعيين الBIN .','callback_data'=>'putbin'],['text'=>'- صنع فيزات .','callback_data'=>'makev']],
+  [['text'=>'سورس ويزرد','url'=>'https://t.me/Wizard_system']],
+  ],
+  ])
+  ]);
+  }
+  if($data=='putbin'){
+      file_put_contents($chat_id,'putbin');
+      bot('EditMessageText',[
+          'chat_id'=>$chat_id,
+          'message_id'=>$message_id,
+          'text'=>"- حسنا عزيزي قم بأرسال الBIN الخاص بك .\n- ملاحظة : يمكنك ارسال BIN متكون من 6 ارقام فقط .\n- مثال على الBIN => 123456 .",
+          'parse_mode'=>"markdown",
+'disable_web_page_preview'=>true,
+'reply_markup'=>json_encode(['inline_keyboard'=>[
+  [['text'=>'- رجوع .','callback_data'=>'backkk']],
+],
+])
+      ]);
+  }
+  $brokc = file_get_contents($chat_id);
+  if($text and $text != '/start' and $brokc == 'putbin'){
+      bot('sendMessage' ,[
+          'chat_id'=>$chat_id,
+          'text'=>"- حسنا عزيزي تم تعيين $text البن الخاص بك .",
+                    'parse_mode'=>"markdown",
+'disable_web_page_preview'=>true,
+'reply_markup'=>json_encode(['inline_keyboard'=>[
+  [['text'=>'- رجوع .','callback_data'=>'backkk']],
+],
+])
+      ]);
+      file_put_contents("$chat_id.txt",$text);
+      unlink($chat_id);
+  }
+  $bin = file_get_contents("$chat_id.txt"); 
+  if($data=='makev' and $bin != ''){
+$codes = ['1','2','3','4','5','6','7','8','9','0'];
+$code1 = array_rand($codes,1);
+$code2 = array_rand($codes,1);
+$code3 = array_rand($codes,1);
+$code4 = array_rand($codes,1);
+$code5 = array_rand($codes,1);
+$code6 = array_rand($codes,1);
+$code7 = array_rand($codes,1);
+$code8 = array_rand($codes,1);
+$code9 = array_rand($codes,1);
+$code10 = array_rand($codes,1);
+$bcode1 = $codes[$code1];
+$bcode2 = $codes[$code2];
+$bcode3 = $codes[$code3];
+$bcode4 = $codes[$code4];
+$bcode5 = $codes[$code5];
+$bcode6 = $codes[$code6];
+$bcode7 = $codes[$code7];
+$bcode8 = $codes[$code8];
+$bcode9 = $codes[$code9];
+$bcode10 = $codes[$code10];
+$monthcode = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+$montherand = array_rand($monthcode,1);
+$monthebrok = $monthcode[$montherand];
+$yearcode = ['2022','2023','2024','2025','2026'];
+$yearrand = array_rand($yearcode,1);
+$yearbrok = $yearcode[$yearrand];
+$brok = "$bcode3$bcode10$bcode5";
+$bfcode = "$bin$bcode1$bcode2$bcode3$bcode4$bcode5$bcode6$bcode7$bcode8$bcode9$bcode10|$monthebrok|$yearbrok|$brok";
+$code1 = array_rand($codes,1);
+$code2 = array_rand($codes,1);
+$code3 = array_rand($codes,1);
+$code4 = array_rand($codes,1);
+$code5 = array_rand($codes,1);
+$code6 = array_rand($codes,1);
+$code7 = array_rand($codes,1);
+$code8 = array_rand($codes,1);
+$code9 = array_rand($codes,1);
+$code10 = array_rand($codes,1);
+$bcode1 = $codes[$code1];
+$bcode2 = $codes[$code2];
+$bcode3 = $codes[$code3];
+$bcode4 = $codes[$code4];
+$bcode5 = $codes[$code5];
+$bcode6 = $codes[$code6];
+$bcode7 = $codes[$code7];
+$bcode8 = $codes[$code8];
+$bcode9 = $codes[$code9];
+$bcode10 = $codes[$code10];
+$montherand = array_rand($monthcode,1);
+$monthebrok = $monthcode[$montherand];
+$yearrand = array_rand($yearcode,1);
+$yearbrok = $yearcode[$yearrand];
+$brok = "$bcode3$bcode10$bcode5";
+$bfcode1 = "$bin$bcode1$bcode2$bcode3$bcode4$bcode5$bcode6$bcode7$bcode8$bcode9$bcode10|$monthebrok|$yearbrok|$brok";
+$code1 = array_rand($codes,1);
+$code2 = array_rand($codes,1);
+$code3 = array_rand($codes,1);
+$code4 = array_rand($codes,1);
+$code5 = array_rand($codes,1);
+$code6 = array_rand($codes,1);
+$code7 = array_rand($codes,1);
+$code8 = array_rand($codes,1);
+$code9 = array_rand($codes,1);
+$code10 = array_rand($codes,1);
+$bcode1 = $codes[$code1];
+$bcode2 = $codes[$code2];
+$bcode3 = $codes[$code3];
+$bcode4 = $codes[$code4];
+$bcode5 = $codes[$code5];
+$bcode6 = $codes[$code6];
+$bcode7 = $codes[$code7];
+$bcode8 = $codes[$code8];
+$bcode9 = $codes[$code9];
+$bcode10 = $codes[$code10];
+$montherand = array_rand($monthcode,1);
+$monthebrok = $monthcode[$montherand];
+$yearrand = array_rand($yearcode,1);
+$yearbrok = $yearcode[$yearrand];
+$brok = "$bcode3$bcode10$bcode5";
+$bfcode2 = "$bin$bcode1$bcode2$bcode3$bcode4$bcode5$bcode6$bcode7$bcode8$bcode9$bcode10|$monthebrok|$yearbrok|$brok";
+$code1 = array_rand($codes,1);
+$code2 = array_rand($codes,1);
+$code3 = array_rand($codes,1);
+$code4 = array_rand($codes,1);
+$code5 = array_rand($codes,1);
+$code6 = array_rand($codes,1);
+$code7 = array_rand($codes,1);
+$code8 = array_rand($codes,1);
+$code9 = array_rand($codes,1);
+$code10 = array_rand($codes,1);
+$bcode1 = $codes[$code1];
+$bcode2 = $codes[$code2];
+$bcode3 = $codes[$code3];
+$bcode4 = $codes[$code4];
+$bcode5 = $codes[$code5];
+$bcode6 = $codes[$code6];
+$bcode7 = $codes[$code7];
+$bcode8 = $codes[$code8];
+$bcode9 = $codes[$code9];
+$bcode10 = $codes[$code10];
+$montherand = array_rand($monthcode,1);
+$monthebrok = $monthcode[$montherand];
+$yearrand = array_rand($yearcode,1);
+$yearbrok = $yearcode[$yearrand];
+$brok = "$bcode3$bcode10$bcode5";
+$bfcode3 = "$bin$bcode1$bcode2$bcode3$bcode4$bcode5$bcode6$bcode7$bcode8$bcode9$bcode10|$monthebrok|$yearbrok|$brok";
+$code1 = array_rand($codes,1);
+$code2 = array_rand($codes,1);
+$code3 = array_rand($codes,1);
+$code4 = array_rand($codes,1);
+$code5 = array_rand($codes,1);
+$code6 = array_rand($codes,1);
+$code7 = array_rand($codes,1);
+$code8 = array_rand($codes,1);
+$code9 = array_rand($codes,1);
+$code10 = array_rand($codes,1);
+$bcode1 = $codes[$code1];
+$bcode2 = $codes[$code2];
+$bcode3 = $codes[$code3];
+$bcode4 = $codes[$code4];
+$bcode5 = $codes[$code5];
+$bcode6 = $codes[$code6];
+$bcode7 = $codes[$code7];
+$bcode8 = $codes[$code8];
+$bcode9 = $codes[$code9];
+$bcode10 = $codes[$code10];
+$montherand = array_rand($monthcode,1);
+$monthebrok = $monthcode[$montherand];
+$yearrand = array_rand($yearcode,1);
+$yearbrok = $yearcode[$yearrand];
+$brok = "$bcode3$bcode10$bcode5";
+$bfcode4 = "$bin$bcode1$bcode2$bcode3$bcode4$bcode5$bcode6$bcode7$bcode8$bcode9$bcode10|$monthebrok|$yearbrok|$brok";
+$code1 = array_rand($codes,1);
+$code2 = array_rand($codes,1);
+$code3 = array_rand($codes,1);
+$code4 = array_rand($codes,1);
+$code5 = array_rand($codes,1);
+$code6 = array_rand($codes,1);
+$code7 = array_rand($codes,1);
+$code8 = array_rand($codes,1);
+$code9 = array_rand($codes,1);
+$code10 = array_rand($codes,1);
+$bcode1 = $codes[$code1];
+$bcode2 = $codes[$code2];
+$bcode3 = $codes[$code3];
+$bcode4 = $codes[$code4];
+$bcode5 = $codes[$code5];
+$bcode6 = $codes[$code6];
+$bcode7 = $codes[$code7];
+$bcode8 = $codes[$code8];
+$bcode9 = $codes[$code9];
+$bcode10 = $codes[$code10];
+$montherand = array_rand($monthcode,1);
+$monthebrok = $monthcode[$montherand];
+$yearrand = array_rand($yearcode,1);
+$yearbrok = $yearcode[$yearrand];
+$brok = "$bcode3$bcode10$bcode5";
+$bfcode5 = "$bin$bcode1$bcode2$bcode3$bcode4$bcode5$bcode6$bcode7$bcode8$bcode9$bcode10|$monthebrok|$yearbrok|$brok";
+$code1 = array_rand($codes,1);
+$code2 = array_rand($codes,1);
+$code3 = array_rand($codes,1);
+$code4 = array_rand($codes,1);
+$code5 = array_rand($codes,1);
+$code6 = array_rand($codes,1);
+$code7 = array_rand($codes,1);
+$code8 = array_rand($codes,1);
+$code9 = array_rand($codes,1);
+$code10 = array_rand($codes,1);
+$bcode1 = $codes[$code1];
+$bcode2 = $codes[$code2];
+$bcode3 = $codes[$code3];
+$bcode4 = $codes[$code4];
+$bcode5 = $codes[$code5];
+$bcode6 = $codes[$code6];
+$bcode7 = $codes[$code7];
+$bcode8 = $codes[$code8];
+$bcode9 = $codes[$code9];
+$bcode10 = $codes[$code10];
+$montherand = array_rand($monthcode,1);
+$monthebrok = $monthcode[$montherand];
+$yearrand = array_rand($yearcode,1);
+$yearbrok = $yearcode[$yearrand];
+$brok = "$bcode3$bcode10$bcode5";
+$bfcode6 = "$bin$bcode1$bcode2$bcode3$bcode4$bcode5$bcode6$bcode7$bcode8$bcode9$bcode10|$monthebrok|$yearbrok|$brok";
+$code1 = array_rand($codes,1);
+$code2 = array_rand($codes,1);
+$code3 = array_rand($codes,1);
+$code4 = array_rand($codes,1);
+$code5 = array_rand($codes,1);
+$code6 = array_rand($codes,1);
+$code7 = array_rand($codes,1);
+$code8 = array_rand($codes,1);
+$code9 = array_rand($codes,1);
+$code10 = array_rand($codes,1);
+$bcode1 = $codes[$code1];
+$bcode2 = $codes[$code2];
+$bcode3 = $codes[$code3];
+$bcode4 = $codes[$code4];
+$bcode5 = $codes[$code5];
+$bcode6 = $codes[$code6];
+$bcode7 = $codes[$code7];
+$bcode8 = $codes[$code8];
+$bcode9 = $codes[$code9];
+$bcode10 = $codes[$code10];
+$montherand = array_rand($monthcode,1);
+$monthebrok = $monthcode[$montherand];
+$yearrand = array_rand($yearcode,1);
+$yearbrok = $yearcode[$yearrand];
+$brok = "$bcode3$bcode10$bcode5";
+$bfcode7 = "$bin$bcode1$bcode2$bcode3$bcode4$bcode5$bcode6$bcode7$bcode8$bcode9$bcode10|$monthebrok|$yearbrok|$brok";
+$code1 = array_rand($codes,1);
+$code2 = array_rand($codes,1);
+$code3 = array_rand($codes,1);
+$code4 = array_rand($codes,1);
+$code5 = array_rand($codes,1);
+$code6 = array_rand($codes,1);
+$code7 = array_rand($codes,1);
+$code8 = array_rand($codes,1);
+$code9 = array_rand($codes,1);
+$code10 = array_rand($codes,1);
+$bcode1 = $codes[$code1];
+$bcode2 = $codes[$code2];
+$bcode3 = $codes[$code3];
+$bcode4 = $codes[$code4];
+$bcode5 = $codes[$code5];
+$bcode6 = $codes[$code6];
+$bcode7 = $codes[$code7];
+$bcode8 = $codes[$code8];
+$bcode9 = $codes[$code9];
+$bcode10 = $codes[$code10];
+$montherand = array_rand($monthcode,1);
+$monthebrok = $monthcode[$montherand];
+$yearrand = array_rand($yearcode,1);
+$yearbrok = $yearcode[$yearrand];
+$brok = "$bcode3$bcode10$bcode5";
+$bfcode8 = "$bin$bcode1$bcode2$bcode3$bcode4$bcode5$bcode6$bcode7$bcode8$bcode9$bcode10|$monthebrok|$yearbrok|$brok";
+$code1 = array_rand($codes,1);
+$code2 = array_rand($codes,1);
+$code3 = array_rand($codes,1);
+$code4 = array_rand($codes,1);
+$code5 = array_rand($codes,1);
+$code6 = array_rand($codes,1);
+$code7 = array_rand($codes,1);
+$code8 = array_rand($codes,1);
+$code9 = array_rand($codes,1);
+$code10 = array_rand($codes,1);
+$bcode1 = $codes[$code1];
+$bcode2 = $codes[$code2];
+$bcode3 = $codes[$code3];
+$bcode4 = $codes[$code4];
+$bcode5 = $codes[$code5];
+$bcode6 = $codes[$code6];
+$bcode7 = $codes[$code7];
+$bcode8 = $codes[$code8];
+$bcode9 = $codes[$code9];
+$bcode10 = $codes[$code10];
+$montherand = array_rand($monthcode,1);
+$monthebrok = $monthcode[$montherand];
+$yearrand = array_rand($yearcode,1);
+$yearbrok = $yearcode[$yearrand];
+$brok = "$bcode3$bcode10$bcode5";
+$bfcode9 = "$bin$bcode1$bcode2$bcode3$bcode4$bcode5$bcode6$bcode7$bcode8$bcode9$bcode10|$monthebrok|$yearbrok|$brok";
+bot ('EditMessageText',[
+    'chat_id'=>$chat_id,
+    'message_id'=>$message_id,
+    'text'=>"`$bfcode\n$bfcode1\n$bfcode2\n$bfcode3\n$bfcode4\n$bfcode5\n$bfcode6\n$bfcode7\n$bfcode8\n$bfcode9`\n- - - - -\n- BY => @J_69_L .", 
+                        'parse_mode'=>"markdown",
+'disable_web_page_preview'=>true,
+'reply_markup'=>json_encode(['inline_keyboard'=>[
+  [['text'=>'- صنع فيزات مرة اخرى .','callback_data'=>'makev']],
+  [['text'=>'- رجوع .','callback_data'=>'backkk']],
+  [['text'=>"- اضغط هنا لفحص الفيزات .",'url'=>"https://www.mrchecker.net/card/ccn2/"]], 
+],
+])
+]);
+  }
+  if($data=='makev' and $bin == ''){
+  	bot('EditMessageText', [
+  'chat_id'=>$chat_id, 
+  'message_id'=>$message_id, 
+  'text'=>"- يجب عليك وضع BIN اولا.",
+  'parse_mode'=>"markdown",
+'disable_web_page_preview'=>true,
+'reply_markup'=>json_encode(['inline_keyboard'=>[
+  [['text'=>'- تعيين الBIN .','callback_data'=>'putbin']], 
+ ], 
+])
+]);
+} 
+if($data=='backkk'){
+file_put_contents($chat_id,'');
+     bot('EditMessageText',[
+'chat_id'=>$chat_id,
+'message_id'=>$message_id, 
+'text'=>"اهلا بك عزيزي قم بصنع فيزتك الوهمية الخاصة من خلال الاوامر :",
+'disable_web_page_preview'=>true,
+'reply_markup'=>json_encode(['inline_keyboard'=>[
+  [['text'=>'- تعيين الBIN .','callback_data'=>'putbin'],['text'=>'- صنع فيزات .','callback_data'=>'makev']],
+  [['text'=>'سورس ويزرد','url'=>'https://t.me/Wizard_system']],
+  ],
+  ])
+  ]);
+  }
+$update = json_decode(file_get_contents('php://input'));
+$message = $update->message;
+$chat_id = $message->chat->id;
+$from_id = $message->from->id;
+$text = $message->text;
+
+
+if($text=="/qr" and $re){
+bot('sendphoto',[
+'chat_id'=>$chat_id,
+'photo'=>"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=$re->text",
+'caption'=>'↗️||تم وضع النص في الصوره
+↖️||للتأكد من وجود النص 
+↗️||قم بأعاده ارسال الصوره الى البوت',
+'parse_mode'=>'MarkDown',
+]);
+}
+if($text=="فك" and $re->photo){ 
+$photo = $update->message->photo;
+$file_id = $re->photo[0]->file_id;
+$getFile = json_decode(file_get_contents("https://api.telegram.org/bot".API_KEY."/getFile?file_id=".$file_id),true);
+$result = $getFile["result"];
+$file_path = $result["file_path"];
+$url = 'https://api.telegram.org/file/bot'.API_KEY.'/'.$file_path;
+$Api = json_decode(file_get_contents("https://api.qrserver.com/v1/read-qr-code/?fileurl=".$url),1);
+$code = $Api[0]['symbol'][0]['data'];
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"النص الموجود في الصوره هو :\n-----------\n*$code*",
+'parse_mode'=>'MarkDown',
+]);
+}
+if($text=="صور عشوائية"){
+for($i=1;$i<=4;$i++){
+$armof = array("a","b","c","d","e","f");
+$b = array_rand($armof,1);
+bot('sendphoto',[
+'chat_id'=>$chat_id,
+'photo'=>"https://unsplash.com/s/photos/$text.$armof[$b][$i]",
+]);
+}
+}
+$update = json_decode(file_get_contents('php://input'));
+$php_aba = $update->message;
+$text = $php_aba->text;
+$f_ppp = $php_aba->chat->id;
+$from_id = $php_aba->from->id;
+$fn = $php_aba->from->first_name;
+$user = $php_aba->from->username;
+$join = file_get_contents("https://api.telegram.org/bot".API_KEY."/getChatMember?chat_id=$chj&user_id=".$from_id);
+$f_ppp2 = $update->callback_query->message->chat->id;
+$php_aba_id2 = $update->callback_query->message->message_id;
+$data = $update->callback_query->data;
+$id = $php_aba->from->id;
+$text = $php_aba->text;
+$user = $php_aba->from->username;
+$php_aba = $update->message;
+$text = $php_aba->text;
+$php_aba_id = $update->callback_query->message->message_id;
+$data = $update->callback_query->data;
+$from_id = $php_aba->from->id;
+$name = $update->message->from->first_name;
+$from_id = $php_aba->from->id;
+$data = $update->callback_query->data;
+$f_ppp2 = $update->callback_query->message->chat->id;
+$admin = "296369326"; #ايديك
+$ok = file_get_contents("ARMOF.txt");
+$ok0 = file_get_contents("ARMOF0.txt");
+$ok1= file_get_contents("ARMOF1.txt");
+$ok5 = file_get_contents("ARMOF2.txt");
+$ok6 = file_get_contents("ARMOF3.txt");
+$ok20 = json_decode(file_get_contents('php://input'));
+$ok18 = $update->message;
+$ok13 = $ok18->chat->id;
+$ok17 = $ok18->text;
+$meme = $ok20->callback_query->data;
+$ok12 = $ok20->callback_query->message->chat->id;
+$ok14 =  $ok20->callback_query->message->message_id;
+$ok15 = $ok18->from->first_name;
+$ok16 = $ok18->from->username;
+$ok11 = $ok18->from->id;
+$ok2 = explode("\n",file_get_contents("ARMOF4.txt"));
+$ok3 = count($ok2)-1;
+if ($ok18 && !in_array($ok11, $ok2)) {
+    file_put_contents("ARMOF4.txt", $ok11."\n",FILE_APPEND);
+  }
+$zkrf = file_get_contents("zkrf.txt");
+if($text == "زخرفلي"){
+bot('sendmessage',[
+'chat_id'=>$f_ppp,
+'text'=>"*
+•🦋| اهلا بك. $name
+اهلا بك في قسم الزخرفة
+*",
+'parse_mode'=>"markdown",'disable_web_page_preview'=>true,
+"reply_markup"=>json_encode([
+"inline_keyboard"=>[
+[['text'=>'زخرفه الان 🇸🇾','callback_data'=>'ii']],
+[['text'=>"بايو 🦋", 'callback_data'=>'M']],
+]
+])
+]);
+}
+if($data == "ii" ){
+file_put_contents("zkrf.txt","zkrf");
+bot('EditMessageText',[
+'chat_id'=>$f_ppp2,
+'message_id'=>$php_aba_id2,
+'text'=>"*حسنا ارسل ما تريد زخرفته 💞🌻*",
+'parse_mode'=>"MarkDown",
+]);   
+}
+if($text != "/start"   and $zkrf == "zkrf"){
+file_put_contents("zkrf.txt","none");
+$items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text); 
+$ok = str_replace('a','𝐴',$text); 
+ $ok = str_replace('b','b',$ok); 
+ $ok = str_replace('c','𝐶',$ok); 
+ $ok = str_replace('d','𝐷',$ok); 
+ $ok = str_replace('e','𝐸',$ok); 
+ $ok = str_replace('f','𝐹',$ok); 
+ $ok = str_replace('g','𝐺',$ok); 
+ $ok = str_replace('h','𝐻',$ok); 
+ $ok = str_replace('i','𝐼',$ok); 
+ $ok = str_replace('j','𝐽',$ok); 
+ $ok = str_replace('k','𝐾',$ok); 
+ $ok = str_replace('l','𝐿',$ok); 
+ $ok = str_replace('m','𝑀',$ok); 
+ $ok = str_replace('n','𝑁',$ok); 
+ $ok = str_replace('o','𝑂',$ok); 
+ $ok = str_replace('p','𝑃',$ok); 
+ $ok = str_replace('q','𝑄',$ok); 
+ $ok = str_replace('r','𝑅',$ok); 
+ $ok = str_replace('s','𝑆',$ok); 
+ $ok = str_replace('t','𝑇',$ok); 
+ $ok = str_replace('u','𝐔',$ok); 
+ $ok = str_replace('v','𝑉',$ok); 
+ $ok = str_replace('w','𝑊',$ok); 
+ $ok = str_replace('x','𝑋',$ok); 
+ $ok = str_replace('y','𝑌',$ok); 
+ $ok = str_replace('z','𝑍',$ok);
+ $ok = str_replace('ض','ض֮',$ok);
+$ok = str_replace('ص','ص֓',$ok); 
+$ok = str_replace('ث','ثֻ',$ok); 
+$ok = str_replace('ق','ق֯',$ok); 
+$ok = str_replace('ف','ف֛',$ok); 
+$ok = str_replace('غ','غؒ',$ok); 
+$ok = str_replace('ع','عٌ',$ok); 
+$ok = str_replace('ه','هٞ',$ok); 
+$ok = str_replace('خ','خ٘٘٘٘٘٘٘٘٘٘',$ok); 
+$ok = str_replace('ح','حٟ',$ok); 
+$ok = str_replace('ج','جۤ',$ok); 
+$ok = str_replace('ش','شۨ',$ok);
+$ok = str_replace('س','سܱܰ',$ok); 
+$ok = str_replace('ي','يަ',$ok); 
+$ok = str_replace('ب','ب߬',$ok); 
+$ok = str_replace('ل','ل',$ok); 
+$ok = str_replace('ا','اࠗ',$ok); 
+$ok = str_replace('ت','ت',$ok); 
+$ok = str_replace('ن','نۨۨۨۨۨۨۨۨ',$ok); 
+$ok = str_replace('م','مࣩ',$ok); 
+$ok = str_replace('ك','ك๊',$ok); 
+$ok = str_replace('ظ','ظ້',$ok); 
+$ok = str_replace('ط','ط็',$ok); 
+$ok = str_replace('ذ','ذྃ',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ؤ','ؤ',$ok); 
+$ok = str_replace('ر','ر',$ok); 
+$ok = str_replace('ى','ى',$ok); 
+$ok = str_replace('ة','ة',$ok); 
+$ok = str_replace('و','୨و',$ok); 
+$ok = str_replace('ز','ز',$ok); 
+$ok = str_replace('ظ',' ظ',$ok); 
+$ok = str_replace('د','د',$ok); 
+$a = $ok."".$smile;
+$aa = $ok."".$smile;
+$items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗']; 
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text); 
+$ok = str_replace('a',"𝓪",$text);
+$ok = str_replace('A',"𝓐",$ok);
+$ok = str_replace("b","𝓫",$ok);
+$ok = str_replace("B","𝓑",$ok);
+$ok = str_replace("c","𝓬",$ok);
+$ok = str_replace("C","𝓒",$ok);
+$ok = str_replace("d","𝓭",$ok);
+$ok = str_replace("D","𝓓",$ok);
+$ok = str_replace("e","𝓮",$ok);
+$ok = str_replace("E","𝓔",$ok);
+$ok = str_replace("f","𝓯",$ok);
+$ok = str_replace("F","𝓕",$ok);
+$ok = str_replace("g","𝓰",$ok);
+$ok = str_replace("G","𝓖",$ok);
+$ok = str_replace("h","𝓱",$ok);
+$ok = str_replace("H","𝓗",$ok);
+$ok = str_replace("i","𝓲",$ok);
+$ok = str_replace("I","𝓘",$ok);
+$ok = str_replace("j","𝓳",$ok);
+$ok = str_replace("J","𝓙",$ok);
+$ok = str_replace("k","𝓴",$ok);
+$ok = str_replace("K","𝓚",$ok);
+$ok = str_replace("l","𝓵",$ok);
+$ok = str_replace("L","𝓛",$ok);
+$ok = str_replace("m","𝓶",$ok);
+$ok = str_replace("M","𝓜",$ok);
+$ok = str_replace("n","𝓷",$ok);
+$ok = str_replace("N","𝓝",$ok);
+$ok = str_replace("o","𝓸",$ok);
+$ok = str_replace("O","𝓞",$ok);
+$ok = str_replace("p","𝓹",$ok);
+$ok = str_replace("P","𝓟",$ok);
+$ok = str_replace("q","𝓺",$ok);
+$ok = str_replace("Q","𝓠",$ok);
+$ok = str_replace("r","𝓻",$ok);
+$ok = str_replace("R","𝓡",$ok);
+$ok = str_replace("s","𝓼",$ok);
+$ok = str_replace("S","𝓢",$ok);
+$ok = str_replace("t","𝓽",$ok);
+$ok = str_replace("T","𝓣",$ok);
+$ok = str_replace("u","𝓾",$ok);
+$ok = str_replace("U","𝓤",$ok);
+$ok = str_replace("v","𝓿",$ok);
+$ok = str_replace("V","𝓥",$ok);
+$ok = str_replace("w","𝔀",$ok);
+$ok = str_replace("W","𝓦",$ok);
+$ok = str_replace("x","𝔁",$ok);
+$ok = str_replace("X","𝓧",$ok);
+$ok = str_replace("y","𝔂",$ok);
+$ok = str_replace("Y","𝓨",$ok);
+$ok = str_replace("z","𝔃",$ok);
+$ok = str_replace("Z","𝓩",$ok);
+$ok = str_replace('ض','ضّ',$ok);
+$ok = str_replace('ص','صٌ',$ok); 
+$ok = str_replace('ث','ثّ',$ok); 
+$ok = str_replace('ق','قِ',$ok); 
+$ok = str_replace('ف','فِّ',$ok); 
+$ok = str_replace('غ','غٌ',$ok); 
+$ok = str_replace('ع','عٌ',$ok); 
+$ok = str_replace('ه','هِ',$ok); 
+$ok = str_replace('خ','خَ',$ok); 
+$ok = str_replace('ح','حٌ',$ok); 
+$ok = str_replace('ج','جِ',$ok); 
+$ok = str_replace('ش','شٍ',$ok); 
+$ok = str_replace('س',' س',$ok); 
+$ok = str_replace('ي','يِّ',$ok); 
+$ok = str_replace('ب','بِ',$ok);
+$ok = str_replace('ل','لَ',$ok); 
+$ok = str_replace('ا','أّ',$ok); 
+$ok = str_replace('ت','تّ',$ok); 
+$ok = str_replace('ن','نِ',$ok); 
+$ok = str_replace('ك','ګ',$ok); 
+$ok = str_replace('م','مَ',$ok); 
+$ok = str_replace('ة',' ةّ',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','ظّ',$ok); 
+$ok = str_replace('ط','طّ',$ok); 
+ $ok = str_replace('ذ','ذّ',$ok); 
+$ok = str_replace('د','دِ',$ok); 
+$ok = str_replace('ز','زِّ',$ok); 
+$ok = str_replace('ر','ڒٍ',$ok); 
+$ok = str_replace('و','وِ',$ok); 
+$ok = str_replace('ى','ىّ',$ok);
+$b = $ok.''.$smile;
+$items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text);
+$ok = str_replace('a','𝙰',$text);
+$ok = str_replace("b","𝙱",$ok);
+$ok = str_replace("c","𝙲",$ok);
+$ok = str_replace("d","𝙳",$ok);
+$ok = str_replace("e","𝙴",$ok);
+$ok = str_replace("E","𝙵",$ok);
+$ok = str_replace("g","𝙶",$ok);
+$ok = str_replace("h","𝙷",$ok);
+$ok = str_replace("i","𝙸",$ok);
+$ok = str_replace("j","𝙹",$ok);
+$ok = str_replace("k","𝙺",$ok);
+$ok = str_replace("l","𝙻",$ok);
+$ok = str_replace("m","𝙼",$ok);
+$ok = str_replace("n","𝙽",$ok);
+$ok = str_replace("o","𝙾",$ok);
+$ok = str_replace("p","𝙿",$ok);
+$ok = str_replace("q","𝚀",$ok);
+$ok = str_replace("r","𝚁",$ok);
+$ok = str_replace("s","𝚂",$ok);
+$ok = str_replace("t","𝚃",$ok);
+$ok = str_replace("u","𝚄",$ok);
+$ok = str_replace("v","𝚅",$ok);
+$ok = str_replace("w","𝚆",$ok);
+$ok = str_replace("x","𝚇",$ok);
+$ok = str_replace("y","𝚈",$ok);
+$ok = str_replace("z","𝚉",$ok);
+$ok = str_replace('ض','ضّ',$ok);
+$ok = str_replace('ص','صٌ',$ok); 
+$ok = str_replace('ث','ثّ',$ok); 
+$ok = str_replace('ق','قᮭ',$ok); 
+$ok = str_replace('ف','ف᭫ᮥ',$ok); 
+$ok = str_replace('غ','غٌ',$ok); 
+$ok = str_replace('ع','عٌ',$ok); 
+$ok = str_replace('ه','هِ',$ok); 
+$ok = str_replace('خ','خ᪳᪲',$ok); 
+$ok = str_replace('ح','ح᪽',$ok); 
+$ok = str_replace('ج','ج᪷᪹',$ok); 
+$ok = str_replace('ش','شٍ',$ok); 
+$ok = str_replace('س',' َّس',$ok); 
+$ok = str_replace('ي','ي᪸᪰',$ok); 
+$ok = str_replace('ب','بᤠ',$ok);
+$ok = str_replace('ل','لཻ',$ok); 
+$ok = str_replace('ا','اི',$ok); 
+$ok = str_replace('ت','تّ',$ok); 
+$ok = str_replace('ن','ن྄༹',$ok); 
+$ok = str_replace('ك','كิ',$ok); 
+$ok = str_replace('م','مຼ',$ok); 
+$ok = str_replace('ة',' ةّ',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','ظܱܰ',$ok); 
+$ok = str_replace('ط','ط์',$ok); 
+ $ok = str_replace('ذ','ذٍُ',$ok); 
+$ok = str_replace('د','دّ',$ok); 
+$ok = str_replace('ز','زٌِ',$ok); 
+$ok = str_replace('ر','رٰ',$ok); 
+$ok = str_replace('و','وٰ໑ٰ',$ok); 
+$ok = str_replace('ى','ىّ',$ok);
+$c = $ok.''.$smile;
+$items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text); 
+$ok = str_replace('a','ᴀ',$text); 
+ $ok = str_replace('b','ʙ',$ok); 
+ $ok = str_replace('c','ᴄ',$ok); 
+ $ok = str_replace('d','ᴅ',$ok); 
+ $ok = str_replace('e','ᴇ',$ok); 
+ $ok = str_replace('f','ғ',$ok); 
+ $ok = str_replace('g','ɢ',$ok); 
+ $ok = str_replace('h','ʜ',$ok); 
+ $ok = str_replace('i','ɪ',$ok); 
+ $ok = str_replace('j','ᴊ',$ok); 
+ $ok = str_replace('k','ᴋ',$ok); 
+ $ok = str_replace('l','ʟ',$ok); 
+ $ok = str_replace('m','ᴍ',$ok); 
+ $ok = str_replace('n','ɴ',$ok); 
+ $ok = str_replace('o','ᴏ',$ok); 
+ $ok = str_replace('p','ᴘ',$ok); 
+ $ok = str_replace('q','ǫ',$ok); 
+ $ok = str_replace('r','ʀ',$ok); 
+ $ok = str_replace('s','s',$ok); 
+ $ok = str_replace('t','ᴛ',$ok); 
+ $ok = str_replace('u','ᴜ',$ok); 
+ $ok = str_replace('v','ᴠ',$ok); 
+ $ok = str_replace('w','ᴡ',$ok); 
+ $ok = str_replace('x','x',$ok); 
+ $ok = str_replace('y','ʏ',$ok); 
+ $ok = str_replace('z','ᴢ',$ok);
+ $ok = str_replace('ض','ضُ',$ok);
+$ok = str_replace('ص','صّ',$ok); 
+$ok = str_replace('ث','ثُ',$ok); 
+$ok = str_replace('ق','قً',$ok); 
+$ok = str_replace('ف','فَ',$ok); 
+$ok = str_replace('غ','غً',$ok); 
+$ok = str_replace('ع','ْع ',$ok); 
+$ok = str_replace('ه','هہ',$ok); 
+$ok = str_replace('خ','خہ',$ok); 
+$ok = str_replace('ح','حہ',$ok); 
+$ok = str_replace('ج','جہ',$ok); 
+$ok = str_replace('ش','شہ',$ok); 
+$ok = str_replace('س',' سہ',$ok); 
+$ok = str_replace('ي','يہ',$ok); 
+$ok = str_replace('ب','بہ',$ok);
+$ok = str_replace('ل','لَ',$ok); 
+$ok = str_replace('ا','آ',$ok); 
+$ok = str_replace('ت','تہ',$ok); 
+$ok = str_replace('ن','نہ',$ok); 
+$ok = str_replace('ك','كہ',$ok); 
+$ok = str_replace('م','مہ',$ok); 
+$ok = str_replace('ة',' ةّ',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','ظہ',$ok); 
+$ok = str_replace('ط','طہ',$ok); 
+ $ok = str_replace('ذ','ذّ',$ok); 
+$ok = str_replace('د','دِ',$ok); 
+$ok = str_replace('ز','زِّ',$ok); 
+$ok = str_replace('ر','ڒٍ',$ok); 
+$ok = str_replace('و','وِ',$ok); 
+$ok = str_replace('ى','ىّ',$ok);
+ $d = $ok."".$smile;
+
+ $items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text);
+$ok = str_replace('a','𝘼',$text); 
+ $ok = str_replace('b','𝘽',$ok); 
+ $ok = str_replace('c','𝘾',$ok); 
+ $ok = str_replace('d','𝘿',$ok); 
+ $ok = str_replace('e','𝙀',$ok); 
+ $ok = str_replace('f','𝙁',$ok); 
+ $ok = str_replace('g','𝙂',$ok); 
+ $ok = str_replace('h','𝙃',$ok); 
+ $ok = str_replace('i','𝙄',$ok); 
+ $ok = str_replace('j','𝙅',$ok); 
+ $ok = str_replace('k','𝙆',$ok); 
+ $ok = str_replace('l','𝙇',$ok); 
+ $ok = str_replace('m','𝙈',$ok); 
+ $ok = str_replace('n','𝙉',$ok); 
+ $ok = str_replace('o','𝙊',$ok); 
+ $ok = str_replace('p','𝙋',$ok); 
+ $ok = str_replace('q','𝙌',$ok); 
+ $ok = str_replace('r','𝙍',$ok); 
+ $ok = str_replace('s','𝙎',$ok); 
+ $ok = str_replace('t','𝙏',$ok); 
+ $ok = str_replace('u','𝙐',$ok); 
+ $ok = str_replace('v','𝙑',$ok); 
+ $ok = str_replace('w','𝙒',$ok); 
+ $ok = str_replace('x','𝙓',$ok); 
+ $ok = str_replace('y','𝙔',$ok); 
+ $ok = str_replace('z','𝙕',$ok);
+ $ok = str_replace('ض','᎗ᘞ̇',$ok);
+$ok = str_replace('ص',' ᎗ᘗ',$ok); 
+$ok = str_replace('ث','᎗̇̈ɹ ',$ok); 
+$ok = str_replace('ق','',$ok); 
+$ok = str_replace('ف','',$ok); 
+$ok = str_replace('غ','᎗ϛ',$ok); 
+$ok = str_replace('ع','᎗ჺ',$ok); 
+$ok = str_replace('ه','᎗බ',$ok); 
+$ok = str_replace('خ','ᓘ',$ok); 
+$ok = str_replace('ح','ᓗ',$ok); 
+$ok = str_replace('ج','ᓗฺ',$ok); 
+$ok = str_replace('س',' ᎗ɹɹɹ',$ok); 
+$ok = str_replace('ش','᎗ɹ̇̈ɹɹ',$ok); 
+$ok = str_replace('ي',' ᎗̤ɹ',$ok); 
+$ok = str_replace('ب','᎗̣ɹ ',$ok);
+$ok = str_replace('ل','⅃',$ok); 
+$ok = str_replace('ا','Ȋ',$ok); 
+$ok = str_replace('ت','᎗̈ɹ',$ok); 
+$ok = str_replace('ن','᎗̇ɹ',$ok); 
+$ok = str_replace('ك','ܭ',$ok); 
+$ok = str_replace('م','ᓄ',$ok); 
+$ok = str_replace('ة',' ᎗Ꭷ',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','᎗̇Ь',$ok); 
+$ok = str_replace('ط','᎗Ь',$ok); 
+ $ok = str_replace('ذ','ذّ',$ok); 
+$ok = str_replace('د','ↄ',$ok); 
+$ok = str_replace('ز','j',$ok); 
+$ok = str_replace('ر','ڒٍ',$ok); 
+$ok = str_replace('و','g',$ok); 
+$ok = str_replace('ى','ىّ',$ok);
+ $e = $ok.''.$smile;
+$items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text);
+$ok = str_replace('a','𝒂',$text); 
+ $ok = str_replace('b','𝒃',$ok); 
+ $ok = str_replace('c','𝒄',$ok); 
+ $ok = str_replace('d','𝒅',$ok); 
+ $ok = str_replace('e','𝒆',$ok); 
+ $ok = str_replace('f','𝒇',$ok); 
+ $ok = str_replace('g','𝒈',$ok); 
+ $ok = str_replace('h','𝒉',$ok); 
+ $ok = str_replace('i','𝒊',$ok); 
+ $ok = str_replace('j','𝒋',$ok); 
+ $ok = str_replace('k','𝒌',$ok); 
+ $ok = str_replace('l','𝒍',$ok); 
+ $ok = str_replace('m','𝒎',$ok); 
+ $ok = str_replace('n','𝒏',$ok); 
+ $ok = str_replace('o','𝒐',$ok); 
+ $ok = str_replace('p','𝒑',$ok); 
+ $ok = str_replace('q','𝒒',$ok); 
+ $ok = str_replace('r','𝒓',$ok); 
+ $ok = str_replace('s','𝒔',$ok); 
+ $ok = str_replace('t','𝒕',$ok); 
+ $ok = str_replace('u','𝒖',$ok); 
+ $ok = str_replace('v','𝒗',$ok); 
+ $ok = str_replace('w','𝒘',$ok); 
+ $ok = str_replace('x','𝒙',$ok); 
+ $ok = str_replace('y','𝒚',$ok); 
+ $ok = str_replace('z','𝒛',$ok);
+ $ok = str_replace('ا','ا',$ok);
+$ok = str_replace('ص','صـٌٍ๋ۤ͜ﮧْ',$ok); 
+$ok = str_replace('ث','ث̲ꫭـﮧ',$ok); 
+$ok = str_replace('ق','قٰٰྀ̲ـِٰ̲ﮧْ',$ok); 
+$ok = str_replace('ف','فـٌٍ๋ۤ͜ﮧ',$ok); 
+$ok = str_replace('غ','غـّٰ̐ہٰٰ',$ok); 
+$ok = str_replace('ع','عٌ',$ok); 
+$ok = str_replace('ه','ھہ',$ok); 
+$ok = str_replace('خ','خ̲ﮧ',$ok); 
+$ok = str_replace('ح','ح̲ꪳـﮧ',$ok); 
+$ok = str_replace('ج','ج̲ꪸـﮧ',$ok); 
+$ok = str_replace('ش','ش̲ꪾـﮧ',$ok); 
+$ok = str_replace('س','سـ̷ٰٰﮧْ',$ok); 
+$ok = str_replace('ي','يـِٰ̲ﮧ',$ok); 
+$ok = str_replace('ب','ب̲ꪰـﮧْ',$ok);
+$ok = str_replace('ل','لٍُـّٰ̐ہ',$ok); 
+$ok = str_replace('ا','أّ',$ok); 
+$ok = str_replace('ت','تـٰۧﮧ',$ok); 
+$ok = str_replace('ن','نٰ̲̐ـﮧْ',$ok); 
+$ok = str_replace('ك','كـِّﮧْٰٖ',$ok); 
+$ok = str_replace('م','مٰٰྀ̲ـِٰ̲ﮧْ',$ok); 
+$ok = str_replace('ة',' ةً',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','ظَـ๋͜ﮧْ',$ok); 
+$ok = str_replace('ط','ط̲꫁ـﮧ',$ok); 
+ $ok = str_replace('ذ','ذٖ',$ok); 
+$ok = str_replace('د','دُ',$ok); 
+$ok = str_replace('ز','ژٰ',$ok); 
+$ok = str_replace('ر','ڒٍ',$ok); 
+$ok = str_replace('و','ﯛ૭',$ok); 
+$ok = str_replace('ى','ىّ',$ok);
+ $f = $ok.''.$smile;
+ $items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text);
+$ok = str_replace('a','𝐀',$text);
+$ok = str_replace("b","𝐁",$ok);
+$ok = str_replace("c","𝐂",$ok);
+$ok = str_replace("d","𝐃",$ok);
+$ok = str_replace("e","𝐄",$ok);
+$ok = str_replace("E","𝐅",$ok);
+$ok = str_replace("g","𝐆",$ok);
+$ok = str_replace("h","𝐇",$ok);
+$ok = str_replace("i","𝐈",$ok);
+$ok = str_replace("j","𝐉",$ok);
+$ok = str_replace("k","𝐊",$ok);
+$ok = str_replace("l","𝑳",$ok);
+$ok = str_replace("m","𝐌",$ok);
+$ok = str_replace("n","𝐍",$ok);
+$ok = str_replace("o","𝐎",$ok);
+$ok = str_replace("p","𝐏",$ok);
+$ok = str_replace("q","𝐐",$ok);
+$ok = str_replace("r","𝐑",$ok);
+$ok = str_replace("s","𝐒",$ok);
+$ok = str_replace("t","𝐓",$ok);
+$ok = str_replace("u","𝐔",$ok);
+$ok = str_replace("v","𝐕",$ok);
+$ok = str_replace("w","𝐖",$ok);
+$ok = str_replace("x","𝐗",$ok);
+$ok = str_replace("y","𝐘",$ok);
+$ok = str_replace("z","𝐙",$ok);
+ $ok = str_replace('ض','ضــٰـُ͢ـًُــ ',$ok); 
+$ok = str_replace('ص','صــٰـُ͢ـُٰཻــ͒͜ـًـــ',$ok); 
+$ok = str_replace('ث','ث',$ok); 
+$ok = str_replace('ق','قٰཻ͚͆ـــــ͒͜ـً',$ok); 
+$ok = str_replace('ف','ف',$ok); 
+$ok = str_replace('غ','غــٰـُ͢ـُـ̷ِْــٰــ',$ok); 
+$ok = str_replace('ع','ع',$ok); 
+$ok = str_replace('ه','هہ',$ok); 
+$ok = str_replace('خ','خـٰٰٰٖٖٖۧـ๋͜ــ۫͜ـــ',$ok); 
+$ok = str_replace('ح','حـ̷ِْــٰــ۫͜ـــ',$ok); 
+$ok = str_replace('ج','جـ',$ok); 
+$ok = str_replace('ش','شـ๋๋͜͜͡‏ــٰـُ͢ـُٰཻـــ',$ok); 
+$ok = str_replace('س','سـٰٰٰٖٖٖۧـ๋͜ــــ',$ok); 
+$ok = str_replace('ي','ي',$ok); 
+$ok = str_replace('ب','بــ',$ok);
+$ok = str_replace('ل','ݪ',$ok); 
+$ok = str_replace('ا','آ',$ok); 
+$ok = str_replace('ت','تـَٰــۘ❀ـَٰـ',$ok); 
+$ok = str_replace('ن','ن',$ok); 
+$ok = str_replace('م','مـ',$ok); 
+$ok = str_replace('ك','ڪ',$ok); 
+$ok = str_replace('ة','ةً',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','ظــٰـُ͢ـًُــ',$ok); 
+$ok = str_replace('ط','طــ',$ok); 
+ $ok = str_replace('ذ','ذِ',$ok); 
+$ok = str_replace('د','دٰ',$ok); 
+$ok = str_replace('ز','زً',$ok); 
+$ok = str_replace('ر','ر',$ok); 
+$ok = str_replace('و','و',$ok); 
+ $ok = str_replace('ى','ىٰ',$ok);
+$g = $ok.''.$smile;
+ $items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text);
+$ok = str_replace('a','𝗔',$text);
+$ok = str_replace("b","𝗕",$ok);
+$ok = str_replace("c","𝗖",$ok);
+$ok = str_replace("d","𝗗",$ok);
+$ok = str_replace("e","𝗘",$ok);
+$ok = str_replace("E","𝗙",$ok);
+$ok = str_replace("g","𝗚",$ok);
+$ok = str_replace("h","𝗛",$ok);
+$ok = str_replace("i","𝗜",$ok);
+$ok = str_replace("j","𝗝",$ok);
+$ok = str_replace("k","𝗞",$ok);
+$ok = str_replace("l","𝗟",$ok);
+$ok = str_replace("m","𝗠",$ok);
+$ok = str_replace("n","𝗡",$ok);
+$ok = str_replace("o","𝗢",$ok);
+$ok = str_replace("p","𝗣",$ok);
+$ok = str_replace("q","𝗤",$ok);
+$ok = str_replace("r","𝗥",$ok);
+$ok = str_replace("s","𝗦",$ok);
+$ok = str_replace("t","𝗧",$ok);
+$ok = str_replace("u","𝗨",$ok);
+$ok = str_replace("v","𝗩",$ok);
+$ok = str_replace("w","𝗪",$ok);
+$ok = str_replace("x","𝗫",$ok);
+$ok = str_replace("y","𝗬",$ok);
+$ok = str_replace("z","𝗭",$ok);
+$ok = str_replace('ض','ضـ',$ok); 
+$ok = str_replace('ض','ضــً',$ok); 
+$ok = str_replace('ص','صـــ͒͜ـً',$ok); 
+$ok = str_replace('ث','ثــہ',$ok); 
+$ok = str_replace('ق','ق',$ok); 
+$ok = str_replace('ف','ف',$ok); 
+$ok = str_replace('غ','غــ۫͜ـ',$ok); 
+$ok = str_replace('ع','عــُ',$ok); 
+$ok = str_replace('ه','هہ',$ok); 
+$ok = str_replace('خ','خــ۫͜ـ',$ok); 
+$ok = str_replace('ح','حــ۫͜ـ',$ok); 
+$ok = str_replace('ج','جـ',$ok); 
+$ok = str_replace('ش','شـٰཻــ',$ok); 
+$ok = str_replace('س','ســ',$ok); 
+$ok = str_replace('ي','ي',$ok); 
+$ok = str_replace('ب','بـ',$ok);
+$ok = str_replace('ل','لـ',$ok); 
+$ok = str_replace('ا','آ',$ok); 
+$ok = str_replace('ت','تـٰཻــ',$ok); 
+$ok = str_replace('ن','ن',$ok); 
+$ok = str_replace('ك','ڪ',$ok); 
+$ok = str_replace('م','مـٰ',$ok); 
+$ok = str_replace('ة','ةً',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','ظً',$ok); 
+$ok = str_replace('ط','طُ',$ok); 
+ $ok = str_replace('ذ','ذً',$ok); 
+$ok = str_replace('د','دِ',$ok); 
+$ok = str_replace('ز','زً',$ok); 
+$ok = str_replace('ر','ڒٍ',$ok); 
+$ok = str_replace('و','ﻭ',$ok); 
+$ok = str_replace('ى','ىّ',$ok);
+$h = $ok.''.$smile;
+ $items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text); 
+$ok = str_replace('a','𝐚',$text);
+$ok = str_replace("b","𝐛",$ok);
+$ok = str_replace("c","𝐜",$ok);
+$ok = str_replace("d","𝐝",$ok);
+$ok = str_replace("e","𝐞",$ok);
+$ok = str_replace("E","𝐟",$ok);
+$ok = str_replace("g","𝐠",$ok);
+$ok = str_replace("h","𝐡",$ok);
+$ok = str_replace("i","𝐢",$ok);
+$ok = str_replace("j","𝐣",$ok);
+$ok = str_replace("k","𝐤",$ok);
+$ok = str_replace("l","𝐥",$ok);
+$ok = str_replace("m","𝐦",$ok);
+$ok = str_replace("n","𝐧",$ok);
+$ok = str_replace("o","𝐨",$ok);
+$ok = str_replace("p","𝐩",$ok);
+$ok = str_replace("q","𝐪",$ok);
+$ok = str_replace("r","𝐫",$ok);
+$ok = str_replace("s","𝐬",$ok);
+$ok = str_replace("t","𝐭",$ok);
+$ok = str_replace("u","𝐮",$ok);
+$ok = str_replace("v","𝐯",$ok);
+$ok = str_replace("w","𝐰",$ok);
+$ok = str_replace("x","𝐱",$ok);
+$ok = str_replace("y","𝐲",$ok);
+$ok = str_replace("z","𝐳",$ok);
+$ok = str_replace('ض','ضــٰـُ͢ـًُ',$ok); 
+$ok = str_replace('ص','صـ͒͜ـً',$ok); 
+$ok = str_replace('ث','ثـَٰـَٰـ',$ok); 
+$ok = str_replace('ق','قٰཻ͚͆ــ͒͜ـً',$ok); 
+$ok = str_replace('ف','فــ͡ـ',$ok); 
+$ok = str_replace('غ','غــ̷ِْــٰ',$ok); 
+$ok = str_replace('ع','عـ๋๋͜͜͡‏ـۂ',$ok); 
+$ok = str_replace('هہ','ه',$ok); 
+$ok = str_replace('خ','خــ۫͜ـ',$ok); 
+$ok = str_replace('ح','حــ۫͜ـ',$ok); 
+$ok = str_replace('ج','جـ',$ok); 
+$ok = str_replace('ش','شـٰـُ͢ـُٰཻـ',$ok); 
+$ok = str_replace('س','سـٰٰٰٖٖٖۧـ๋͜ــ',$ok); 
+$ok = str_replace('ي','ي',$ok); 
+$ok = str_replace('ب','بـ',$ok);
+$ok = str_replace('ل','ݪ',$ok); 
+$ok = str_replace('ٰٖۧـৡ๋͜ت','تـ',$ok); 
+$ok = str_replace('ن','ن',$ok); 
+$ok = str_replace('ك','ڪ',$ok); 
+$ok = str_replace('م','مـٰ',$ok); 
+$ok = str_replace('ة','ةً',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','ظـَٰـًَٰ',$ok); 
+$ok = str_replace('ط','طُ',$ok); 
+ $ok = str_replace('ذ','ذً',$ok); 
+$ok = str_replace('د','دِ',$ok); 
+$ok = str_replace('ز','زً',$ok); 
+$ok = str_replace('ر','ࢪ',$ok); 
+$ok = str_replace('و','وُ',$ok); 
+$ok = str_replace('ى','ىّ',$ok);
+ $i = $ok.''.$smile;
+ $items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text); 
+$ok = str_replace('a','𝑎',$text);
+$ok = str_replace("b","𝑏",$ok);
+$ok = str_replace("c","𝑐",$ok);
+$ok = str_replace("d","𝑑",$ok);
+$ok = str_replace("e","𝑒",$ok);
+$ok = str_replace("E","𝑓",$ok);
+$ok = str_replace("g","𝑔",$ok);
+$ok = str_replace("h","ℎ",$ok);
+$ok = str_replace("i","𝑖",$ok);
+$ok = str_replace("j","𝑗",$ok);
+$ok = str_replace("k","𝑘",$ok);
+$ok = str_replace("l","𝑙",$ok);
+$ok = str_replace("m","𝑚",$ok);
+$ok = str_replace("n","𝑛",$ok);
+$ok = str_replace("o","𝑜",$ok);
+$ok = str_replace("p","𝑝",$ok);
+$ok = str_replace("q","𝑞",$ok);
+$ok = str_replace("r","𝑟",$ok);
+$ok = str_replace("s","𝑠",$ok);
+$ok = str_replace("t","𝑡",$ok);
+$ok = str_replace("u","𝑢",$ok);
+$ok = str_replace("v","𝑣",$ok);
+$ok = str_replace("w","𝑤",$ok);
+$ok = str_replace("x","𝑥",$ok);
+$ok = str_replace("y","𝑦",$ok);
+$ok = str_replace("z","𝑧",$ok);
+$ok = str_replace('ض','ض',$ok); 
+$ok = str_replace('ص','صـٰـَہ',$ok); 
+$ok = str_replace('ق','قـٰـَہ',$ok); 
+$ok = str_replace('ف','فـٰـَہ',$ok); 
+$ok = str_replace('غ','غ',$ok); 
+$ok = str_replace('ع','ع',$ok); 
+$ok = str_replace('ه','هہ',$ok); 
+$ok = str_replace('خ','خـٰـَہ',$ok); 
+$ok = str_replace('ح','حـٰـَہ',$ok); 
+$ok = str_replace('ج','ج',$ok); 
+$ok = str_replace('ش','شـٰـَہ',$ok); 
+$ok = str_replace('س','سـٰـَہ',$ok); 
+$ok = str_replace('ي','يـٰـَہ',$ok); 
+$ok = str_replace('ب','بـٰـَہ',$ok); 
+$ok = str_replace('ل','لـٰـَہ',$ok); 
+$ok = str_replace('ا','ا',$ok); 
+$ok = str_replace('ت','تـٰـَہ',$ok); 
+$ok = str_replace('ن','ن',$ok); 
+$ok = str_replace('م','مـٰـَہ',$ok); 
+$ok = str_replace('ك','كـٰـَہ',$ok); 
+$ok = str_replace('ظ','ظ',$ok); 
+$ok = str_replace('ط','ط',$ok); 
+$ok = str_replace('ذ','ذ',$ok); 
+$ok = str_replace('د','د',$ok); 
+$ok = str_replace('ز','ز',$ok); 
+$ok = str_replace('ر','ر',$ok); 
+$ok = str_replace('͟໑໑','و',$ok); 
+$ok = str_replace('ث',' ث',$ok); 
+$ok = str_replace('ة','ة',$ok); 
+$ok = str_replace('ى','ى',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$j = $ok.''.$smile;
+ $items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text); 
+$ok = str_replace('a','ᥲ️',$text);
+$ok = str_replace("b","Ⴆ",$ok);
+$ok = str_replace("c","ᥴ",$ok);
+$ok = str_replace("d","ძ",$ok);
+$ok = str_replace("e","ᥱ",$ok);
+$ok = str_replace("E","ƒ",$ok);
+$ok = str_replace("g","ᧁ",$ok);
+$ok = str_replace("h","Ꮒ",$ok);
+$ok = str_replace("i","Ꭵ",$ok);
+$ok = str_replace("j","᧒",$ok);
+$ok = str_replace("k","𝚔",$ok);
+$ok = str_replace("l","ᥣ",$ok);
+$ok = str_replace("m","꧑",$ok);
+$ok = str_replace("n","ꪀ",$ok);
+$ok = str_replace("o","᥆",$ok);
+$ok = str_replace("p","ρ",$ok);
+$ok = str_replace("q","ǫ",$ok);
+$ok = str_replace("r","ℛ",$ok);
+$ok = str_replace("s","᥉",$ok);
+$ok = str_replace("t","ƚ",$ok);
+$ok = str_replace("u","ᥙ",$ok);
+$ok = str_replace("v","᥎",$ok);
+$ok = str_replace("w","ꪝ",$ok);
+$ok = str_replace("x","᥊",$ok);
+$ok = str_replace("y","ꪗ",$ok);
+$ok = str_replace("z","ᤁ",$ok);
+$ok = str_replace('ض','ضــٰཻــ ',$ok); 
+$ok = str_replace('ص','صــًـًًًًٍٍـًٍـًًٍ',$ok); 
+$ok = str_replace('ث','ث',$ok); 
+$ok = str_replace('ق','قـﮧ̯͡ــ̷ـــ',$ok); 
+$ok = str_replace('ف','فـﮧ̯͡ــ̷ـــ',$ok); 
+$ok = str_replace('غ','غـٰཻـــًـًًٍـًٍـًًٍ',$ok); 
+$ok = str_replace('ع','ع',$ok); 
+$ok = str_replace('ه','ههہ',$ok); 
+$ok = str_replace('خ','خــ ',$ok); 
+$ok = str_replace('ح','حٰཻ͚͆ـــــ͒͜ــًـًًًًٍٍـًٍـًًٍ',$ok); 
+$ok = str_replace('ج','جـ',$ok); 
+$ok = str_replace('ش','شــ͒͜ـًﮧ̯͡ــ̷ــــ',$ok); 
+$ok = str_replace('س','سـٰٰٰٖٖٖۧـ๋͜ــًـًًًًٍٍـًٍـًًٍـــ',$ok); 
+$ok = str_replace('ي','ي',$ok); 
+$ok = str_replace('ب','بــٰٰٰ๋ٖٖٖۧ͜ــ۫͜ــــ',$ok);
+$ok = str_replace('ل','ݪ',$ok); 
+$ok = str_replace('ا','آ',$ok); 
+$ok = str_replace('تٰཻ͚͆','تـَٰﮧ̯͡ــ̷ـــ',$ok); 
+$ok = str_replace('ن','ن',$ok); 
+$ok = str_replace('م','م',$ok); 
+$ok = str_replace('ك','ڪ',$ok); 
+$ok = str_replace('ة','ةً',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','ظــٰـُ͢ـًُــ',$ok); 
+$ok = str_replace('ط','طــ',$ok); 
+ $ok = str_replace('ذ','ذِ',$ok); 
+$ok = str_replace('د','دٰ',$ok); 
+$ok = str_replace('ز','زً',$ok); 
+$ok = str_replace('ر','ر',$ok); 
+$ok = str_replace('ཻ͟و','و',$ok); 
+ $ok = str_replace('ى','ىٰ',$ok);
+$k = $ok.''.$smile;
+ $items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text);
+$ok = str_replace('a','ᴬ',$text);
+$ok = str_replace("b","ᴮ",$ok);
+$ok = str_replace("c","ᶜ",$ok);
+$ok = str_replace("d","ᴰ",$ok);
+$ok = str_replace("e","ᴱ",$ok);
+$ok = str_replace("f","ᶠ",$ok);
+$ok = str_replace("g","ᴳ",$ok);
+$ok = str_replace("h","ᴴ",$ok);
+$ok = str_replace("i","ᴵ",$ok);
+$ok = str_replace("j","ᴶ",$ok);
+$ok = str_replace("k","ᴷ",$ok);
+$ok = str_replace("l","ᴸ",$ok);
+$ok = str_replace("m","ᴹ",$ok);
+$ok = str_replace("n","ᴺ",$ok);
+$ok = str_replace("o","ᴼ",$ok);
+$ok = str_replace("p","ᴾ",$ok);
+$ok = str_replace("q","ᵟ",$ok);
+$ok = str_replace("r","ᴿ",$ok);
+$ok = str_replace("s","ˢ",$ok);
+$ok = str_replace("t","ᵀ",$ok);
+$ok = str_replace("u","ᵁ",$ok);
+$ok = str_replace("v","ᵛ",$ok);
+$ok = str_replace("w","ᵂ",$ok);
+$ok = str_replace("x","ˣ",$ok);
+$ok = str_replace("y","ᵞ",$ok);
+$ok = str_replace("z","ᶻ",$ok);
+$l = $ok.''.$smile;
+ $items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text);
+$ok = str_replace('a','𝗮',$text);
+$ok = str_replace("b","𝗯",$ok);
+$ok = str_replace("c","𝗰",$ok);
+$ok = str_replace("d","𝗱",$ok);
+$ok = str_replace("e","𝗲",$ok);
+$ok = str_replace("f","𝗳",$ok);
+$ok = str_replace("g","𝗴",$ok);
+$ok = str_replace("h","𝗵",$ok);
+$ok = str_replace("i","𝗶",$ok);
+$ok = str_replace("j","𝗴",$ok);
+$ok = str_replace("k","𝗸",$ok);
+$ok = str_replace("l","𝗹",$ok);
+$ok = str_replace("m","𝗺",$ok);
+$ok = str_replace("n","𝗻",$ok);
+$ok = str_replace("o","𝗼",$ok);
+$ok = str_replace("p","𝗽",$ok);
+$ok = str_replace("q","𝗾",$ok);
+$ok = str_replace("r","𝗿",$ok);
+$ok = str_replace("s","𝘀",$ok);
+$ok = str_replace("t","𝘁",$ok);
+$ok = str_replace("u","𝘂",$ok);
+$ok = str_replace("v","𝘃",$ok);
+$ok = str_replace("w","𝘄",$ok);
+$ok = str_replace("x","𝘅",$ok);
+$ok = str_replace("y","𝘆",$ok);
+$ok = str_replace("z","𝘇",$ok);
+$ok = str_replace('ض','ضّ',$ok);
+$ok = str_replace('ص','صٌ',$ok); 
+$ok = str_replace('ث','ثّ',$ok); 
+$ok = str_replace('ق','قِ',$ok); 
+$ok = str_replace('ف','فِّ',$ok); 
+$ok = str_replace('غ','غٌ',$ok); 
+$ok = str_replace('ع','عٌ',$ok); 
+$ok = str_replace('ه','هِ',$ok); 
+$ok = str_replace('خ','خَ',$ok); 
+$ok = str_replace('ح','حٌ',$ok); 
+$ok = str_replace('ج','جِ',$ok); 
+$ok = str_replace('ش','شٍ',$ok); 
+$ok = str_replace('س',' س',$ok); 
+$ok = str_replace('ي','يِّ',$ok); 
+$ok = str_replace('ب','بِ',$ok);
+$ok = str_replace('ل','لَ',$ok); 
+$ok = str_replace('ا','أّ',$ok); 
+$ok = str_replace('ت','تّ',$ok); 
+$ok = str_replace('ن','نِ',$ok); 
+$ok = str_replace('ك','ګ',$ok); 
+$ok = str_replace('م','مَ',$ok); 
+$ok = str_replace('ة',' ةّ',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','ظّ',$ok); 
+$ok = str_replace('ط','طّ',$ok); 
+ $ok = str_replace('ذ','ذّ',$ok); 
+$ok = str_replace('د','دِ',$ok); 
+$ok = str_replace('ز','زِّ',$ok); 
+$ok = str_replace('ر','ڒٍ',$ok); 
+$ok = str_replace('و','وِ',$ok); 
+$ok = str_replace('ى','ىّ',$ok);
+$m = $ok.''.$smile;
+ $items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text);
+$ok = str_replace('a','𝕬',$text);
+$ok = str_replace("b","𝕭",$ok);
+$ok = str_replace("c","𝕮",$ok);
+$ok = str_replace("d","𝕯",$ok);
+$ok = str_replace("e","𝕰",$ok);
+$ok = str_replace("E","𝕱",$ok);
+$ok = str_replace("g","𝕲",$ok);
+$ok = str_replace("h","𝕳",$ok);
+$ok = str_replace("i","𝕴",$ok);
+$ok = str_replace("j","𝕵",$ok);
+$ok = str_replace("k","𝕶",$ok);
+$ok = str_replace("l","𝕷",$ok);
+$ok = str_replace("m","𝕸",$ok);
+$ok = str_replace("n","𝕹",$ok);
+$ok = str_replace("o","𝕺",$ok);
+$ok = str_replace("p","𝕻",$ok);
+$ok = str_replace("q","𝕼",$ok);
+$ok = str_replace("r","𝕽",$ok);
+$ok = str_replace("s","𝕾",$ok);
+$ok = str_replace("t","𝕿",$ok);
+$ok = str_replace("u","𝖀",$ok);
+$ok = str_replace("v","𝖁",$ok);
+$ok = str_replace("w","𝖂",$ok);
+$ok = str_replace("x","𝖃",$ok);
+$ok = str_replace("y","𝖄",$ok);
+$ok = str_replace("z","𝖅",$ok);
+$ok = str_replace('ض','ضّ',$ok);
+$ok = str_replace('ص','صٌ',$ok); 
+$ok = str_replace('ث','ثّ',$ok); 
+$ok = str_replace('ق','قᮭ',$ok); 
+$ok = str_replace('ف','ف᭫ᮥ',$ok); 
+$ok = str_replace('غ','غٌ',$ok); 
+$ok = str_replace('ع','عٌ',$ok); 
+$ok = str_replace('ه','هِ',$ok); 
+$ok = str_replace('خ','خ᪳᪲',$ok); 
+$ok = str_replace('ح','ح᪽',$ok); 
+$ok = str_replace('ج','ج᪷᪹',$ok); 
+$ok = str_replace('ش','شٍ',$ok); 
+$ok = str_replace('س',' َّس',$ok); 
+$ok = str_replace('ي','ي᪸᪰',$ok); 
+$ok = str_replace('ب','بᤠ',$ok);
+$ok = str_replace('ل','لཻ',$ok); 
+$ok = str_replace('ا','اི',$ok); 
+$ok = str_replace('ت','تّ',$ok); 
+$ok = str_replace('ن','ن྄༹',$ok); 
+$ok = str_replace('ك','كิ',$ok); 
+$ok = str_replace('م','مຼ',$ok); 
+$ok = str_replace('ة',' ةّ',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','ظܱܰ',$ok); 
+$ok = str_replace('ط','ط์',$ok); 
+ $ok = str_replace('ذ','ذٍُ',$ok); 
+$ok = str_replace('د','دّ',$ok); 
+$ok = str_replace('ز','زٌِ',$ok); 
+$ok = str_replace('ر','رٰ',$ok); 
+$ok = str_replace('و','وٰ໑ٰ',$ok); 
+$ok = str_replace('ى','ىّ',$ok);
+$n = $ok.''.$smile;
+ $items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text); 
+$ok = str_replace('a', 'Ａ', $text);
+$ok = str_replace('b', 'Ｂ', $ok);
+$ok = str_replace('c', 'Ｃ', $ok);
+$ok = str_replace('d', 'Ｄ', $ok);
+$ok = str_replace('e', 'Ｅ', $ok);
+$ok = str_replace('f', 'Ｆ', $ok);
+$ok = str_replace('g', 'Ｇ', $ok);
+$ok = str_replace('h', 'Ｈ', $ok);
+$ok = str_replace('i', 'Ｉ', $ok);
+$ok = str_replace('j', 'Ｊ', $ok);
+$ok = str_replace('k', 'Ｋ', $ok);
+$ok = str_replace('l', 'Ｌ', $ok);
+$ok = str_replace('m', 'Ｍ', $ok);
+$ok = str_replace('n', 'Ｎ', $ok);
+$ok = str_replace('o', 'Ｏ', $ok);
+$ok = str_replace('p', 'Ｐ', $ok);
+$ok = str_replace('q', 'Ｑ', $ok);
+$ok = str_replace('r', 'Ｒ', $ok);
+$ok = str_replace('s', 'Ｓ', $ok);
+$ok = str_replace('t', 'Ｔ', $ok);
+$ok = str_replace('u', 'Ｕ', $ok);
+$ok = str_replace('v', 'Ｖ', $ok);
+$ok = str_replace('w', 'Ｗ', $ok);
+$ok = str_replace('x', 'Ｘ', $ok);
+$ok = str_replace('y', 'Ｙ', $ok);
+$ok = str_replace('z', 'Ｚ', $ok);
+$ok = str_replace('ض','ضُ',$ok);
+$ok = str_replace('ص','صّ',$ok); 
+$ok = str_replace('ث','ثُ',$ok); 
+$ok = str_replace('ق','قً',$ok); 
+$ok = str_replace('ف','فَ',$ok); 
+$ok = str_replace('غ','غً',$ok); 
+$ok = str_replace('ع','ْع ',$ok); 
+$ok = str_replace('ه','هہ',$ok); 
+$ok = str_replace('خ','خہ',$ok); 
+$ok = str_replace('ح','حہ',$ok); 
+$ok = str_replace('ج','جہ',$ok); 
+$ok = str_replace('ش','شہ',$ok); 
+$ok = str_replace('س',' سہ',$ok); 
+$ok = str_replace('ي','يہ',$ok); 
+$ok = str_replace('ب','بہ',$ok);
+$ok = str_replace('ل','لَ',$ok); 
+$ok = str_replace('ا','آ',$ok); 
+$ok = str_replace('ت','تہ',$ok); 
+$ok = str_replace('ن','نہ',$ok); 
+$ok = str_replace('ك','كہ',$ok); 
+$ok = str_replace('م','مہ',$ok); 
+$ok = str_replace('ة',' ةّ',$ok); 
+$ok = str_replace('ء','ء',$ok); 
+$ok = str_replace('ظ','ظہ',$ok); 
+$ok = str_replace('ط','طہ',$ok); 
+ $ok = str_replace('ذ','ذّ',$ok); 
+$ok = str_replace('د','دِ',$ok); 
+$ok = str_replace('ز','زِّ',$ok); 
+$ok = str_replace('ر','ڒٍ',$ok); 
+$ok = str_replace('و','وِ',$ok); 
+$ok = str_replace('ى','ىّ',$ok);
+ $o = ''.''.$ok.''.$smile.'';
+
+ $items = ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text); 
+$ok = str_replace('a', 'Ȃ̈', $text);
+$ok = str_replace('b', 'B̑̈', $ok);
+$ok = str_replace('c', 'C̑̈', $ok);
+$ok = str_replace('d', 'D̑̈', $ok);
+$ok = str_replace('e', 'Ȇ̈', $ok);
+$ok = str_replace('f', 'F̑̈', $ok);
+$ok = str_replace('g', 'G̑̈', $ok);
+$ok = str_replace('h', 'H̑̈', $ok);
+$ok = str_replace('i', 'Ȋ̈', $ok);
+$ok = str_replace('j', 'J̑̈', $ok);
+$ok = str_replace('k', 'K̑̈', $ok);
+$ok = str_replace('l', 'L̑̈', $ok);
+$ok = str_replace('m', 'M̑̈', $ok);
+$ok = str_replace('n', 'N̑̈', $ok);
+$ok = str_replace('o', 'Ȏ̈', $ok);
+$ok = str_replace('p', 'P̑̈', $ok);
+$ok = str_replace('q', 'Q̑̈', $ok);
+$ok = str_replace('r', 'Ȓ̈', $ok);
+$ok = str_replace('s', 'S̑̈', $ok);
+$ok = str_replace('t', 'T̑̈', $ok);
+$ok = str_replace('u', 'Ȗ̈', $ok);
+$ok = str_replace('v', 'V̑̈', $ok);
+$ok = str_replace('w', 'W̑̈', $ok);
+$ok = str_replace('x', 'X̑̈', $ok);
+$ok = str_replace('y', 'Y̑̈', $ok);
+$ok = str_replace('z', 'Z̑̈‌‌', $ok);
+$ok = str_replace('ض', 'ضِٰـۛৣـ', $ok);
+$ok = str_replace('ص', 'صِٰـۛৣـ', $ok);
+$ok = str_replace('ث', 'ثِٰـۛৣـ', $ok);
+$ok = str_replace('ق', 'قِٰـۛৣـ', $ok);
+$ok = str_replace('ف', 'فِٰ͒ـۛৣـ', $ok);
+$ok = str_replace('غ', 'غِٰـۛৣـ', $ok);
+$ok = str_replace('ع', 'عِٰـۛৣـ', $ok);
+$ok = str_replace('خ', 'خِٰ̐ـۛৣـ', $ok);
+$ok = str_replace('ح', 'حِٰـۛৣـ', $ok);
+$ok = str_replace('ج', 'جِٰـۛৣـ', $ok);
+$ok = str_replace('ش', 'شِٰـۛৣـ', $ok);
+$ok = str_replace('س', 'سِٰـۛৣـ', $ok);
+$ok = str_replace('ي', 'يِٰـۛৣـ', $ok);
+$ok = str_replace('ب', 'بِٰـۛৣـ', $ok);
+$ok = str_replace('ل', 'لِٰـۛৣـ', $ok);
+$ok = str_replace('ا', 'آ', $ok);
+$ok = str_replace('ت', 'تِٰـۛৣـ', $ok);
+$ok = str_replace('ن', 'نِٰـۛৣـ', $ok);
+$ok = str_replace('م', 'مِٰـۛৣـ', $ok);
+$ok = str_replace('ك', 'ڪِٰـۛৣـ', $ok);
+$ok = str_replace('ط', 'طِٰـۛৣـ', $ok);
+$ok = str_replace('ظ', 'ظِٰـۛৣـ', $ok);
+$ok = str_replace('ء', 'ء', $ok);
+$ok = str_replace('ؤ', 'ؤ', $ok);
+$ok = str_replace('ر', 'ر', $ok);
+$ok = str_replace('ى', 'ى', $ok);
+$ok = str_replace('ز', 'ز', $ok);
+$ok = str_replace('و', 'ﯛ̲୭', $ok);
+$ok = str_replace("ه", "໋۠هہؚ", $ok);
+$p = $ok.''.$smile;
+$items =  ['🇸🇾','﷼','ﷻ','﷽','✞','ッ','ッ','彡','Ω','۞','۩','✟','『','','』۝','Ξ','道','凸','父','个','¤','品','〠','๛','𖤍','ᶠᶸᶜᵏᵧₒᵤ','࿐','⍆','⍅','⇭','༒','','','𖠃','𖠅','𖠆','𖠊','𖡒','𖡗','𖣩','꧁','꧂','','〰','𖥓','𖥏','𖥎','𖥌','𖥋','𖥊','𖥈','𖥅','𖥃','𖥂','𖥀','𖤼','𖤹','𖤸','𖤷','𖤶','𖤭','𖤫','𖤪','𖤨','𖤧','𖤥','𖤤','𖤣','𖤢','𖤡','𖤟','𖤞','𖤝','𖤜','𖤛','𖤚','𖤘','𖤙','𖤗','𖤕','𖤓','𖤒','𖤐','ဏ','࿘','࿗','࿖','࿕','࿑','࿌','࿋','࿊','࿉','࿈','࿇','࿅','࿄','࿃','࿂','༼','༽','༺','༻','༗','༖','༕','⏝','⏜','⏎','၄','߷','ܛ','׀
+𖠀','𖠁','𖠂','𖠅','𖠆','𖠇','𖠈','𖠉','𖠍','𖠎','𖠏','𖠐','𖠑','𖠒','𖠓','𖠔','𖠕','𖠖'];
+$_smile = array_rand($items,1);
+$smile = $items[$_smile];
+$count = count($text);
+$ok = str_replace('a','𝔸',$text);
+$ok = str_replace("b","𝔹",$ok);
+$ok = str_replace("c","ℂ",$ok);
+$ok = str_replace("d","𝔻",$ok);
+$ok = str_replace("e","𝔼",$ok);
+$ok = str_replace("E","𝔽",$ok);
+$ok = str_replace("g","𝔾",$ok);
+$ok = str_replace("h","ℍ",$ok);
+$ok = str_replace("i","𝕀",$ok);
+$ok = str_replace("j","𝕁",$ok);
+$ok = str_replace("k","𝕂",$ok);
+$ok = str_replace("l","𝕃",$ok);
+$ok = str_replace("m","𝕄",$ok);
+$ok = str_replace("n","ℕ",$ok);
+$ok = str_replace("o","𝕆",$ok);
+$ok = str_replace("p","ℙ",$ok);
+$ok = str_replace("q","ℚ",$ok);
+$ok = str_replace("r","ℝ",$ok);
+$ok = str_replace("s","𝕊",$ok);
+$ok = str_replace("t","𝕋",$ok);
+$ok = str_replace("u","𝕌",$ok);
+$ok = str_replace("v","𝕍",$ok);
+$ok = str_replace("w","𝕎",$ok);
+$ok = str_replace("x","𝕏",$ok);
+$ok = str_replace("y","Ý",$ok);
+$ok = str_replace("z","ℤ",$ok);
+$ok = str_replace('ض', 'ضّـ', $ok);
+$ok = str_replace('ص', 'صْـ', $ok);
+$ok = str_replace('ق', 'قّـ', $ok);
+$ok = str_replace('ف', 'فّـ', $ok);
+$ok = str_replace('غ', 'ﻏ̣̐', $ok);
+$ok = str_replace('ع', 'ﻋ̝̚', $ok);
+$ok = str_replace('ه', 'ﮪ', $ok);
+$ok = str_replace('خ', 'خـّ', $ok);
+$ok = str_replace('ح', 'حّـ', $ok);
+$ok = str_replace('ج', 'جّـ', $ok);
+$ok = str_replace('ش', 'ﺷ͠', $ok);
+$ok = str_replace('س', 'ﺳ̶', $ok);
+$ok = str_replace('ي', 'ې', $ok);
+$ok = str_replace('ب', 'بّ', $ok);
+$ok = str_replace('ل', 'ﻟ̣̣', $ok);
+$ok = str_replace('ا', 'ﺂ̣̥̐', $ok);
+$ok = str_replace('ت', 'تٌ', $ok);
+$ok = str_replace('ن', 'نّ', $ok);
+$ok = str_replace('م', 'ﻣ̝', $ok);
+$ok = str_replace('ك', 'ﮗ', $ok);
+$ok = str_replace('ظ', 'ظَّ', $ok);
+$ok = str_replace('ط', 'طِّ', $ok);
+$ok = str_replace('ذ', 'ذِ', $ok);
+$ok = str_replace('د', 'دّ', $ok);
+$ok = str_replace('ز', 'زّ', $ok);
+$ok = str_replace('و', 'وٌ', $ok);
+$ok = str_replace('ة', 'ة', $ok);
+$ok = str_replace('ث', 'ثّـ', $ok);
+$q = $ok.''.$smile;
+bot('sendmessage',[
+'chat_id'=>$f_ppp,
+'text'=>"🍓 𝒘𝒆𝒍𝒍𝒄𝒐𝒎𝒆 ๛ $name 🌰",
+'disable_web_page_preview'=>'true',
+'parse_mode'=>'html',
+'reply_markup'=>json_encode([ 
+'inline_keyboard'=>[
+[["text"=>"$a","callback_data"=>"m1"],["text"=>"$b","callback_data"=>"m2"]],
+[["text"=>"$c","callback_data"=>"m3"],["text"=>"$d","callback_data"=>"m4"]],
+[["text"=>"$e","callback_data"=>"m5"],["text"=>"$f","callback_data"=>"m6"]],
+[["text"=>"$g","callback_data"=>"m7"],["text"=>"$h","callback_data"=>"m8"]],
+[["text"=>"$i","callback_data"=>"m9"],["text"=>"$j","callback_data"=>"m10"]],
+[["text"=>"$k","callback_data"=>"m11"],["text"=>"$l","callback_data"=>"m12"]],
+[["text"=>"$m","callback_data"=>"m13"],["text"=>"$n","callback_data"=>"m14"]],
+[["text"=>"$o","callback_data"=>"m15"],["text"=>"$p","callback_data"=>"m16"]],
+[["text"=>"$q","callback_data"=>"m17"],["text"=>"$r","callback_data"=>"m18"]],
+[['text'=>'Click to get it 🔝','callback_data'=>"000"]],
+[['text'=>' 𝒃𝒊𝒐 🔜','callback_data'=>"M"],['text'=>'مرة اخرى 🔄','callback_data'=>"ii"]],
+]
+])
+]);
+file_put_contents("t.txt",$a);
+file_put_contents("t1.txt",$b);
+file_put_contents("t2.txt",$c);
+file_put_contents("t3.txt",$d);
+file_put_contents("t4.txt",$e);
+file_put_contents("t5.txt",$f);
+file_put_contents("t6.txt",$g);
+file_put_contents("t7.txt",$h);
+file_put_contents("t8.txt",$i);
+file_put_contents("t9.txt",$j);
+file_put_contents("t10.txt",$k);
+file_put_contents("t11.txt",$l);
+file_put_contents("t12.txt",$m);
+file_put_contents("t13.txt",$n);
+file_put_contents("t14.txt",$o);
+file_put_contents("t15.txt",$p);
+file_put_contents("t16.txt",$q);
+file_put_contents("t17.txt",$r);
+file_put_contents("t18.txt",$s);
+file_put_contents("t19.txt",$t);
+}
+$arrmmoof = file_get_contents("t.txt");
+if($data == "m1"){
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*$arrmmoof*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m2"){
+$arrmmoof1 = file_get_contents("t1.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof1*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m3"){
+$arrmmoof2 = file_get_contents("t2.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof2*", 
+]);
+}
+if($data == "m4"){
+$arrmmoof3 = file_get_contents("t3.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof3*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m5"){
+$arrmmoof4 = file_get_contents("t4.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof4*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m6"){
+$arrmmoof5 = file_get_contents("t5.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof5*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m7"){
+$arrmmoof6 = file_get_contents("t6.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof6*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m8"){
+$arrmmoof7 = file_get_contents("t7.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof7*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m9"){
+$arrmmoof8 = file_get_contents("t8.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof8*",
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m10"){
+$arrmmoof9 = file_get_contents("t9.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof9*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m11"){
+$arrmmoof10 = file_get_contents("t10.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof10*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m12"){
+$arrmmoof11 = file_get_contents("t11.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof11*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m13"){
+$arrmmoof12 = file_get_contents("t12.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof12*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m14"){
+$arrmmoof13 = file_get_contents("t13.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof13*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m15"){
+$arrmmoof14 = file_get_contents("t14.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof14*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m16"){
+$arrmmoof15 = file_get_contents("t15.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof15*", 
+'parse_mode'=>'Markdown',
+]);
+}
+
+
+if($data == "m17"){
+$arrmmoof16 = file_get_contents("t16.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof16*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m18"){
+$arrmmoof17 = file_get_contents("t17.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof17*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m19"){
+$arrmmoof18 = file_get_contents("t18.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof18*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m20"){
+$arrmmoof19 = file_get_contents("t19.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof19*", 
+'parse_mode'=>'Markdown',
+]);
+}
+if($data == "m20"){
+$arrmmoof20 = file_get_contents("t20.txt");
+bot('sendmessage',[
+'chat_id'=>$f_ppp2,
+'text'=>"*
+$arrmmoof20*", 
+'parse_mode'=>'Markdown',
+]);
+}
+
+$ArrrMoF = file_get_contents("ArrrMoF.txt");
+if($data == "M" ){
+file_put_contents("ArrrMoF.txt","ArrrMoF");
+bot('EditMessageText',[
+'chat_id'=>$f_ppp2,
+'message_id'=>$php_aba_id2,
+'text'=>"*
+ارسل المعلومات بهذه الصيغه لطفا 
+Mohammed
+syria
+16
+student
+php*",
+'parse_mode'=>"MarkDown",
+]);   
+}
+if($text != "/start" and $ArrrMoF == "ArrrMoF"){
+file_put_contents("ArrrMoF.txt","none");
+bot('sendmessage',[
+'chat_id'=>$f_ppp,
+'text'=>'*انتظر لطفا🦋💞*',
+'parse_mode'=>"MarkDown",
+]);
+$a = ($text);
+$b = explode("\n",$a);
+$d = array(
+"
+-🖤𓂇| 𝙉𝙖𝙈𝙚 : $b[0]
+-🖤𓂇| 𝙁𝙧𝙊𝙢 : $b[1]
+-🖤𓂇| 𝘼𝙜𝙀 : $b[2]
+-🖤𓂇| 𝙒𝙤𝙍𝙠 : $b[3]
+-🖤𓂇|  𝙎𝙩𝘼𝙩𝙐𝙨 : $b[4]
+","
+𓋇: 𝙉𝙖𝙈𝙚 : $b[0]
+𓋇: 𝙁𝙧𝙊𝙢 : $b[1]
+𓋇: 𝘼𝙜𝙀 : $b[2]
+𓋇: 𝙒𝙤𝙍𝙠 : $b[3]
+𓋇: 𝙎𝙩𝘼𝙩𝙐𝙨 : $b[4]
+","
+⌔︙𝙉𝙖𝙈𝙚 : $b[0]
+⌔︙𝙁𝙧𝙊𝙢 : $b[1]
+⌔︙𝘼𝙜𝙀 : $b[2]
+⌔︙𝙒𝙤𝙍𝙠 : $b[3]
+⌔︙𝙎𝙩𝘼𝙩𝙐𝙨 : $b[4]
+","
+𝑁𝐴𝑀𝐸 : $b[0]
+𝐶𝑂𝐔𝑁𝑇𝑅𝑌 : $b[1]
+𝐴𝐺𝐸 : $b[2]
+𝑊𝑂𝑅𝐾 : $b[3]
+𝐻𝑂𝑃𝑌 : $b[4]
+_____________࿖
+","
+𝓷𝓪𝓶𝓮 : $b[0]
+𝓬𝓸𝓾𝓷𝓽𝓻𝔂 : $b[1]
+𝓪𝓰𝓮 : $b[2]
+𝔀𝓸𝓻𝓴 : $b[3]
+𝓱𝓸𝓹𝔂 : $b[4]
+_____________
+","
+ɴᴀᴍᴇ : $b[0]
+ᴄᴏᴜɴᴛʀʏ : $b[1]
+ᴀɢᴇ : $b[2]
+ᴡᴏʀᴋ : $b[3]
+ʜᴏᴘʏ : $b[4]
+_____________🇸🇾
+","
+*𝙽𝙰𝙼𝙴 : $b[0]
+𝙲𝙾𝚄𝙽𝚃𝚁𝚈 : $b[1]
+𝙰𝙶𝙴 : $b[2]
+𝚆𝙾𝚁𝙺 : $b[3]
+𝙷𝙾𝙿𝚈 : $b[4]
+_____________𖠖*
+","
+𝙉𝘼𝙈𝙀 : $b[0]
+𝘾𝙊𝙐𝙉𝙏𝙍𝙔 : $b[1]
+𝘼𝙂𝙀 : $b[2]
+𝙒𝙊𝙍𝙆 : $b[3]
+𝙃𝙊𝙋𝙔 : $b[4]
+_____________ッ
+","
+ᴺᴬᴹᴱ : $b[0]
+ᶜᴼᵁᴺᵀᴿᵞ : $b[1]
+ᴬᴳᴱ : $b[2]
+ᵂᴼᴿᴷ : $b[3]
+ᴴᴼᴾᵞ : $b[4]
+_____________𖤛
+","
+𝗻𝗮𝗺𝗲 : $b[0]
+𝗰𝗼𝘂𝗻𝘁𝗿𝘆 : $b[1]
+𝗮𝗴𝗲 : $b[2]
+𝘄𝗼𝗿𝗸 : $b[3]
+𝗵𝗼𝗽𝘆 : $b[4]
+_____________𖤹
+","
+𝕹𝕬𝕸𝕰 : $b[0]
+𝕮𝕺𝖀𝕹𝕿𝕽𝖄 : $b[1]
+𝕬𝕲𝕰 : $b[2]
+𝖂𝕺𝕽𝕶 : $b[3]
+𝕳𝕺𝕻𝖄 : $b[4]
+_____________𖠐
+","
+ＮＡＭＥ : $b[0]
+ＣＯＵＮＴＲＹ : $b[1]
+ＡＧＥ : $b[2]
+ＷＯＲＫ : $b[3]
+ＨＯＰＹ : $b[4]
+_____________𖤢
+","
+ℕ𝔸𝕄𝔼 : $b[0]
+ℂ𝕆𝕌ℕ𝕋ℝÝ : $b[1]
+𝔸𝔾𝔼 : $b[2]
+𝕎𝕆ℝ𝕂 : $b[3]
+ℍ𝕆ℙÝ : $b[4]
+_____________ ༖
+",
+);
+$e = array_rand($d,1);
+bot('sendMessage',[
+'chat_id'=>$f_ppp,
+'text'=>"*$d[$e]* ",
+'parse_mode'=>"MarkDown",
+'reply_markup'=>json_encode([ 
+'inline_keyboard'=>[
+[['text'=>'➤ بايو مجددا','callback_data'=>"M"]],
+[['text'=>'➤ زخرفه مجددا','callback_data'=>"ii"]],
+]])
+]);
+}
+date_default_timezone_set('Asia/damascus');
+  $date = date('h:i:s');  $Y = date ("Y");  
+  $D = date("d");   $M = date("m");
+ $Hij  =  mktime(0, 0, 0, Date("m"), Date("j"), Date("Y"));
+  $d = round($Hij/(60*60*24));       $y = round($d/354.37419);# @edes0n  
+  $Remain = $d-($y*354.37419);  $m = round($Remain/29.531182);   
+  $d = $Remain-($m*29.531182);  
+$y = $y+1389;  $m = $m+10;  $d = $d+24;
+function month_name(){ $month_n = array( 
+        1 => 'يناير', 2 => 'فبراير',  3 => ' مارس', 
+       4 => 'ابريل ', 5 => 'مايو ',6 => 'يونيو',
+       7 => 'يوليو', 8 => 'اغسطس', 9 => 'سبتمبر',
+     10 => 'اكتوبر', 11 => 'نوفمبر', 12 => 'ديسمبر'
+);return $month_n[date('n')]; 
+  } $nM = month_name();
+function mon_name(){ $month_a = array( 
+       1 => 'جمادى الاول', 2 => 'جمادى الثاني',  3 => ' رجب', 
+       4 => 'شعبان ', 5 => 'رمضان ',6 => 'شوال',
+       7 => 'ذو القعده', 8 => 'ذو الحجه', 9 => 'محرم',
+   10 => 'صفر ', 11 => 'ربيع الاول', 12 => 'ربيع الثاني '
+);return $month_a[date('n')];
+  } $nm = mon_name();
+if ($d>29.531182 and round($d) != 30){ 
+  $m = $m+1;   $d = Round($d-29.531182);  
+}else{  $d = Round($d);  }
+function day_name(){ $ds = array('الأحد', 'الأثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت');
+ return $ds[date('w')];
+}$DY = day_name();
+
+$hj = $DY."/".$nm."/".$y."/".$m."/".$d."هـ\nـ".$date." ";
+$Md = $DY."/".$nM."/".$Y."/".$M."/".$D."م\nـ".$date." ";
+
+if($text == "هجري"){
+bot('sendMessage',
+[ 'chat_id'=>$chat_id,
+'text'=>"$hj",
+    ]);
+ }
+if($text == "ميلادي"){
+bot('sendMessage',
+[ 'chat_id'=>$chat_id,
+'text'=>"$Md",
+    ]);
+ }
+ $update = json_decode(file_get_contents('php://input'));
+$message = $update->message;
+$chat_id = $message->chat->id;
+$from_id = $message->from->id;
+$text = $message->text;
+$chat_id2 = $update->callback_query->message->chat->id;
+$message_id2 = $update->callback_query->message->message_id;
+$data = $update->callback_query->data;
+$message = $update->message;
+$chat_id = $message->chat->id;
+$text = $message->text;
+$chat_id2 = $update->callback_query->message->chat->id;
+$message_id = $update->callback_query->message->message_id;
+$data = $update->callback_query->data;
+$from_id = $message->from->id;
+$name = $update->message->from->first_name;
+$from_id = $message->from->id;
+$ex = explode(' ',$text);
+if ($text == "تحميل"){
+  bot('sendMessage', [
+'chat_id' => $chat_id,
+'text' => "اهلا بك في قسم تحميل البرامج
+كمثال للبحث 
+telegram 
+تليجراف", 
+ ]);
+  }
+  if($text== "بحث تطبيق" and $re){
+$get = explode('<dl class="search-dl">', file_get_contents('https://apkpure.com/ar/search?q=' . urlencode($re->text)));
+for($i = 1; $i<2; $i++){
+$app = explode('"', $get[$i]);
+$name = $app[1];
+$url = $app[5];
+$res['inline_keyboard'][] = [['text'=>$name,'callback_data'=>'dl#'.$url]];
+bot('sendmessage',[
+'chat_id'=>$chat_id,
+'text' => 'اختر التطبيق ليتم تحميله :', 'reply_markup' => json_encode($res),
+ ]);
+ }}
+$do = explode('#', $data);
+if($do[0] == "dl"){
+$hhzzz = explode('<a id="download_link"', file_get_contents('https://apkpure.com' . $do[1] . '/download?from=details'));
+$hassan = explode('"', $hhzzz[1]);
+$muaed = $hassan[9];
+$vhhhhh = file_get_contents($muaed);
+file_put_contents("wizard_system.apk",$vhhhhh);
+
+bot('sendMessage', [
+'chat_id'=>$chat_id2,
+'message_id'=>$message_id2,
+'text'=>"Downloading .....",
+]);
+bot('sendDocument',[
+'chat_id'=>$chat_id2,
+'document' => new CURLFile("wizard_system.apk"),
+'caption'=>" Downloaded Done our channel ==> @Wizard_system ",
+ ]);
+ unlink(wizard_system.apk);
+ }
