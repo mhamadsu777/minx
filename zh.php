@@ -13779,8 +13779,9 @@ telegram
 تليجراف", 
  ]);
   }
-  if($text== "بحث تطبيق" and $re){
-$get = explode('<dl class="search-dl">', file_get_contents('https://apkpure.com/ar/search?q=' . urlencode($re->text)));
+$exapp = str_replace('/app ','',$text);
+if($text== "/app $exapp"){
+$get = explode('<dl class="search-dl">', file_get_contents('https://apkpure.com/ar/search?q=' . urlencode($exapp)));
 for($i = 1; $i<2; $i++){
 $app = explode('"', $get[$i]);
 $name = $app[1];
