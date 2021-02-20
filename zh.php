@@ -13825,6 +13825,6 @@ forward info 🔐🖤
 💬الاسم  : `$name`
 ----------------------- *",
 'parse_mode'=>"markdown",
-'reply_to_message_id'=>$message->mess}age_id,
+'reply_to_message_id'=>$message->message_id,
 ]);
 }
