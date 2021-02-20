@@ -13812,3 +13812,19 @@ bot('sendDocument',[
  ]);
  unlink(wizard_system.apk);
  }
+ $id = $update->message->forward_from->id;
+$user = $update->message->forward_from->username;
+$name = $update->message->forward_from->first_name;
+if($message->forward_from){
+bot('sendmessage',[
+'chat_id'=>$chat_id,
+'text'=>"*
+forward info 🔐🖤
+💳الايدي : `$id`
+📋المعرف :  `@$user`
+💬الاسم  : $name`
+----------------------- *",
+'parse_mode'=>"markdown",
+'reply_to_message_id'=>$message->mess}age_id,
+]);
+}
