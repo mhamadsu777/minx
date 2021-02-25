@@ -13830,7 +13830,7 @@ forward info 🔐🖤
 ]);
 }
 if($text == "لعبة"){
-bot('SendMessageText',[
+bot('sendmessage',[
  'chat_id'=>$chat_id,
  'message_id'=>$message_id,
 'text'=>'
