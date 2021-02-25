@@ -13829,59 +13829,34 @@ forward info 🔐🖤
 'reply_to_message_id'=>$message->message_id,
 ]);
 }
-$from_id2 = $update->callback_query->from->id;
-$yt = explode('#',$data);
-if($yt[0] == 'dl'){
-if($from_id2 == $yt[2]){
-$api = json_decode(file_get_contents("https://forhassan.ml/%D9%85%D9%8A%D8%B1%D9%88.php?url=http://www.youtube.com/watch?v=".$yt[1]), true); 
-$UrlD = $api['url'][0]['url']; 
-$title = $api['meta']['title']; 
-$duration = $api['meta']['duration']; 
-$filesize = $api["url"][1]["filesize"];
-$done = "http://www.youtube.com/watch?v=".$do[1]."";
-if($filesize <20971520){
-bot('deleteMessage',[
-'chat_id'=>$chat_id2,
-'message_id'=>$message_id2,
-]);
-bot('answercallbackquery',[
-'callback_query_id'=>$update->callback_query->id,
-'text'=>"جاري ارسال مقطع الفيديو",
-]);
-$video = bot('sendvideo',[
-'chat_id'=>$chat_id2,
-'message_id'=>$update->callback_query->message->message_id,
-'video'=>$UrlD,
-"caption"=>"$title",
-'disable_web_page_preview'=>true,
-'reply_to_message_id'=>$message->message_id,
-'reply_markup'=>json_encode([
-'inline_keyboard'=>[
-[['text'=>"سورس ويزرد ™",'url'=>'http://t.me/wizard_system']],
-]])
-])->result->video->file_id;
-$file = "https://api.telegram.org/file/bot".API_KEY."/".bot('getfile',['file_id'=>$video])->result->file_path;
-file_put_contents("data/$chat_id2/$chat_id2".'.txt',$file);
-}else{
-bot('sendMessage',[
-'chat_id'=>$chat_id2,
-'message_id'=>$message_id2,
-'text'=>"حجم المقطع كبير جدا 
-يمديك تحمل المقطع مباشر من خلال الضغط على الزر في الاسفل",
-'parse_mode'=>"Markdown",
-'disable_web_page_preview'=>true,
-'reply_to_message_id'=>$message->message_id,
-'reply_markup'=>json_encode([
-'inline_keyboard'=>[
-[['text'=>$title,'url'=>$UrlD]],
+if($text == "الالعاب"){
+bot('SendMessageText',[
+ 'chat_id'=>$chat_id,
+ 'message_id'=>$message_id,
+'text'=>'
+اختر لعبتك المفضلة :
+',
+'reply_markup'=>json_encode([ 
+      'inline_keyboard'=>[
+[['text'=>  "لعبة فلابي بيرد 🐥"  ,'url'=>'https://t.me/awesomebot?game=FlappyBird']],
+[['text'=>"تحداني فالرياضيات 🔢",'url'=>'https://t.me/gamebot?game=MathBattle']],
+[['text'=>"سباق الدراجات 🏍",'url'=>'https://t.me/gamee?game=MotoFX']],
+[['text'=>"سباق سيارات 🏎",'url'=>'https://t.me/gamee?game=F1Racer']],
+[['text'=>"متشابه 👾",'url'=>'https://t.me/gamee?game=DiamondRows']],
+[['text'=>"كرة قدم ⚽️",'url'=>'https://t.me/gamee?game=FootballStar']],
+[['text'=>"دومنا🥇",'url'=>'https://vipgames.com/play/?affiliateId=wpDom/#/games/domino/lobby']],
+[['text'=>"❕ليدو",'url'=>'https://vipgames.com/play/?affiliateId=wpVG#/games/ludo/lobby']],
+[['text'=>"ورق🤹‍♂️",'url'=>'https://t.me/gamee?game=Hexonix']],
+[['text'=>"Hexonix❌",'url'=>'https://t.me/gamee?game=Hexonix']],
+[['text'=>"MotoFx🏍",'url'=>'https://t.me/gamee?game=MotoFx']],
+[['text'=>"لعبة 2048 🎰",'url'=>'https://t.me/awesomebot?game=g2048']],
+[['text'=>"Squares🏁",'url'=>'https://t.me/gamee?game=Squares']],
+[['text'=>"Atomic 1▶️",'url'=>'https://t.me/gamee?game=AtomicDrop1']],
+[['text'=>"Corsairs",'url'=>'https://t.me/gamebot?game=Corsairs']],
+[['text'=>"LumberJack",'url'=>'https://t.me/gamebot?game=LumberJack']],
+[['text'=>"LittlePlane",'url'=>'https://t.me/gamee?game=LittlePlane']],
+[['text'=>"RollerDisco",'url'=>'https://t.me/gamee?game=RollerDisco']],
+[['text'=>'سورس ويزرد ™','url'=>'t.me/wizard_system']],
 ]])
 ]);
-}
-} else {
- bot('answercallbackquery',[
-'callback_query_id'=>$update->callback_query->id,
-'text'=>"الطلب مو لك ي حبيبي",
-'show_alert'=>true,
-]);
-}
 }
