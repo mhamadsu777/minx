@@ -13829,7 +13829,7 @@ forward info 🔐🖤
 'reply_to_message_id'=>$message->message_id,
 ]);
 }
-if($text == "الالعاب"){
+if($text == "لعبة"){
 bot('SendMessageText',[
  'chat_id'=>$chat_id,
  'message_id'=>$message_id,
