@@ -13829,6 +13829,7 @@ forward info 🔐🖤
 'reply_to_message_id'=>$message->message_id,
 ]);
 }
+
 if($text=="الالعاب المتطورة"){
 bot('sendmessage',[
  'chat_id'=>$chat_id,
@@ -13859,4 +13860,26 @@ bot('sendmessage',[
 [['text'=>'سورس ويزرد ™','url'=>'t.me/wizard_system']],
 ]])
 ]);
+}
+if($text != "/start"){
+if(preg_match('/.*soundcloud\.com.*/i',$text)){
+$Api = json_decode(file_get_contents("https://api.soundcloud.com/resolve?client_id=709a0470b89a200205b2f7fda6d95d2e&url=".urlencode($text)));
+$music = $Api->id;
+$title = '$Api->title'.mp3;
+$misc = json_decode(file_get_contents("https://api.soundcloud.com/i1/tracks/".$music."/streams?client_id=709a0470b89a200205b2f7fda6d95d2e&format=json"))->http_mp3_128_url;
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"
+الرجاء الانتظار قليلا ❤️🌎*
+Please Wait 🌎🖤*
+",
+'parse_mode'=>"MarkDown",
+]);
+bot('sendaudio',[
+'chat_id'=>$chat_id,
+'audio'=>$misc,
+'title'=>"$Api->title",
+'caption'=>"$Api->title - $userbot",
+]);
+}
 }
