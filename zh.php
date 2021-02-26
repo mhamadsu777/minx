@@ -13883,3 +13883,65 @@ bot('sendaudio',[
 ]);
 }
 }
+$USAIED = json_decode(file_get_contents('php://input'));
+$SAIEDM = $USAIED->message;
+$SAIEDT = $SAIEDM->text;
+$SAIEDC = $SAIEDM->chat->id;
+$DSAIED= $USAIED->callback_query;
+$DSAIEDD = $DSAIED->data;
+$SAIEDNEW = $SAIEDM->new_chat_member;
+$SAIEDN = $SAIEDNEW->first_name;
+$SAIEDI = $SAIEDNEW->id;
+$DSAIEDN = $DSAIED->from->first_name;
+$DSAIEDI = $DSAIED->from->id;
+$DSAIEDC = $DSAIED->message->chat->id;
+mkdir("SAIED");
+$SAIEDRO = file_get_contents("SAIED/RO$SAIEDC.txt");
+if ( $status == 'creator' or $status == 'administrator' or in_array($from_id,$Dev) or in_array($from_id,$manger) or in_array($from_id,$admin_user) or in_array($from_id,$developer)) {
+if($SAIEDT == "قفل الفارسية"  and $SAIEDRO != "ON"){
+bot('sendmessage',[
+'chat_id'=>$SAIEDC,
+'text'=>"تم قفل الفارسية 🎮",
+'reply_to_message_id'=>$SAIEDM->message_id,
+]);
+file_put_contents("SAIED/RO$SAIEDC.txt","ON");
+}
+if($SAIEDT == "قفل الفارسية"  and $SAIEDRO == "ON"){
+bot('sendmessage',[
+'chat_id'=>$SAIEDC,
+'text'=>"تم قفل الفارسية بالفعل.",
+'reply_to_message_id'=>$SAIEDM->message_id,
+]);
+}
+if($SAIEDT == "فتح الفارسية"  and $SAIEDRO == "ON"){
+bot('sendmessage',[
+'chat_id'=>$SAIEDC,
+'text'=>"تم فتح الفارسية ...",
+'reply_to_message_id'=>$SAIEDM->message_id,
+]);
+unlink("SAIED/RO$SAIEDC.txt");
+}
+if($SAIEDT == "فتح الفارسية"  and $SAIEDRO != "ON"){
+bot('sendmessage',[
+'chat_id'=>$SAIEDC,
+'text'=>" تم فتح الفارسية بالفعل",
+'reply_to_message_id'=>$SAIEDM->message_id,
+]);
+}
+if($SAIEDNEW and $SAIEDRO == "ON"){
+if(preg_match("/^(.*)س|س(.*)|(.*)ح|ح(.*)|(.*)ا|ا(.*)|(.*)س|(.*)س|س(.*)|(.*)ب|ب(.*)|(.*)ت|ت(.*)|(.*)ج|ج(.*)|(.*)چ|چ(.*)|(.*)خ|خ(.*)|(.*)د|د(.*)|(.*)ر|ر(.*)|(.*)ش|ش(.*)|(.*)ع|ع(.*)|(.*)ف|ف(.*)|(.*)ک|ک(.*)|(.*)ل|ل(.*)|(.*)م|م(.*)|(.*)ن|ن(.*)|(.*)و|و(.*)|(.*)ه|ه(.*)|(.*)ی|ی(.*)|(.*)ز|ز(.*)/",$textmassage)){
+preg_match("/^(.*)س|س(.*)|(.*)ح|ح(.*)|(.*)ا|ا(.*)|(.*)س|(.*)س|س(.*)|(.*)ب|ب(.*)|(.*)ت|ت(.*)|(.*)ج|ج(.*)|(.*)چ|چ(.*)|(.*)خ|خ(.*)|(.*)د|د(.*)|(.*)ر|ر(.*)|(.*)ش|ش(.*)|(.*)ع|ع(.*)|(.*)ف|ف(.*)|(.*)ک|ک(.*)|(.*)ل|ل(.*)|(.*)م|م(.*)|(.*)ن|ن(.*)|(.*)و|و(.*)|(.*)ه|ه(.*)|(.*)ی|ی(.*)|(.*)ز|ز(.*)/",$textmassage,$match);
+if ($tc == 'group' | $tc == 'supergroup'){
+if ($locktelegram == "✔️"){
+if ($status != "creator" && $status != "administrator"){
+  save("data/$from_id/file.txt","none");
+	bot('deletemessage',[
+    'chat_id'=>$chat_id,
+    'message_id'=>$message_id
+    ]);
+	}
+}
+}
+}
+}
+}
